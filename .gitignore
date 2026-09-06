@@ -14,5 +14,8 @@ ID.pi
 .env
 .missu
 
+#cookie files
+cookies.txt
+
 #proxy config
 local_proxy.txt
