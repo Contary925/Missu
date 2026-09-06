@@ -6,7 +6,7 @@ from classes.queue import Queue
 from urllib.parse import urlparse, parse_qs
 from classes.user import User
 from functions.cutword import cutword
-from functions.get_youtube_info import get_youtube_info
+from functions.get_youtube_info import get_youtube_info, resolve_single_stream
 from functions.get_stream_url import get_stream_url
 import random
 
@@ -46,6 +46,9 @@ async def play(client, message, content, pushing=False):
     counter = 0
     for song in songs:
         await process_message.edit(content=f'Processing songs in background... {counter+1}/{len(songs)}')
+        if song.get("is_playlist_track"):
+            song["url"] = await resolve_single_stream(song["url"])
+            song["is_playlist_track"] = False
         if pushing:
             queue.insert(counter, song)    
         else:
