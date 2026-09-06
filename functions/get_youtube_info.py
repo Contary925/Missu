@@ -5,6 +5,7 @@ import yt_dlp
 # 1. Base Configuration
 YTDLP_OPTIONS = {
     'format': 'bestaudio/best',
+    'cookiefile': 'cookies.txt', 
     'extract_flat': False, # Keep False for single video, True for playlist discovery
     'skip_download': True,
     'force_generic_extractor': False,
