@@ -5,20 +5,20 @@ import yt_dlp
 # 1. Base Configuration
 YTDLP_OPTIONS = {
     'format': 'bestaudio/best',
-    'extract_flat': False, # Keep False for single video, True for playlist discovery
+    'extract_flat': False,
     'skip_download': True,
     'force_generic_extractor': False,
-    'youtube_include_dash_manifest': False, # Disabling this saves massive time
+    'youtube_include_dash_manifest': False,
     'nocheckcertificate': True,
     'quiet': True,
+    # Force yt-dlp to use Node to solve the JS challenges
+    'js_runtimes': {
+        'node': {}
+    },
     'extractor_args': {
         'youtube': {
-            'player_client': ['web', 'mweb'],
-            'po_token': ['external+bgutil'],
+            'player_client': ['web'],
         }
-    },
-    'http_headers': {
-        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36'
     }
 }
 
