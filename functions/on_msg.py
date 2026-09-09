@@ -6,7 +6,7 @@ from functions.reply import check_for_replies
 prefix1 = 'uwu'
 prefix2 = 'уву'
 async def on_msg(client, message) :
-    if message.author.id == '1529029241566662746':
+    if message.author.id == 1529029241566662746:
         return
     await check_for_reactions(message) #the only thing the bot can do without a prefix - check if the message contains anything
         #it's supposed to react or reply to
