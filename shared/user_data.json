@@ -144,6 +144,9 @@
         "interactions": {
             "bite": {
                 "583647391111053323": 1
+            },
+            "pat": {
+                "744522229718581259": 1
             }
         },
         "perms": "default",
@@ -161,6 +164,14 @@
                 "658061917394436146": 1
             }
         },
+        "perms": "default",
+        "reactions": {},
+        "responses": {},
+        "favlist": {}
+    },
+    "744522229718581259": {
+        "alias": {},
+        "interactions": {},
         "perms": "default",
         "reactions": {},
         "responses": {},
