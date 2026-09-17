@@ -18,7 +18,7 @@
         },
         "interactions": {
             "hug": {
-                "825781461021360168": 94,
+                "825781461021360168": 95,
                 "658061917394436146": 1,
                 "928033455860772944": 1,
                 "1529029241566662746": 3
@@ -37,10 +37,11 @@
                 "1529029241566662746": 4
             },
             "spank": {
-                "1529029241566662746": 3,
+                "1529029241566662746": 4,
                 "825781461021360168": 2,
                 "270904126974590976": 1,
-                "583647391111053323": 1
+                "583647391111053323": 1,
+                "658061917394436146": 1
             }
         },
         "perms": "administrator",
@@ -99,6 +100,49 @@
                 "https://www.youtube.com/watch?v=-juLlO1SOFQ": "Toram Online - Dark Dragon Shrine BGM",
                 "https://www.youtube.com/watch?v=3jPjCIoYJ_E": "Toram Online - Castilia BGM",
                 "https://www.youtube.com/watch?v=wYAkpLh4mMU": "Toram Online - Seele Zauga BGM (Specia's Daughter)"
+            },
+            "smash into pieces": {
+                "https://www.youtube.com/watch?v=8c3wNJPaYoc": "Smash Into Pieces - Hollow (Official Music Video)",
+                "https://www.youtube.com/watch?v=JGoTxg-WQ2c": "Smash Into Pieces - Wake Up (Official Music Video)",
+                "https://www.youtube.com/watch?v=tSQ6CyyPatM": "Smash Into Pieces - All Eyes On You (Official Lyric Video)",
+                "https://www.youtube.com/watch?v=HDbNCKsrut4": "Smash Into Pieces - In The End (feat. Samuel Ericsson) - 2024 - Lyric Video",
+                "https://www.youtube.com/watch?v=YqBWwR__B3I": "Smash Into Pieces - Heroes (M\u00e5ns Zelmerl\u00f6w Cover)"
+            },
+            "ds": {
+                "https://www.youtube.com/watch?v=WkLO8llyN64": "Nightstep - Shatter Me",
+                "https://www.youtube.com/watch?v=XiMt1neyrbA": "Nightstep -  Circles"
+            },
+            "annreya": {
+                "https://www.youtube.com/watch?v=DuixA1w_PQM": "2+2=5 | \u0421\u0438\u0441\u0442\u0435\u043c\u0430 \u0442\u0435\u043d\u0435\u0439 | \u0410\u043d\u0442\u0438\u0443\u0442\u043e\u043f\u0438\u0447\u0435\u0441\u043a\u0438\u0439 Rock | Official Music Video | Orwell (1984)"
+            },
+            "essecer": {
+                "https://www.youtube.com/watch?v=gynNcGYJA_k": "Essecer - \u0427\u0410\u0421\u041e\u0412\u0429\u0418\u041a (\u0410\u0440\u0445\u0438\u0442\u0435\u043a\u0442\u043e\u0440\u044b \u043f\u0443\u0442\u0438) [\u041a\u041b\u0418\u041f]",
+                "https://www.youtube.com/watch?v=KyZ9s82DuSQ": "Essecer - \u0424\u041e\u041d\u0410\u0420\u0429\u0418\u041a (\u0410\u0440\u0445\u0438\u0442\u0435\u043a\u0442\u043e\u0440\u044b \u043f\u0443\u0442\u0438) [\u041a\u041b\u0418\u041f]",
+                "https://www.youtube.com/watch?v=BkQXo5APqew": "Essecer \u2014 \u041f\u041e\u0421\u041b\u0415\u0414\u041d\u0418\u0419 \u041f\u0418\u0421\u0410\u0422\u0415\u041b\u042c | \u041a\u043e\u0433\u0434\u0430 \u0444\u0430\u043d\u0442\u0430\u0437\u0438\u044f \u0441\u0438\u043b\u044c\u043d\u0435\u0435 \u043e\u0440\u0443\u0436\u0438\u044f",
+                "https://www.youtube.com/watch?v=4QiyReE7Pz4": "Essecer - \u0421\u0410\u0419\u041b\u0415\u041d\u0422 \u0425\u0418\u041b\u041b | \u0410 \u0442\u044b \u0441\u043b\u044b\u0448\u0438\u0448\u044c \u0435\u0433\u043e \u0437\u043e\u0432?",
+                "https://www.youtube.com/watch?v=lemiAg8ysNM": "Essecer - \u041a\u0423\u041a\u041b\u041e\u0412\u041e\u0414 (\u0410\u0440\u0445\u0438\u0442\u0435\u043a\u0442\u043e\u0440\u044b \u043f\u0443\u0442\u0438) [\u041a\u041b\u0418\u041f]"
+            },
+            "solence": {
+                "https://www.youtube.com/watch?v=lDsNgdleih8": "Solence - Good F**king Music (Official Music Video)",
+                "https://www.youtube.com/watch?v=7ALLEG1pbtk": "Solence - Ghosts [OFFICIAL VIDEO]",
+                "https://www.youtube.com/watch?v=3QeGXxA-E4Y": "Solence - Heaven [OFFICIAL VIDEO]",
+                "https://www.youtube.com/watch?v=YjzTg-zNOb8": "Solence - Indestructible (Official Music Video)"
+            },
+            "deltarune": {
+                "https://www.youtube.com/watch?v=tPwzoZ-e664": "Chaos King",
+                "https://www.youtube.com/watch?v=XR2QQMfeJbg": "32. Attack of the Killer Queen (DELTARUNE Chapter 2 Soundtrack) - Toby Fox",
+                "https://www.youtube.com/watch?v=9PpyIF7ad6E": "06. Adventure Board (DELTARUNE Chapter 3+4 Soundtrack) - Toby Fox",
+                "https://www.youtube.com/watch?v=_A8SQAQ_yRo": "Ruder Buster",
+                "https://www.youtube.com/watch?v=3vh8LYSuOvA": "15. Vapor Buster (DELTARUNE Chapter 3+4 Soundtrack) - Toby Fox",
+                "https://www.youtube.com/watch?v=ulaTvZ1gSL0": "16. Paradise, Paradise (DELTARUNE Chapter 3+4 Soundtrack) - Toby Fox",
+                "https://www.youtube.com/watch?v=85WD93lz5GU": "20. Raise Up Your Bat (DELTARUNE Chapter 3+4 Soundtrack) - Toby Fox",
+                "https://www.youtube.com/watch?v=DstO9slC_5U": "26. TV WORLD (DELTARUNE Chapter 3+4 Soundtrack) - Toby Fox",
+                "https://www.youtube.com/watch?v=F2PJbTuZlTU": "27. It\u2019s TV Time! (DELTARUNE Chapter 3+4 Soundtrack) - Toby Fox",
+                "https://www.youtube.com/watch?v=OobVFldn6As": "50. From Now On (Battle 2) (DELTARUNE Chapter 3+4 Soundtrack) - Toby Fox",
+                "https://www.youtube.com/watch?v=iqoYq4x0RQw": "51. Gyaa Ha ha! (DELTARUNE Chapter 3+4 Soundtrack) - Toby Fox",
+                "https://www.youtube.com/watch?v=K-ifukvnICY": "53. A DARK ZONE (DELTARUNE Chapter 3+4 Soundtrack) - Toby Fox",
+                "https://www.youtube.com/watch?v=tBdLO8u-0L8": "58. Hammer of Justice (DELTARUNE Chapter 3+4 Soundtrack) - Toby Fox",
+                "https://www.youtube.com/watch?v=nP9mB1sVJz4": "68. GUARDIAN (DELTARUNE Chapter 3+4 Soundtrack) - Toby Fox"
             }
         }
     },
@@ -116,7 +160,8 @@
         },
         "perms": "administrator",
         "reactions": {},
-        "responses": {}
+        "responses": {},
+        "favlist": {}
     },
     "1529029241566662746": {
         "alias": {},
