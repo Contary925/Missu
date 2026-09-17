@@ -33,22 +33,26 @@ async def play(client, message, content, pushing=False):
         voice_client = await channel.connect()
     guild_id = message.guild.id
     queue = music_queues.setdefault(guild_id, Queue())
-    process_message = await message.channel.send("Searching for your song...")
     if content.strip() == 'np':
         songs = [queue.current_song]
+        if songs == [None]:
+            return await message.channel.send('Nothing is currently playing!')
     else:
+        process_message = await message.channel.send("Searching for your song...")
         songs = await get_youtube_info(content)
     if not songs:
         await message.channel.send(
             f"Couldn't find anything for **{content}**."
         )
-        await process_message.delete()
+        if process_message:
+            await process_message.delete()
         return
     if shuffle:
         random.shuffle(songs)
     counter = 0
     for song in songs:
-        await process_message.edit(content=f'Processing songs in background... {counter+1}/{len(songs)}')
+        if process_message:
+            await process_message.edit(content=f'Processing songs in background... {counter+1}/{len(songs)}')
         if pushing:
             queue.insert(counter, song)    
         else:
@@ -253,12 +257,14 @@ async def favlist(client, message, content):
         await remove_from_favlist(message, cutword(content, 'remove'))
 
 async def add_to_favlist(message, content):
-    await message.channel.send("Searching for your song...")
     if content.strip() == 'np':
         guild_id = message.guild.id
         queue = music_queues.setdefault(guild_id, Queue())
         songs = [queue.current_song]
+        if songs == [None]:
+            return await message.channel.send('Nothing is currently playing!')
     else:
+        await message.channel.send("Searching for your song...")
         songs = await get_youtube_info(content)
     if not songs:
         await message.channel.send(
@@ -327,7 +333,8 @@ async def play_favlist(message, shuffle=False):
         stream_url = await get_stream_url(song_url)
         song = {
             "title": favlist[song_url],
-            "url": stream_url
+            "url": stream_url,
+            "webpage_url": song_url
         }
         print(song)
         queue.add(song)

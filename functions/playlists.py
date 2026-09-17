@@ -58,6 +58,8 @@ async def add_to_playlist(client, message, args):
         guild_id = message.guild.id
         queue = music_queues.setdefault(guild_id, Queue())
         songs = [queue.current_song]
+        if songs == [None]:
+            return await message.channel.send('Nothing is currently playing!')
     else:
         song_name = song_name.strip()
         await message.channel.send('Searching for your song...')
