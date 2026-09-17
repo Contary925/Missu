@@ -49,7 +49,7 @@ async def add_to_playlist(client, message, args):
     user = User(message.author.id)
     playlists = user.playlists
     for playlist in playlists:
-        if playlist in args:
+        if args.startswith(playlist):
             song_name = args.split(playlist, maxsplit=1)[1]
             break
     if not song_name:
@@ -72,7 +72,7 @@ async def remove_from_playlist(client, message, args):
     user = User(message.author.id)
     playlists = user.playlists
     for playlist in playlists:
-        if playlist in args:
+        if args.startswith(playlist):
             index = args.split(playlist, maxsplit=1)[1]
             break
     if not index:
