@@ -16,9 +16,9 @@ async def playlist(client, message, content):
             await playlist_create(client, message, args)
         case 'delete':
             await playlist_delete(client, message, args)
-        case 'add':
+        case 'add' | '+':
             await add_to_playlist(client, message, args)
-        case 'remove':
+        case 'remove' | '-':
             await remove_from_playlist(client, message, args)
         case 'play':
             await play_playlist(client, message, args)
@@ -54,9 +54,14 @@ async def add_to_playlist(client, message, args):
             break
     if not song_name:
         return await message.channel.send('Incorrect playlist name!')
-    song_name = song_name.strip()
-    await message.channel.send('Searching for your song...')
-    songs = await get_youtube_info(song_name)
+    if song_name.strip() == 'np':
+        guild_id = message.guild.id
+        queue = music_queues.setdefault(guild_id, Queue())
+        songs = [queue.current_song]
+    else:
+        song_name = song_name.strip()
+        await message.channel.send('Searching for your song...')
+        songs = await get_youtube_info(song_name)
     count = 0
     for song in songs:
         count += 1

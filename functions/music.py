@@ -34,7 +34,10 @@ async def play(client, message, content, pushing=False):
     guild_id = message.guild.id
     queue = music_queues.setdefault(guild_id, Queue())
     process_message = await message.channel.send("Searching for your song...")
-    songs = await get_youtube_info(content)
+    if content.strip() == 'np':
+        songs = [queue.current_song]
+    else:
+        songs = await get_youtube_info(content)
     if not songs:
         await message.channel.send(
             f"Couldn't find anything for **{content}**."
@@ -251,7 +254,12 @@ async def favlist(client, message, content):
 
 async def add_to_favlist(message, content):
     await message.channel.send("Searching for your song...")
-    songs = await get_youtube_info(content)
+    if content.strip() == 'np':
+        guild_id = message.guild.id
+        queue = music_queues.setdefault(guild_id, Queue())
+        songs = [queue.current_song]
+    else:
+        songs = await get_youtube_info(content)
     if not songs:
         await message.channel.send(
             f"Couldn't find anything for **{content}**."
