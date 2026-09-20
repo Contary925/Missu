@@ -54,7 +54,16 @@
             "\u0433\u0435\u043e\u043c \u043f\u0440\u043e\u0433\u0440\u0435\u0441\u0441\u0438\u044f": "\u0432\u043e\u0442 \u0432\u0430\u043c \u043a\u043e\u0448\u043a\u0443, \u0440\u0443\u0441\u0430\u0441\u0430\u043b\u0430, \u0441\u0430\u0442\u0430\u043d\u0443..."
         },
         "favlist": {
-            "https://www.youtube.com/watch?v=9oDZ2vN9XF0": "13. Field of Hopes and Dreams (DELTARUNE Chapter 1 Soundtrack) - Toby Fox"
+            "https://www.youtube.com/watch?v=3RwR4ZZkuoo": "From Ashes To New - Echoes (Official Audio)",
+            "https://www.youtube.com/watch?v=tSQ6CyyPatM": "Smash Into Pieces - All Eyes On You (Official Lyric Video)",
+            "https://www.youtube.com/watch?v=RG7hZ6dB50k": "APOC - Invincible (Official Lyric Video)",
+            "https://www.youtube.com/watch?v=BRqjasXnR-c": "Smash Into Pieces - Broken Halo (Official Music Video)",
+            "https://www.youtube.com/watch?v=I1rQiKC_LkM": "APOC - Slave To The Madness (Official Lyric Video)",
+            "https://www.youtube.com/watch?v=7ALLEG1pbtk": "Solence - Ghosts [OFFICIAL VIDEO]",
+            "https://www.youtube.com/watch?v=3QeGXxA-E4Y": "Solence - Heaven [OFFICIAL VIDEO]",
+            "https://www.youtube.com/watch?v=YqBWwR__B3I": "Smash Into Pieces - Heroes (M\u00e5ns Zelmerl\u00f6w Cover)",
+            "https://www.youtube.com/watch?v=HDbNCKsrut4": "Smash Into Pieces - In The End (feat. Samuel Ericsson) - 2024 - Lyric Video",
+            "https://www.youtube.com/watch?v=JGoTxg-WQ2c": "Smash Into Pieces - Wake Up (Official Music Video)"
         },
         "playlists": {
             "metalcore": {
@@ -77,7 +86,10 @@
                 "https://www.youtube.com/watch?v=JGoTxg-WQ2c": "Smash Into Pieces - Wake Up (Official Music Video)",
                 "https://www.youtube.com/watch?v=tSQ6CyyPatM": "Smash Into Pieces - All Eyes On You (Official Lyric Video)",
                 "https://www.youtube.com/watch?v=HDbNCKsrut4": "Smash Into Pieces - In The End (feat. Samuel Ericsson) - 2024 - Lyric Video",
-                "https://www.youtube.com/watch?v=YqBWwR__B3I": "Smash Into Pieces - Heroes (M\u00e5ns Zelmerl\u00f6w Cover)"
+                "https://www.youtube.com/watch?v=YqBWwR__B3I": "Smash Into Pieces - Heroes (M\u00e5ns Zelmerl\u00f6w Cover)",
+                "https://www.youtube.com/watch?v=BRqjasXnR-c": "Smash Into Pieces - Broken Halo (Official Music Video)",
+                "https://www.youtube.com/watch?v=RG7hZ6dB50k": "APOC - Invincible (Official Lyric Video)",
+                "https://www.youtube.com/watch?v=I1rQiKC_LkM": "APOC - Slave To The Madness (Official Lyric Video)"
             },
             "ds": {
                 "https://www.youtube.com/watch?v=WkLO8llyN64": "Nightstep - Shatter Me",
@@ -115,6 +127,11 @@
                 "https://www.youtube.com/watch?v=tBdLO8u-0L8": "58. Hammer of Justice (DELTARUNE Chapter 3+4 Soundtrack) - Toby Fox",
                 "https://www.youtube.com/watch?v=nP9mB1sVJz4": "68. GUARDIAN (DELTARUNE Chapter 3+4 Soundtrack) - Toby Fox",
                 "https://www.youtube.com/watch?v=9oDZ2vN9XF0": "13. Field of Hopes and Dreams (DELTARUNE Chapter 1 Soundtrack) - Toby Fox"
+            },
+            "ridiculous deltarune mashups": {
+                "https://www.youtube.com/watch?v=pnHZ6r5FR7s": "Smart Boneheads (Smart Race ITSO Megalovania)",
+                "https://www.youtube.com/watch?v=qcmN5c7SSH4": "Raise Up Your DARK ZONE",
+                "https://www.youtube.com/watch?v=jAnJgG65PqI": "A SPIDER'S WORLD?"
             }
         }
     },
