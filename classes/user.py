@@ -260,6 +260,14 @@ class User() :
         else :
             await self.send_embed(message, f"{self.name} pats {other.name}! That's {num_pats} pats now!", url)
 
+    async def bonk(self, other, message) :
+        url = await self.get_random_gif("bonk", message)
+        num_bonks = self.add_interaction(other, "bonk")
+        if num_bonks == 1 :
+            await self.send_embed(message, f"{self.name} bonks {other.name}! That's their first bonk!", url)
+        else :
+            await self.send_embed(message, f"{self.name} bonks {other.name}! That's {num_bonks} bonks now!", url)
+
     async def spank(self, other, message) :
         num_spanks = self.add_interaction(other, "spank")
         if num_spanks == 1 :
