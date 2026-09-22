@@ -22,6 +22,8 @@ async def playlist(client, message, content):
             await remove_from_playlist(client, message, args)
         case 'play':
             await play_playlist(client, message, args)
+        case 'push':
+            await push_playlist(client, message, args)
         case 'show':
             await show_playlist(client, message, args)
         case 'showall':
@@ -128,9 +130,9 @@ async def play_playlist(client, message, args):
         stream_url = await get_stream_url(song_url)
         song = {
             "title": playlist[song_url],
-            "url": stream_url
+            "url": stream_url,
+            "webpage_url": song_url
         }
-        print(song)
         queue.add(song)
         if count == 1:
             if voice_client.is_playing():
@@ -159,6 +161,73 @@ async def play_playlist(client, message, args):
         message.channel,
     )
 
+async def push_playlist(client, message, args):
+    shuffle = False
+    if args.endswith('-s'):
+        shuffle = True
+        args = args[:-2].strip()
+    user = User(message.author.id)
+    if not args in user.playlists:
+        return await message.channel.send(f'Cannot find playlist "{args}"!')
+    playlist = user.playlists[args]
+    if playlist == {}:
+        return await message.channel.send(f'The playlist is empty!')
+    if message.author.voice is None:
+        await message.channel.send(
+            "You must be in a voice channel to use this command!"
+        )
+        return
+    channel = message.author.voice.channel
+    voice_client = message.guild.voice_client
+    if voice_client is not None:
+        await voice_client.move_to(channel)
+    else:
+        voice_client = await channel.connect()
+    guild_id = message.guild.id
+    queue = music_queues.setdefault(guild_id, Queue())
+    if shuffle:
+        songs = list(playlist.items())
+        random.shuffle(songs)
+        playlist = dict(songs)
+    count = 0
+    process_message = await message.channel.send('Processing songs in background...')
+    for song_url in playlist:
+        count += 1
+        process_message = await process_message.edit(content=f'Processing songs in background... {count}/{len(playlist)}')
+        print(song_url)
+        stream_url = await get_stream_url(song_url)
+        song = {
+            "title": playlist[song_url],
+            "url": stream_url,
+            "webpage_url": song_url
+        }
+        queue.insert(count-1, song)  
+        if count == 1:
+            if voice_client.is_playing():
+                continue
+            next_song = queue.next()
+            queue.set_current(next_song)
+            await play_song(
+                voice_client,
+                next_song,
+                queue,
+                message.channel,
+            )
+    await process_message.delete()
+    if len(playlist) == 1:
+        await message.channel.send(f"Added one song to the queue.")
+    else:
+        await message.channel.send(f"Added **{len(playlist)} songs** to the queue.")
+    if voice_client.is_playing():
+            return
+    next_song = queue.next()
+    queue.set_current(next_song)
+    await play_song(
+        voice_client,
+        next_song,
+        queue,
+        message.channel,
+    )    
 
 async def show_playlist(client, message, args):
     user = User(message.author.id)

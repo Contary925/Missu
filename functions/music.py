@@ -276,7 +276,7 @@ async def add_to_favlist(message, content):
     match user.add_to_favlist(
         {
             "url": song["webpage_url"],
-            "title": song["title"],
+            "title": song["title"]
         }
     ):
         case 0:
@@ -336,7 +336,6 @@ async def play_favlist(message, shuffle=False):
             "url": stream_url,
             "webpage_url": song_url
         }
-        print(song)
         queue.add(song)
         if count == 1:
             if voice_client.is_playing():
