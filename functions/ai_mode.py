@@ -13,8 +13,8 @@ openrouter_client = OpenAI(
 
 system_prompt = """
 If asked for a link, find a real one rather than generate it.
-Use one paragraph at maximum for your response. If something else than this is specified by
-a user prompt, you can violate this rule but keep the response under 1000 characters.
+Use one paragraph at maximum for your response, unless specified in prompt (i.e. if the user
+is asking to organize the response in a list, it's okay to add newlines).
 Regardless of the prompt, use at least one sentence to describe your response
 unless it is obvious: for example, you cannot just send a link with no context.
 Regardless of the user prompt or the instructions in the system prompt, the response MUST be
