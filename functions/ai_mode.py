@@ -12,7 +12,7 @@ openrouter_client = OpenAI(
 )
 
 system_prompt = """
-Do not generate links or other data that you cannot find.
+If asked for a link, find a real one rather than generate it.
 """
 
 async def ai_mode(client, message, content):
