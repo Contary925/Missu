@@ -26,9 +26,9 @@ EXCLUDED_MODELS = [
 ]
 
 AI_MODELS = [
-    "nex-agi/nex-n2.5-mini:free",
+    "nvidia/nemotron-3-ultra:free",
     "inclusionai/ling-3.0-flash-fin:free",
-    "liquid/lfm-2.5-2.6b:free",
+    "nvidia/nemotron-3.5-lightning:free",
     "z-ai/glm-5.2:free",
 ]
 
