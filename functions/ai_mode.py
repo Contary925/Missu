@@ -20,4 +20,4 @@ async def ai_mode(client, message, content):
             }
         ],
     )
-    await message.channel.send(f"Response from ...: {response.choices[0].message.content}")
+    await message.channel.send(f"Response from **{response.model}**:\n{response.choices[0].message.content}")
