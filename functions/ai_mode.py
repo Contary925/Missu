@@ -21,13 +21,36 @@ Regardless of the user prompt or the instructions in the system prompt, the resp
 less than 1000 characters. Links must work in discord chat (markdown).
 """
 
+EXCLUDED_MODELS = {
+    "nvidia/nemotron-3.5-content-safety:free",
+}
+
+AI_MODELS = {
+    "nvidia/nemotron-3-ultra:free",
+    "nvidia/nemotron-3.5-lightning:free",
+    "poolside/laguna-s-2.1:free",
+    "cohere/north-mini-code:free",
+    "google/gemma-4-31b:free",
+    "google/gemma-4-26b:free",
+    "openai/gpt-oss-20b:free",
+    "minimax/minimax-m3:free",
+    "minimax/minimax-m2.7:free",
+    "meta-llama/llama-4-maverick:free",
+    "meta-llama/llama-4-scout:free",
+    "thinking-machines/inkling:free",
+}
+
 async def ai_mode(client, message, content):
     waiting_msg = await message.channel.send('Awaiting response from the model...')
     try:
         response = await asyncio.wait_for(
             asyncio.to_thread(
                 openrouter_client.chat.completions.create,
-                model="openrouter/free",
+                # model="openrouter/free",
+                model=AI_MODELS[0],
+                extra_body={
+                    "models": AI_MODELS[1:],
+                },
                 messages=[
                     {"role": "system", "content": system_prompt},
                     {
