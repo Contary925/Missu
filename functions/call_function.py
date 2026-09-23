@@ -13,6 +13,7 @@ from functions.reply import reply, reply_add, reply_remove, reply_list, reply_li
 from functions.music import play, stop, skip, queue, shuffle, pause, resume, push, playnum, favlist, repeat, play_favlist
 from functions.press_F import press_F
 from functions.playlists import playlist
+from functions.ai_mode import ai_mode
 import inspect #to decide which parameters are actually needed to a function in the function map
 
 function_map: dict[str, Callable] = {
@@ -68,6 +69,7 @@ function_map: dict[str, Callable] = {
     "play_favlist": play_favlist,
     "f": press_F,
     "playlist": playlist,
+    "ai": ai_mode,
 }
 
 function_alias: dict[str, str] = {
