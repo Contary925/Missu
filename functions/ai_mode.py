@@ -17,6 +17,8 @@ Use one paragraph at maximum for your response. If something else than this is s
 a user prompt, you can violate this rule but keep the response under 1000 characters.
 Regardless of the prompt, use at least one sentence to describe your response
 unless it is obvious: for example, you cannot just send a link with no context.
+Regardless of the user prompt or the instructions in the system prompt, the response MUST be
+less than 1000 characters. Links must work in discord chat (markdown).
 """
 
 async def ai_mode(client, message, content):
