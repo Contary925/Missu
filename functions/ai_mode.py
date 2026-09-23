@@ -26,18 +26,10 @@ EXCLUDED_MODELS = [
 ]
 
 AI_MODELS = [
-    "nvidia/nemotron-3-ultra:free",
-    "nvidia/nemotron-3.5-lightning:free",
-    "poolside/laguna-s-2.1:free",
-    "cohere/north-mini-code:free",
     "google/gemma-4-31b:free",
-    "google/gemma-4-26b:free",
+    "poolside/laguna-s-2.1:free",
     "openai/gpt-oss-20b:free",
-    "minimax/minimax-m3:free",
-    "minimax/minimax-m2.7:free",
     "meta-llama/llama-4-maverick:free",
-    "meta-llama/llama-4-scout:free",
-    "thinking-machines/inkling:free",
 ]
 
 async def ai_mode(client, message, content):
