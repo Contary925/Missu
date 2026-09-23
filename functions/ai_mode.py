@@ -14,6 +14,8 @@ openrouter_client = OpenAI(
 system_prompt = """
 If asked for a link, find a real one rather than generate it.
 Use one paragraph at maximum for your response.
+Regardless of the prompt, use at least one sentence to describe your response
+unless it is obvious: for example, you cannot just send a link with no context.
 """
 
 async def ai_mode(client, message, content):
