@@ -14,7 +14,7 @@ async def ai_mode(client, message, content):
     waiting_msg = await message.channel.send('Awaiting response from the model...')
     response = openrouter_client.chat.completions.create(
         # model="openrouter/free",
-        model="google/gemma-4-31b-it:free",
+        model="z-ai/glm-5.2:free",
         messages=[
             {
                 "role": "user",
