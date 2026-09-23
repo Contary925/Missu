@@ -34,7 +34,7 @@ AI_MODELS = [
 ]
 
 async def ai_mode(client, message, content):
-    waiting_msg = await message.channel.send('Awaiting response from the model...')
+    waiting_msg = await message.channel.send('Awaiting response from the model...\nNote: please check important results before usage.\nProceed to press links with caution as they may not be safe.')
     try:
         response = await asyncio.wait_for(
             asyncio.to_thread(
