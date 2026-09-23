@@ -16,8 +16,8 @@ async def ai_mode(client, message, content):
         messages=[
             {
                 "role": "user",
-                "content": "Have I successfully send a prompt to you? Use twenty words maximum.",
+                "content": content+". Use one paragraph at maximum.",
             }
         ],
     )
-    await message.channel.send(f"Response from ...: {response}")
+    await message.channel.send(f"Response from ...: {response.choices[0].message.content}")
