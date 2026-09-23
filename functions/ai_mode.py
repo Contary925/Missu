@@ -26,10 +26,10 @@ EXCLUDED_MODELS = [
 ]
 
 AI_MODELS = [
-    "nvidia/nemotron-3-ultra:free",
+    "nvidia/nemotron-3-ultra-550b-a55b:free",
     "inclusionai/ling-3.0-flash-fin:free",
     "nvidia/nemotron-3.5-lightning:free",
-    "z-ai/glm-5.2:free",
+    "dots-studio/dots3-note-preview:free",
 ]
 
 async def ai_mode(client, message, content):
