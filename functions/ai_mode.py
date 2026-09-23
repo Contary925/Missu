@@ -31,10 +31,10 @@ async def ai_mode(client, message, content):
                     }
                 ],
             ),
-            timeout=10,
+            timeout=30,
         )
     except asyncio.TimeoutError:
-        await message.channel.send("No response from the AI received in 10 seconds.")
+        await message.channel.send("No response from the AI received in 30 seconds.")
         return
 
     except Exception as e:
