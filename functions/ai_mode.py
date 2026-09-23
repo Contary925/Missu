@@ -26,10 +26,10 @@ EXCLUDED_MODELS = [
 ]
 
 AI_MODELS = [
-    "google/gemma-4-31b:free",
-    "poolside/laguna-s-2.1:free",
-    "openai/gpt-oss-20b:free",
-    "meta-llama/llama-4-maverick:free",
+    "nex-agi/nex-n2.5-mini:free",
+    "inclusionai/ling-3.0-flash-fin:free",
+    "liquid/lfm-2.5-2.6b:free",
+    "z-ai/glm-5.2:free",
 ]
 
 async def ai_mode(client, message, content):
