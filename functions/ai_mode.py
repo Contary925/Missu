@@ -21,11 +21,11 @@ Regardless of the user prompt or the instructions in the system prompt, the resp
 less than 1000 characters. Links must work in discord chat (markdown).
 """
 
-EXCLUDED_MODELS = {
+EXCLUDED_MODELS = [
     "nvidia/nemotron-3.5-content-safety:free",
-}
+]
 
-AI_MODELS = {
+AI_MODELS = [
     "nvidia/nemotron-3-ultra:free",
     "nvidia/nemotron-3.5-lightning:free",
     "poolside/laguna-s-2.1:free",
@@ -38,7 +38,7 @@ AI_MODELS = {
     "meta-llama/llama-4-maverick:free",
     "meta-llama/llama-4-scout:free",
     "thinking-machines/inkling:free",
-}
+]
 
 async def ai_mode(client, message, content):
     waiting_msg = await message.channel.send('Awaiting response from the model...')
