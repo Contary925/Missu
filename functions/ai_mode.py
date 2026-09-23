@@ -19,7 +19,7 @@ Regardless of the prompt, use at least one sentence to describe your response
 unless it is obvious: for example, you cannot just send a link with no context.
 Regardless of the user prompt or the instructions in the system prompt, the response MUST be
 less than 1000 characters. Links must work in discord chat (markdown).
-The response must be sent within 30 seconds, including 5 seconds reserved for exchanging data with the user.
+The response must be sent within 20 seconds, so avoid search that's too deep to fit in.
 """
 
 EXCLUDED_MODELS = [
