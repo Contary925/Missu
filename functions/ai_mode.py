@@ -12,7 +12,8 @@ openrouter_client = OpenAI(
 
 async def ai_mode(client, message, content):
     response = openrouter_client.chat.completions.create(
-        model="openrouter/free",
+        # model="openrouter/free",
+        model="google/gemma-4-31b-it:free",
         messages=[
             {
                 "role": "user",
@@ -20,4 +21,4 @@ async def ai_mode(client, message, content):
             }
         ],
     )
-    await message.channel.send(f"Response from **{response.model}**:\n{response.choices[0].message.content}")
+    await message.channel.send(f"Response from **{response.model}**:\n\n{response.choices[0].message.content}")

@@ -99,6 +99,7 @@ function_alias: dict[str, str] = {
     "playfav" : "play_favlist",
     "ф": "f",
     "pl": "playlist",
+    "ии": "ai",
 }
 
 async def call_function(client, message, content) :
