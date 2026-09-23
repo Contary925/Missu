@@ -39,5 +39,10 @@ async def ai_mode(client, message, content):
         print(f"AI error: {e}")
         await message.channel.send("Error sending a request.")
         return
+
+    response_data = response.model_dump()
+
+    print(response_data)
+
     await message.channel.send(f"Response from **{response.model}**:\n\n{response.choices[0].message.content}")
     await waiting_msg.delete()
