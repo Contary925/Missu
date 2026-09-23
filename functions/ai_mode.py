@@ -13,6 +13,7 @@ openrouter_client = OpenAI(
 
 system_prompt = """
 If asked for a link, find a real one rather than generate it.
+Use one paragraph at maximum for your response.
 """
 
 async def ai_mode(client, message, content):
@@ -23,9 +24,10 @@ async def ai_mode(client, message, content):
                 openrouter_client.chat.completions.create,
                 model="openrouter/free",
                 messages=[
+                    {"role": "system", "content": system_prompt},
                     {
                         "role": "user",
-                        "content": content + ". Use one paragraph at maximum.",
+                        "content": content,
                     }
                 ],
             ),
