@@ -35,17 +35,17 @@ async def playlist_create(client, message, args):
     user = User(message.author.id)
     match await user.playlist_create(args):
         case True:
-            await message.channel.send(f'Successfully created the playlist "{args}"!')
+            await message.channel.send(f'✅ Successfully created the playlist "{args}"!')
         case False:
-            await message.channel.send(f'A playlist "{args}" already exists!')
+            await message.channel.send(f'❌ A playlist "{args}" already exists!')
 
 async def playlist_delete(client, message, args):
     user = User(message.author.id)
     match await user.playlist_delete(args):
         case True:
-            await message.channel.send(f'Successfully deleted the playlist "{args}"!')
+            await message.channel.send(f'✅ Successfully deleted the playlist "{args}"!')
         case False:
-            await message.channel.send(f'No playlist "{args}" found.')
+            await message.channel.send(f'❌ No playlist "{args}" found.')
 
 async def add_to_playlist(client, message, args):
     user = User(message.author.id)
@@ -55,13 +55,13 @@ async def add_to_playlist(client, message, args):
             song_name = args.split(playlist, maxsplit=1)[1]
             break
     if not song_name:
-        return await message.channel.send('Incorrect playlist name!')
+        return await message.channel.send('❌ Incorrect playlist name!')
     if song_name.strip() == 'np':
         guild_id = message.guild.id
         queue = music_queues.setdefault(guild_id, Queue())
         songs = [queue.current_song]
         if songs == [None]:
-            return await message.channel.send('Nothing is currently playing!')
+            return await message.channel.send('❌ Nothing is currently playing!')
     else:
         song_name = song_name.strip()
         await message.channel.send('Searching for your song...')
@@ -73,9 +73,9 @@ async def add_to_playlist(client, message, args):
     match count:
         case 1:
             title = song["title"]
-            return await message.channel.send(f'Added the song **{title}** to playlist **{playlist}**!')
+            return await message.channel.send(f'✅ Added the song \*\*{title}\*\* to playlist \*\*{playlist}\*\*!')
         case _:
-            return await message.channel.send(f'Added {count} songs to playlist **{playlist}**!')
+            return await message.channel.send(f'✅ Added {count} songs to playlist \*\*{playlist}\*\*!')
 
 async def remove_from_playlist(client, message, args):
     user = User(message.author.id)
@@ -85,12 +85,12 @@ async def remove_from_playlist(client, message, args):
             index = args.split(playlist, maxsplit=1)[1]
             break
     if not index:
-        return await message.channel.send('Incorrect playlist name!')
+        return await message.channel.send('❌ Incorrect playlist name!')
     index = index.strip()
     if not index.isdigit() or int(index) > len(user.playlists[playlist]):
-        return await message.channel.send("Invalid index!")
+        return await message.channel.send("❌ Invalid index!")
     song_title = await user.remove_from_playlist(playlist, int(index))
-    return await message.channel.send(f'Removed the song "{song_title}" from the playlist "{playlist}"!')
+    return await message.channel.send(f'✅ Removed the song "{song_title}" from the playlist "{playlist}"!')
     
 
 async def play_playlist(client, message, args):
@@ -100,13 +100,13 @@ async def play_playlist(client, message, args):
         args = args[:-2].strip()
     user = User(message.author.id)
     if not args in user.playlists:
-        return await message.channel.send(f'Cannot find playlist "{args}"!')
+        return await message.channel.send(f'❌ Cannot find playlist "{args}"!')
     playlist = user.playlists[args]
     if playlist == {}:
-        return await message.channel.send(f'The playlist is empty!')
+        return await message.channel.send(f'❌ The playlist is empty!')
     if message.author.voice is None:
         await message.channel.send(
-            "You must be in a voice channel to use this command!"
+            "❌ You must be in a voice channel to use this command!"
         )
         return
     channel = message.author.voice.channel
@@ -147,9 +147,9 @@ async def play_playlist(client, message, args):
             )
     await process_message.delete()
     if len(playlist) == 1:
-        await message.channel.send(f"Added one song to the queue.")
+        await message.channel.send(f"✅ Added one song to the queue.")
     else:
-        await message.channel.send(f"Added **{len(playlist)} songs** to the queue.")
+        await message.channel.send(f"✅ Added \*\*{len(playlist)} songs\*\* to the queue.")
     if voice_client.is_playing():
             return
     next_song = queue.next()
@@ -168,13 +168,13 @@ async def push_playlist(client, message, args):
         args = args[:-2].strip()
     user = User(message.author.id)
     if not args in user.playlists:
-        return await message.channel.send(f'Cannot find playlist "{args}"!')
+        return await message.channel.send(f'❌ Cannot find playlist "{args}"!')
     playlist = user.playlists[args]
     if playlist == {}:
-        return await message.channel.send(f'The playlist is empty!')
+        return await message.channel.send(f'❌ The playlist is empty!')
     if message.author.voice is None:
         await message.channel.send(
-            "You must be in a voice channel to use this command!"
+            "❌ You must be in a voice channel to use this command!"
         )
         return
     channel = message.author.voice.channel
@@ -215,9 +215,9 @@ async def push_playlist(client, message, args):
             )
     await process_message.delete()
     if len(playlist) == 1:
-        await message.channel.send(f"Added one song to the queue.")
+        await message.channel.send(f"✅ Added one song to the queue.")
     else:
-        await message.channel.send(f"Added **{len(playlist)} songs** to the queue.")
+        await message.channel.send(f"✅ Added \*\*{len(playlist)} songs\*\* to the queue.")
     if voice_client.is_playing():
             return
     next_song = queue.next()
@@ -232,7 +232,7 @@ async def push_playlist(client, message, args):
 async def show_playlist(client, message, args):
     user = User(message.author.id)
     if not args in user.playlists:
-        return await message.channel.send(f'Cannot find playlist "{args}"!')
+        return await message.channel.send(f'❌ Cannot find playlist "{args}"!')
     playlist = user.playlists[args]
     text = ''
     count = 0
@@ -240,7 +240,7 @@ async def show_playlist(client, message, args):
         count += 1
         text += f'{count}. {playlist[song]}\n'
     if count == 0:
-        return await message.channel.send(f'The playlist "{args}" is empty!')
+        return await message.channel.send(f'❌ The playlist "{args}" is empty!')
     return await message.channel.send(text)
 
 async def show_playlists(client, message):
@@ -249,7 +249,7 @@ async def show_playlists(client, message):
     count = 0
     for playlist in user.playlists:
         count += 1
-        text += f'{count}. **{playlist}**\n'
+        text += f'{count}. \*\*{playlist}\*\*\n'
     if count == 0:
-        return await message.channel.send("You don't have any playlists!")
+        return await message.channel.send("❌ You don't have any playlists!")
     return await message.channel.send(text)
