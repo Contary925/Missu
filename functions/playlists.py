@@ -73,9 +73,9 @@ async def add_to_playlist(client, message, args):
     match count:
         case 1:
             title = song["title"]
-            return await message.channel.send(f'✅ Added the song \*\*{title}\*\* to playlist \*\*{playlist}\*\*!')
+            return await message.channel.send(f'✅ Added the song **{title.replace('*', '\\*')}** to playlist **{playlist}**!')
         case _:
-            return await message.channel.send(f'✅ Added {count} songs to playlist \*\*{playlist}\*\*!')
+            return await message.channel.send(f'✅ Added {count} songs to playlist **{playlist}**!')
 
 async def remove_from_playlist(client, message, args):
     user = User(message.author.id)
@@ -90,7 +90,7 @@ async def remove_from_playlist(client, message, args):
     if not index.isdigit() or int(index) > len(user.playlists[playlist]):
         return await message.channel.send("❌ Invalid index!")
     song_title = await user.remove_from_playlist(playlist, int(index))
-    return await message.channel.send(f'✅ Removed the song "{song_title}" from the playlist "{playlist}"!')
+    return await message.channel.send(f'✅ Removed the song "{song_title.replace('*', '\\*')}" from the playlist "{playlist}"!')
     
 
 async def play_playlist(client, message, args):
@@ -149,7 +149,7 @@ async def play_playlist(client, message, args):
     if len(playlist) == 1:
         await message.channel.send(f"✅ Added one song to the queue.")
     else:
-        await message.channel.send(f"✅ Added \*\*{len(playlist)} songs\*\* to the queue.")
+        await message.channel.send(f"✅ Added **{len(playlist)} songs** to the queue.")
     if voice_client.is_playing():
             return
     next_song = queue.next()
@@ -217,7 +217,7 @@ async def push_playlist(client, message, args):
     if len(playlist) == 1:
         await message.channel.send(f"✅ Added one song to the queue.")
     else:
-        await message.channel.send(f"✅ Added \*\*{len(playlist)} songs\*\* to the queue.")
+        await message.channel.send(f"✅ Added **{len(playlist)} songs** to the queue.")
     if voice_client.is_playing():
             return
     next_song = queue.next()
@@ -249,7 +249,7 @@ async def show_playlists(client, message):
     count = 0
     for playlist in user.playlists:
         count += 1
-        text += f'{count}. \*\*{playlist}\*\*\n'
+        text += f'{count}. **{playlist}**\n'
     if count == 0:
         return await message.channel.send("❌ You don't have any playlists!")
     return await message.channel.send(text)

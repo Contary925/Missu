@@ -42,7 +42,7 @@ async def play(client, message, content, pushing=False):
         songs = await get_youtube_info(content)
     if not songs:
         await message.channel.send(
-            f"❌ Couldn't find anything for \\*\\*{content}\\*\\*."
+            f"❌ Couldn't find anything for **{content}**."
         )
         if process_message:
             await process_message.delete()
@@ -59,9 +59,9 @@ async def play(client, message, content, pushing=False):
             queue.add(song)
         counter += 1 
     if len(songs) == 1:
-        await message.channel.send(f"✅ Added \\*\\*{songs[0]['title']}\\*\\* to the queue.")
+        await message.channel.send(f"✅ Added **{songs[0]['title'].replace('*', '\\*')}** to the queue.")
     else:
-        await message.channel.send(f"✅ Added \\*\\*{len(songs)} songs\\*\\* to the queue.")
+        await message.channel.send(f"✅ Added **{len(songs)} songs** to the queue.")
     await process_message.delete()
     if voice_client.is_playing():
             return
@@ -117,11 +117,11 @@ async def queue(message, content):
         if index < 1:
             return await message.channel.send(f"❌ Incorrect index!")
         if len(queue.songs)+1 < index:
-            return await message.channel.send(f"❌ No song number \\*\\*{index}\\*\\* in the queue!")
+            return await message.channel.send(f"❌ No song number **{index}** in the queue!")
         if index == 1:
             return await message.channel.send(f"❌ This song is already playing! You can use a skip command if you want to skip it.")
         queue.songs.pop(index-2)
-        return await message.channel.send(f"✅ Removed song number \\*\\*{index}\\*\\* from the queue!")
+        return await message.channel.send(f"✅ Removed song number **{index}** from the queue!")
     guild_id = message.guild.id
     queue = music_queues.setdefault(guild_id, Queue())
     result = queue.show()
@@ -191,9 +191,9 @@ async def push(client, message, content, auto=False):
     if index < 1:
         return await message.channel.send(f"❌ Incorrect index!")
     if len(queue.songs)+1 < index:
-        return await message.channel.send(f"❌ No song number \\*\\*{index}\\*\\* in the queue!")
+        return await message.channel.send(f"❌ No song number **{index}** in the queue!")
     if index == 2:
-        return await message.channel.send(f"❌ Song number \\*\\*{index}\\*\\* is already playing next!")
+        return await message.channel.send(f"❌ Song number **{index}** is already playing next!")
     if index == 1:
         return await message.channel.send(f"❌ This song is already playing!")
     queue.push(index)
@@ -268,7 +268,7 @@ async def add_to_favlist(message, content):
         songs = await get_youtube_info(content)
     if not songs:
         await message.channel.send(
-            f"❌ Couldn't find anything for \\*\\*{content}\\*\\*."
+            f"❌ Couldn't find anything for **{content}**."
         )
         return
     song = songs[0]
@@ -282,7 +282,7 @@ async def add_to_favlist(message, content):
         case 0:
             return await message.channel.send('❌ The song is already in your favlist!')
         case 1:
-            return await message.channel.send(f'✅ Added song \\*\\*{song["title"]}\\*\\* to your favlist!')
+            return await message.channel.send(f'✅ Added song **{song["title"].replace('*', '\\*')}** to your favlist!')
 
 async def remove_from_favlist(message, content):
     if not content.isdigit():
@@ -294,7 +294,7 @@ async def remove_from_favlist(message, content):
         case 'Song with index not found':
             return await message.channel.send("❌ Song with the specified index was not found!")
         case _:
-            return await message.channel.send(f"✅ Removed the song \\*\\*{removed}\\*\\* from your favlist!")
+            return await message.channel.send(f"✅ Removed the song **{removed}** from your favlist!")
     
 
 async def play_favlist(message, shuffle=False):
@@ -352,7 +352,7 @@ async def play_favlist(message, shuffle=False):
     if len(favlist) == 1:
         await message.channel.send(f"✅ Added one song to the queue.")
     else:
-        await message.channel.send(f"✅ Added \\*\\*{len(favlist)} songs\\*\\* to the queue.")
+        await message.channel.send(f"✅ Added **{len(favlist)} songs** to the queue.")
     if voice_client.is_playing():
             return
     next_song = queue.next()
@@ -417,7 +417,7 @@ async def old_play_song(voice_client, song, queue, text_channel):
         )
     voice_client.play(source, after=playback_finished)
     await text_channel.send(
-        f"Playing \\*\\*{song['title']}\\*\\*"
+        f"Playing **{song['title'].replace('*', '\\*')}**"
     )
 
 async def play_song(voice_client, song, queue, text_channel):
@@ -464,7 +464,7 @@ async def play_song(voice_client, song, queue, text_channel):
             handle_song_finished(voice_client, queue, text_channel), loop
         )
     voice_client.play(source, after=playback_finished)
-    await text_channel.send(f"Playing \\*\\*{song.get('title', 'Unknown Title')}\\*\\*")
+    await text_channel.send(f"Playing **{song.get('title', 'Unknown Title').replace('*', '\\*')}**")
 
 async def handle_song_finished(voice_client, queue, text_channel):
     next_song = queue.next()
