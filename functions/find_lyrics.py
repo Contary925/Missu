@@ -20,6 +20,8 @@ async def find_lyrics(client, message, content):
             content = content.split('[', maxsplit=1)[0]+content.split(']', maxsplit=1)[1] 
             #removing square brackets and everything in them - 
             #since videos tend to have those and it ruins search on genius.com
+        while '(' in content and ')' in content.split('(', maxsplit=1)[1]:
+                    content = content.split('(', maxsplit=1)[0]+content.split(')', maxsplit=1)[1]
     await message.channel.send('Searching for the song...')
     headers = {
         "Authorization": f"Bearer {GENIUS_TOKEN}"
@@ -122,6 +124,9 @@ async def get_lyrics(url: str) -> str | None:
         flags=re.DOTALL | re.IGNORECASE,
     )
     lyrics = lyrics.strip()
+    if len(lyrics)>10000:
+        print('Large text!!!')
+        return None
     if 'yrics' in lyrics:
         lyrics = lyrics.split('yrics', maxsplit=1)[1]
     # Normalize whitespace while preserving stanza breaks.
