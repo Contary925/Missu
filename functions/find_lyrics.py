@@ -2,6 +2,10 @@ import os
 import aiohttp
 import discord
 
+from dotenv import load_dotenv
+
+load_dotenv()
+
 GENIUS_TOKEN = os.getenv("GENIUS_ACCESS_TOKEN")
 
 async def find_lyrics(client, message, content):
