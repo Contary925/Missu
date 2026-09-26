@@ -50,8 +50,8 @@ async def ai_mode(client, message, content):
                     "parameters": {
                         "engine": "parallel",
                         "mode": "basic",
-                        "max_results": 3,
-                        "max_total_results": 3,
+                        "max_results": 10,
+                        "max_total_results": 10,
                     },
                 }
             ],
