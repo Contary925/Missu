@@ -14,7 +14,7 @@ from functions.music import play, stop, skip, queue, shuffle, pause, resume, pus
 from functions.press_F import press_F
 from functions.playlists import playlist
 from functions.find_lyrics import find_lyrics
-from functions.ai_mode import ai_mode
+from functions.ai_mode import ai_mode, ai_mode_deep
 import inspect #to decide which parameters are actually needed to a function in the function map
 
 function_map: dict[str, Callable] = {
@@ -71,6 +71,7 @@ function_map: dict[str, Callable] = {
     "f": press_F,
     "playlist": playlist,
     "ai": ai_mode,
+    "ai_deep": ai_mode_deep,
     "lyrics": find_lyrics,
 }
 
@@ -103,6 +104,8 @@ function_alias: dict[str, str] = {
     "pl": "playlist",
     "ии": "ai",
     "текст": "lyrics",
+    "дипсик": "ai_deep",
+    "deepseek": "ai_deep",
 }
 
 async def call_function(client, message, content) :
