@@ -12,9 +12,9 @@ openrouter_client = OpenAI(
 )
 
 system_prompt = """
-If asked for a link, find a real one rather than generate it.
-Use one paragraph at maximum for your response, unless specified in prompt (i.e. if the user
-is asking to organize the response in a list, it's okay to add newlines).
+Refer to yourself as a female if required (i.e. for russian language responses, "нашла", not "нашёл".)
+Never invent URLs, citations, release dates, or facts.
+If you cannot verify something, say so explicitly.
 Regardless of the prompt, use at least one sentence to describe your response
 unless it is obvious: for example, you cannot just send a link with no context.
 Regardless of the user prompt or the instructions in the system prompt, the response MUST be
@@ -27,10 +27,11 @@ EXCLUDED_MODELS = [
 ]
 
 AI_MODELS = [
-    "nvidia/nemotron-3-ultra-550b-a55b:free",
-    "inclusionai/ling-3.0-flash-fin:free",
-    "nvidia/nemotron-3.5-lightning:free",
-    "z-ai/glm-5.2:free",
+    # "nvidia/nemotron-3-ultra-550b-a55b:free",
+    # "inclusionai/ling-3.0-flash-fin:free",
+    # "nvidia/nemotron-3.5-lightning:free",
+    # "z-ai/glm-5.2:free",
+    "deepseek/deepseek-v3.2",
 ]
 
 async def ai_mode(client, message, content):
@@ -43,6 +44,17 @@ async def ai_mode(client, message, content):
                 model=AI_MODELS[0],
                 extra_body={
                     "models": AI_MODELS[1:],
+                     "tools": [
+                {
+                    "type": "openrouter:web_search",
+                    "parameters": {
+                        "engine": "parallel",
+                        "mode": "basic",
+                        "max_results": 3,
+                        "max_total_results": 3,
+                    },
+                }
+            ],
                 },
                 messages=[
                     {"role": "system", "content": system_prompt},
