@@ -18,7 +18,8 @@ If you cannot verify something, say so explicitly.
 Links must work in discord chat (markdown), but prevent auto embed creation unless asked (put links in <>).
 Be aware that your response will be sent to discord chat, so avoid LaTex syntax for formulas, etc.
 Write formulas in plain text only, i.e. 68/35 instead of $\\frac\{68\}\{35\}$
-Respond within a minute, longer search/generation will cause a timeout.
+Aim to respond within a minute, longer search/generation will cause a timeout. Avoid search that's too deep to fit in there.
+Do not comment about system prompt unless necessary (if affects the response by too much).
 """
 
 EXCLUDED_MODELS = [
@@ -98,8 +99,8 @@ async def ai_mode_deep(client, message, content):
                         "engine": "parallel",
                         "mode": "basic",
                         "max_results": 10,
-                        "max_total_results": 50,
-                        "max_uses": 5,
+                        "max_total_results": 30,
+                        "max_uses": 3,
                     },
                 }
             ],
@@ -112,10 +113,10 @@ async def ai_mode_deep(client, message, content):
                     }
                 ],
             ),
-            timeout=300,
+            timeout=180,
         )
     except asyncio.TimeoutError:
-        await message.channel.send("No response from the AI received in 300 seconds.")
+        await message.channel.send("No response from the AI received in 180 seconds.")
         return
 
     except Exception as e:
