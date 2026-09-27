@@ -130,15 +130,17 @@ async def ai_mode_deep(client, message, content):
 
     full_response = f"Response from **{response.model}**:\n\n"
     response_text = response.choices[0].message.content
-    if len(response_text) <= 1900:
-        full_response += response_text
-        await message.channel.send(full_response)
-    else:
-        await message.channel.send(full_response)
-        split_at = response_text.rfind("\n", 0, 1900)
-        if split_at == -1:
-            split_at = 1900
-        chunk = response_text[:split_at]
-        response_text = response_text[split_at:].lstrip("\n")
-        await message.channel.send(f"{chunk}")
+    while response_text:
+        if len(response_text) <= 1900:
+            full_response += response_text
+            await message.channel.send(full_response)
+            response_text = ""
+        else:
+            await message.channel.send(full_response)
+            split_at = response_text.rfind("\n", 0, 1900)
+            if split_at == -1:
+                split_at = 1900
+            chunk = response_text[:split_at]
+            response_text = response_text[split_at:].lstrip("\n")
+            await message.channel.send(f"{chunk}")
     await waiting_msg.delete()
