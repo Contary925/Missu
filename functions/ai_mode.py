@@ -17,6 +17,7 @@ Never invent URLs, citations, release dates, or facts.
 If you cannot verify something, say so explicitly.
 Links must work in discord chat (markdown), but prevent auto embed creation unless asked (put links in <>).
 Be aware that your response will be sent to discord chat, so avoid LaTex syntax for formulas, etc.
+Respond within a minute, longer search/generation will cause a timeout.
 """
 
 EXCLUDED_MODELS = [
@@ -49,10 +50,10 @@ async def ai_mode(client, message, content):
                     }
                 ],
             ),
-            timeout=120,
+            timeout=60,
         )
     except asyncio.TimeoutError:
-        await message.channel.send("No response from the AI received in 120 seconds.")
+        await message.channel.send("No response from the AI received in 60 seconds.")
         return
 
     except Exception as e:
@@ -109,10 +110,10 @@ async def ai_mode_deep(client, message, content):
                     }
                 ],
             ),
-            timeout=60,
+            timeout=120,
         )
     except asyncio.TimeoutError:
-        await message.channel.send("No response from the AI received in 60 seconds.")
+        await message.channel.send("No response from the AI received in 120 seconds.")
         return
 
     except Exception as e:
