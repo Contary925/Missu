@@ -98,7 +98,8 @@ async def ai_mode_deep(client, message, content):
                         "engine": "parallel",
                         "mode": "basic",
                         "max_results": 10,
-                        "max_total_results": 10,
+                        "max_total_results": 50,
+                        "max_uses": 5,
                     },
                 }
             ],
