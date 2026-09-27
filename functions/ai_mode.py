@@ -112,10 +112,10 @@ async def ai_mode_deep(client, message, content):
                     }
                 ],
             ),
-            timeout=120,
+            timeout=300,
         )
     except asyncio.TimeoutError:
-        await message.channel.send("No response from the AI received in 120 seconds.")
+        await message.channel.send("No response from the AI received in 300 seconds.")
         return
 
     except Exception as e:
