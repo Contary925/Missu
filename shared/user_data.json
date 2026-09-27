@@ -19,7 +19,7 @@
         "interactions": {
             "hug": {
                 "825781461021360168": 95,
-                "658061917394436146": 1,
+                "658061917394436146": 2,
                 "928033455860772944": 1,
                 "1529029241566662746": 3
             },
@@ -68,7 +68,8 @@
             "https://www.youtube.com/watch?v=3QeGXxA-E4Y": "Solence - Heaven [OFFICIAL VIDEO]",
             "https://www.youtube.com/watch?v=YqBWwR__B3I": "Smash Into Pieces - Heroes (M\u00e5ns Zelmerl\u00f6w Cover)",
             "https://www.youtube.com/watch?v=HDbNCKsrut4": "Smash Into Pieces - In The End (feat. Samuel Ericsson) - 2024 - Lyric Video",
-            "https://www.youtube.com/watch?v=JGoTxg-WQ2c": "Smash Into Pieces - Wake Up (Official Music Video)"
+            "https://www.youtube.com/watch?v=JGoTxg-WQ2c": "Smash Into Pieces - Wake Up (Official Music Video)",
+            "https://www.youtube.com/watch?v=ryT512TA4nA": "BILLIE EILISH & KHALID \u2013 Lovely (Cover by Lauren Babic & @jordanradvansky)"
         },
         "playlists": {
             "metalcore": {
@@ -137,6 +138,27 @@
                 "https://www.youtube.com/watch?v=pnHZ6r5FR7s": "Smart Boneheads (Smart Race ITSO Megalovania)",
                 "https://www.youtube.com/watch?v=qcmN5c7SSH4": "Raise Up Your DARK ZONE",
                 "https://www.youtube.com/watch?v=jAnJgG65PqI": "A SPIDER'S WORLD?"
+            },
+            "celldweller": {
+                "https://www.youtube.com/watch?v=T7sD05Ol4A0": "Celldweller - Down To Earth",
+                "https://www.youtube.com/watch?v=6i4x8PC25nY": "Celldweller - End of an Empire",
+                "https://www.youtube.com/watch?v=ZfAkh7ZM5o8": "Celldweller - Against the Tide",
+                "https://www.youtube.com/watch?v=rszEi81v6Ts": "Celldweller - So Long Sentiment",
+                "https://www.youtube.com/watch?v=I83WWLEmI-o": "Celldweller - Louder Than Words (Varien Remix)",
+                "https://www.youtube.com/watch?v=w2WT2hH36Ec": "Celldweller - Unshakeable",
+                "https://www.youtube.com/watch?v=MW5Hn70zrg0": "Celldweller - Louder Than Words",
+                "https://www.youtube.com/watch?v=Z7HJnwRklEA": "Celldweller - Own Little World",
+                "https://www.youtube.com/watch?v=BgPNyEGIiCM": "Celldweller - My Disintegration (Official Lyric Video)",
+                "https://www.youtube.com/watch?v=sU2J92Vzxl0": "Celldweller - Just Like You (Official Lyric Video)",
+                "https://www.youtube.com/watch?v=5UPCLR8-Aeo": "Celldweller - Birthright",
+                "https://www.youtube.com/watch?v=y5yw3yMfP5E": "Celldweller - Switchback",
+                "https://www.youtube.com/watch?v=DS6SY7maVZo": "Celldweller - New Elysium (Official Lyric Video)",
+                "https://www.youtube.com/watch?v=OzD6A2xTwPQ": "Celldweller - Uncrowned",
+                "https://www.youtube.com/watch?v=dMwK7RSVi7g": "Celldweller - The Lucky One",
+                "https://www.youtube.com/watch?v=L3Y_nRXBnbs": "Celldweller - Jericho (Official Lyric Video)"
+            },
+            "skillet": {
+                "https://www.youtube.com/watch?v=fRXDr94_SKA": "Skillet - Comatose [HQ]"
             }
         }
     },
