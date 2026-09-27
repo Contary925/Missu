@@ -15,11 +15,8 @@ system_prompt = """
 Refer to yourself as a female if required (i.e. for russian language responses, "нашла", not "нашёл".)
 Never invent URLs, citations, release dates, or facts.
 If you cannot verify something, say so explicitly.
-Regardless of the prompt, use at least one sentence to describe your response
-unless it is obvious: for example, you cannot just send a link with no context.
-Regardless of the user prompt or the instructions in the system prompt, the response MUST be
-less than 1000 characters. Links must work in discord chat (markdown).
-The response must be sent within 20 seconds, so avoid search that's too deep to fit in.
+Links must work in discord chat (markdown), but prevent auto embed creation unless asked (put links in <>).
+Be aware that your response will be sent to discord chat, so avoid LaTex syntax for formulas, etc.
 """
 
 EXCLUDED_MODELS = [
@@ -52,10 +49,10 @@ async def ai_mode(client, message, content):
                     }
                 ],
             ),
-            timeout=30,
+            timeout=120,
         )
     except asyncio.TimeoutError:
-        await message.channel.send("No response from the AI received in 30 seconds.")
+        await message.channel.send("No response from the AI received in 120 seconds.")
         return
 
     except Exception as e:
@@ -67,7 +64,19 @@ async def ai_mode(client, message, content):
 
     print(response_data)
 
-    await message.channel.send(f"Response from **{response.model}**:\n\n{response.choices[0].message.content}")
+    full_response = f"Response from **{response.model}**:\n\n"
+    response_text = response.choices[0].message.content
+    if len(response_text) <= 1900:
+        full_response += response_text
+        await message.channel.send(full_response)
+    else:
+        await message.channel.send(full_response)
+        split_at = response_text.rfind("\n", 0, 1900)
+        if split_at == -1:
+            split_at = 1900
+        chunk = response_text[:split_at]
+        response_text = response_text[split_at:].lstrip("\n")
+        await message.channel.send(f"{chunk}")
     await waiting_msg.delete()
 
 async def ai_mode_deep(client, message, content):
@@ -100,10 +109,10 @@ async def ai_mode_deep(client, message, content):
                     }
                 ],
             ),
-            timeout=30,
+            timeout=60,
         )
     except asyncio.TimeoutError:
-        await message.channel.send("No response from the AI received in 30 seconds.")
+        await message.channel.send("No response from the AI received in 60 seconds.")
         return
 
     except Exception as e:
@@ -115,5 +124,17 @@ async def ai_mode_deep(client, message, content):
 
     print(response_data)
 
-    await message.channel.send(f"Response from **{response.model}**:\n\n{response.choices[0].message.content}")
+    full_response = f"Response from **{response.model}**:\n\n"
+    response_text = response.choices[0].message.content
+    if len(response_text) <= 1900:
+        full_response += response_text
+        await message.channel.send(full_response)
+    else:
+        await message.channel.send(full_response)
+        split_at = response_text.rfind("\n", 0, 1900)
+        if split_at == -1:
+            split_at = 1900
+        chunk = response_text[:split_at]
+        response_text = response_text[split_at:].lstrip("\n")
+        await message.channel.send(f"{chunk}")
     await waiting_msg.delete()
