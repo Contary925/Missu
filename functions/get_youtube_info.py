@@ -31,14 +31,11 @@ async def get_youtube_info(query: str):
         if query.startswith(("http://", "https://")):
             parsed = urlparse(query)
             params = parse_qs(parsed.query)
-            
             # PLAYLISTS
             if "list=" in query and "v" not in params:
                 return ydl_playlist_client.extract_info(query, download=False)
-            
             # SINGLE URLS
             return ydl_client.extract_info(query, download=False, process=True)
-            
         # SEARCH QUERIES
         return ydl_search_client.extract_info(f"ytsearch1:{query}", download=False, process=True)
 
@@ -79,7 +76,10 @@ async def get_youtube_info(query: str):
         
     if not stream_url:
         stream_url = info.get("webpage_url")
-    
+    print(f"Title: {info.get('title')}")
+    print(f"URL exists: {bool(stream_url)}")
+    print(f"URL is webpage URL: {stream_url == info.get('webpage_url')}")
+    print(f"Formats count: {len(info.get('formats', []))}")
     return [{
         "url": stream_url,
         "webpage_url": info.get("webpage_url"),
