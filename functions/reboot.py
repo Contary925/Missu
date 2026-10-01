@@ -12,5 +12,5 @@ async def reboot(client, message):
     if uv is None:
         raise RuntimeError("uv not found")
     os.environ["REBOOT_NOTICE"] = "1"
-    os.environ["REBOOT_CHANNEL_ID"] = message.channel.id
+    os.environ["REBOOT_CHANNEL_ID"] = str(message.channel.id)
     os.execv(uv, [uv, "run", "main.py"])
