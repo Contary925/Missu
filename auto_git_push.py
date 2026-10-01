@@ -20,7 +20,7 @@ async def sync_to_github(message):
                 capture_output=True,
                 text=True,
             )
-            await message.channel.send("Changes committed!")
+            # await message.channel.send("Changes committed!")
         else:
             raise subprocess.CalledProcessError(
                 result.returncode,
