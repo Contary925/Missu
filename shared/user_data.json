@@ -69,7 +69,8 @@
             "https://www.youtube.com/watch?v=YqBWwR__B3I": "Smash Into Pieces - Heroes (M\u00e5ns Zelmerl\u00f6w Cover)",
             "https://www.youtube.com/watch?v=HDbNCKsrut4": "Smash Into Pieces - In The End (feat. Samuel Ericsson) - 2024 - Lyric Video",
             "https://www.youtube.com/watch?v=JGoTxg-WQ2c": "Smash Into Pieces - Wake Up (Official Music Video)",
-            "https://www.youtube.com/watch?v=ryT512TA4nA": "BILLIE EILISH & KHALID \u2013 Lovely (Cover by Lauren Babic & @jordanradvansky)"
+            "https://www.youtube.com/watch?v=ryT512TA4nA": "BILLIE EILISH & KHALID \u2013 Lovely (Cover by Lauren Babic & @jordanradvansky)",
+            "https://www.youtube.com/watch?v=ZEJYW2u3jl4": "KAMNOX - Broken Order (Official Lyric Video)"
         },
         "playlists": {
             "metalcore": {
@@ -132,7 +133,8 @@
                 "https://www.youtube.com/watch?v=K-ifukvnICY": "53. A DARK ZONE (DELTARUNE Chapter 3+4 Soundtrack) - Toby Fox",
                 "https://www.youtube.com/watch?v=tBdLO8u-0L8": "58. Hammer of Justice (DELTARUNE Chapter 3+4 Soundtrack) - Toby Fox",
                 "https://www.youtube.com/watch?v=nP9mB1sVJz4": "68. GUARDIAN (DELTARUNE Chapter 3+4 Soundtrack) - Toby Fox",
-                "https://www.youtube.com/watch?v=9oDZ2vN9XF0": "13. Field of Hopes and Dreams (DELTARUNE Chapter 1 Soundtrack) - Toby Fox"
+                "https://www.youtube.com/watch?v=9oDZ2vN9XF0": "13. Field of Hopes and Dreams (DELTARUNE Chapter 1 Soundtrack) - Toby Fox",
+                "https://www.youtube.com/watch?v=MzEHcwoNlbE": "11. Garden of Hopes and Dreams (DELTARUNE Chapter 5 Soundtrack) - Toby Fox & @insaneintherainmusic"
             },
             "ridiculous deltarune mashups": {
                 "https://www.youtube.com/watch?v=pnHZ6r5FR7s": "Smart Boneheads (Smart Race ITSO Megalovania)",
@@ -151,11 +153,11 @@
                 "https://www.youtube.com/watch?v=BgPNyEGIiCM": "Celldweller - My Disintegration (Official Lyric Video)",
                 "https://www.youtube.com/watch?v=sU2J92Vzxl0": "Celldweller - Just Like You (Official Lyric Video)",
                 "https://www.youtube.com/watch?v=5UPCLR8-Aeo": "Celldweller - Birthright",
-                "https://www.youtube.com/watch?v=y5yw3yMfP5E": "Celldweller - Switchback",
                 "https://www.youtube.com/watch?v=DS6SY7maVZo": "Celldweller - New Elysium (Official Lyric Video)",
                 "https://www.youtube.com/watch?v=OzD6A2xTwPQ": "Celldweller - Uncrowned",
                 "https://www.youtube.com/watch?v=dMwK7RSVi7g": "Celldweller - The Lucky One",
-                "https://www.youtube.com/watch?v=L3Y_nRXBnbs": "Celldweller - Jericho (Official Lyric Video)"
+                "https://www.youtube.com/watch?v=L3Y_nRXBnbs": "Celldweller - Jericho (Official Lyric Video)",
+                "https://www.youtube.com/watch?v=5pr7KPs1ePk": "Celldweller - Breakout (feat. Scandroid) (Official Lyric Video)"
             },
             "skillet": {
                 "https://www.youtube.com/watch?v=fRXDr94_SKA": "Skillet - Comatose [HQ]",
@@ -167,6 +169,13 @@
                 "https://www.youtube.com/watch?v=DApP8dCZOdU": "Skillet - Legendary (Official Video)",
                 "https://www.youtube.com/watch?v=AHzU-9iozmo": "Skillet - \"Sick Of It\" Official Video",
                 "https://www.youtube.com/watch?v=J5X0hGtIEp4": "Skillet - Undefeated [Official Audio]"
+            },
+            "kamnox": {
+                "https://www.youtube.com/watch?v=ZEJYW2u3jl4": "KAMNOX - Broken Order (Official Lyric Video)"
+            },
+            "black veil brides": {
+                "https://www.youtube.com/watch?v=AThcMJmiTXI": "Black Veil Brides - Bleeders (Official Music Video)",
+                "https://www.youtube.com/watch?v=qyhJ7MRBOyo": "BLACK VEIL BRIDES - Torch (Official Music Video)"
             }
         }
     },
