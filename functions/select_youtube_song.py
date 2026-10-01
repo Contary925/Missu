@@ -29,8 +29,7 @@ async def select_youtube_song(client, message, query):
         uploader = song.get("uploader") or "Unknown artist"
         duration = format_duration(song.get("duration"))
         lines.append(
-            f"**{i + 1}. [{title}](<{song['webpage_url']}>)**\n"
-            f"   {uploader} · {duration}"
+            f"**{i + 1}. [{title}](<{song['webpage_url']}>)**: {uploader} ({duration})"
         )
     results_message = await process_message.edit(
         content=(
