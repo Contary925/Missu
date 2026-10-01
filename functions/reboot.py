@@ -1,7 +1,7 @@
 import os
 import shutil
 from functions.shutdown import shutdown
-from classes import User
+from classes.user import User
 
 async def reboot(client, message):
     user = User(message.author.id, None)
