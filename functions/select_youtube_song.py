@@ -29,7 +29,7 @@ async def select_youtube_song(client, message, query):
         uploader = song.get("uploader") or "Unknown artist"
         duration = format_duration(song.get("duration"))
         lines.append(
-            f"**{i + 1}. [{title}]({song['webpage_url']})**\n"
+            f"**{i + 1}. [{title}](<{song['webpage_url']}>)**\n"
             f"   {uploader} · {duration}"
         )
     results_message = await process_message.edit(
@@ -61,9 +61,8 @@ async def select_youtube_song(client, message, query):
     index = NUMBER_EMOJIS.index(str(reaction.emoji))
     selected = candidates[index]
     await results_message.edit(
-        content=f"Selected **{selected['title']}**. Loading..."
+        content=f"Selected **{selected['title']}**."
     )
-    # Resolve the selected video's actual audio stream.
     songs = await get_youtube_info(selected["webpage_url"])
     if not songs:
         await results_message.edit(
