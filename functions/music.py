@@ -38,7 +38,7 @@ async def play(client, message, content, pushing=False):
     guild_id = message.guild.id
     queue = music_queues.setdefault(guild_id, Queue())
     if select:
-        songs = await select_youtube_song(
+        process_message, songs = await select_youtube_song(
         client,
         message,
         content,

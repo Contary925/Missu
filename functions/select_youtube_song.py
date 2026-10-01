@@ -36,7 +36,6 @@ async def select_youtube_song(client, message, query):
         content=(
             "**Select a song by reacting below:**\n\n"
             + "\n\n".join(lines)
-            + "\n\nYou have 60 seconds."
         )
     )
     for emoji in NUMBER_EMOJIS[:len(candidates)]:
@@ -68,5 +67,5 @@ async def select_youtube_song(client, message, query):
         await results_message.edit(
             content="Failed to load the selected song."
         )
-        return []
-    return songs
+        return results_message, []
+    return results_message, songs
