@@ -15,6 +15,7 @@ from functions.press_F import press_F
 from functions.playlists import playlist
 from functions.find_lyrics import find_lyrics
 from functions.ai_mode import ai_mode, ai_mode_deep
+from functions.reboot import reboot
 import inspect #to decide which parameters are actually needed to a function in the function map
 
 function_map: dict[str, Callable] = {
@@ -73,6 +74,7 @@ function_map: dict[str, Callable] = {
     "ai": ai_mode,
     "ai_deep": ai_mode_deep,
     "lyrics": find_lyrics,
+    "reboot": reboot,
 }
 
 function_alias: dict[str, str] = {
