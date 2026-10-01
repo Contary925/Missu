@@ -14,10 +14,13 @@ async def on_ready() :
     print(f"Logged in as {client.user}")
     if os.environ.pop("REBOOT_NOTICE", None) != "1":
         return
-    channel = os.environ.pop("REBOOT_CHANNEL", None)
-    if channel is None:
+    channel_id = os.environ.pop("REBOOT_CHANNEL_ID", None)
+    if channel_id is None:
         return
     try:
+        channel = client.get_channel(int(channel_id))
+        if channel is None:
+            channel = await client.fetch_channel(int(channel_id))
         await channel.send("Back to work!")
     except Exception as e:
         print(f"Failed to send reboot notification: {e}")
