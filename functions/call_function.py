@@ -14,7 +14,7 @@ from functions.music import play, stop, skip, queue, shuffle, pause, resume, pus
 from functions.press_F import press_F
 from functions.playlists import playlist
 from functions.find_lyrics import find_lyrics
-from functions.getlink import getlink
+from functions.get_link import get_link
 from functions.ai_mode import ai_mode, ai_mode_deep
 from functions.reboot import reboot
 import inspect #to decide which parameters are actually needed to a function in the function map

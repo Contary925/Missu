@@ -85,3 +85,40 @@ async def get_youtube_info(query: str):
         "webpage_url": info.get("webpage_url"),
         "title": info.get("title", "Unknown"),
     }]
+
+async def search_youtube_multiple(query: str, limit: int = 5):
+    def extract():
+        opts = {
+            **YTDLP_OPTIONS,
+            "extract_flat": True,
+        }
+
+        with yt_dlp.YoutubeDL(opts) as ydl:
+            return ydl.extract_info(
+                f"ytsearch{limit}:{query}",
+                download=False,
+            )
+    info = await asyncio.to_thread(extract)
+    if not info or not info.get("entries"):
+        return []
+    songs = []
+    for entry in info["entries"]:
+        if not entry:
+            continue
+        video_id = entry.get("id")
+        webpage_url = (
+            entry.get("webpage_url")
+            or (
+                f"https://www.youtube.com/watch?v={video_id}"
+                if video_id else None
+            )
+        )
+        if not webpage_url:
+            continue
+        songs.append({
+            "title": entry.get("title", "Unknown"),
+            "webpage_url": webpage_url,
+            "duration": entry.get("duration"),
+            "uploader": entry.get("uploader") or entry.get("channel"),
+        })
+    return songs

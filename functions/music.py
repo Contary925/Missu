@@ -7,6 +7,7 @@ from urllib.parse import urlparse, parse_qs
 from classes.user import User
 from functions.cutword import cutword
 from functions.get_youtube_info import get_youtube_info
+from functions.select_youtube_song import select_youtube_song
 from functions.get_stream_url import get_stream_url
 import random
 
@@ -18,6 +19,9 @@ async def play(client, message, content, pushing=False):
     shuffle = content.endswith('-s')
     if shuffle:
         content = content[:-2].strip()
+    select = content.endswith('-select')
+    if select:
+        content = content[:-7].strip()
     if content == "favlist":
         return await play_favlist(message, shuffle)
     if message.author.voice is None:
@@ -33,20 +37,27 @@ async def play(client, message, content, pushing=False):
         voice_client = await channel.connect()
     guild_id = message.guild.id
     queue = music_queues.setdefault(guild_id, Queue())
-    if content.strip() == 'np':
-        songs = [queue.current_song]
-        if songs == [None]:
-            return await message.channel.send('❌ Nothing is currently playing!')
+    if select:
+        songs = await select_youtube_song(
+        client,
+        message,
+        content,
+        )   
     else:
-        process_message = await message.channel.send("Searching for your song...")
-        songs = await get_youtube_info(content)
-    if not songs:
-        await message.channel.send(
-            f"❌ Couldn't find anything for **{content}**."
-        )
-        if process_message:
-            await process_message.delete()
-        return
+        if content.strip() == 'np':
+            songs = [queue.current_song]
+            if songs == [None]:
+                return await message.channel.send('❌ Nothing is currently playing!')
+        else:
+            process_message = await message.channel.send("Searching for your song...")
+            songs = await get_youtube_info(content)
+        if not songs:
+            await message.channel.send(
+                f"❌ Couldn't find anything for **{content}**."
+            )
+            if process_message:
+                await process_message.delete()
+            return
     if shuffle:
         random.shuffle(songs)
     counter = 0
@@ -73,6 +84,7 @@ async def play(client, message, content, pushing=False):
         queue,
         message.channel,
     )
+
 
 async def skip(client, message, auto=False):
     if message.author.voice is None:
