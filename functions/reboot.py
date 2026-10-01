@@ -1,12 +1,12 @@
 import os
 import shutil
-from functions.check_owner import check_owner
-from auto_git_push import sync_to_github
 from functions.shutdown import shutdown
+from classes import User
 
 async def reboot(client, message):
-    if not await check_owner(message):
-        return
+    user = User(message.author.id, None)
+    if not user.perms == "administrator":
+        return await message.channel.send("This command can only be executed by an admin.")
     await shutdown(client, message)
     uv = shutil.which("uv")
     if uv is None:

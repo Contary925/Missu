@@ -30,7 +30,7 @@ async def gif_list(client, message, content) :
 
 async def gif_remove(client, message, content):
     user = User(message.author.id, None)
-    if not user.perms == "administrator" :
+    if not user.perms == "administrator":
         return await message.channel.send("This command can only be executed by an admin.")
     args = content.split(' ', maxsplit=1)
     if not len(args) == 2 :
