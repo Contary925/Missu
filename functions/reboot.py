@@ -11,5 +11,6 @@ async def reboot(client, message):
     uv = shutil.which("uv")
     if uv is None:
         raise RuntimeError("uv not found")
+    os.environ["REBOOT_NOTICE"] = "1"
+    os.environ["REBOOT_CHANNEL"] = message.channel
     os.execv(uv, [uv, "run", "main.py"])
-    await message.channel.send("Back to work!")
