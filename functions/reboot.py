@@ -12,3 +12,4 @@ async def reboot(client, message):
     if uv is None:
         raise RuntimeError("uv not found")
     os.execv(uv, [uv, "run", "main.py"])
+    await message.channel.send("Back to work!")
