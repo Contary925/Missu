@@ -43,6 +43,7 @@ async def playlist_default(client, message, content):
         if not user.default_playlist in user.playlists:
             return await message.channel.send(f'Playlist **{user.default_playlist}** is set as default but does not exist!')
         content = user.default_playlist + ' ' + content
+        print(content)
         await playlist(client, message, content)
 
 async def playlist_create(client, message, args):
