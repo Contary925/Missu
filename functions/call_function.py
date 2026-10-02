@@ -17,6 +17,7 @@ from functions.find_lyrics import find_lyrics
 from functions.get_link import get_link
 from functions.ai_mode import ai_mode, ai_mode_deep
 from functions.reboot import reboot
+from functions.gamba import choose_random_item
 import inspect #to decide which parameters are actually needed to a function in the function map
 
 function_map: dict[str, Callable] = {
@@ -78,6 +79,7 @@ function_map: dict[str, Callable] = {
     "reboot": reboot,
     "link": get_link,
     "playlistdefault": playlist_default,
+    "choose": choose_random_item,
 }
 
 function_alias: dict[str, str] = {
@@ -113,6 +115,8 @@ function_alias: dict[str, str] = {
     "дипсик": "ai_deep",
     "deepseek": "ai_deep",
     "ссылка": "link",
+    "gamble": "choose",
+    "gamba": "choose",
 }
 
 async def call_function(client, message, content) :
