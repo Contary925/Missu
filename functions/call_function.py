@@ -107,7 +107,7 @@ function_alias: dict[str, str] = {
     "playfav" : "play_favlist",
     "ф": "f",
     "pl": "playlist",
-    "pls": "playlistdefault",
+    "pld": "playlistdefault",
     "ии": "ai",
     "текст": "lyrics",
     "дипсик": "ai_deep",
