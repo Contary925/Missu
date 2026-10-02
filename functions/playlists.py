@@ -31,6 +31,20 @@ async def playlist(client, message, content):
         case _:
             await message.channel.send('Invalid syntax! Usage: uwu playlist [create/delete/add/remove/play] [arguments]. Example: uwu playlist create Three Days Grace')
 
+async def playlist_default(client, message, content):
+    user = User(message.author.id)
+    if content.strip().startswith('set'): 
+        user.default_playlist = content.split('set')[1].strip()
+        user.data_update('default_playlist', content.split('set')[1].strip())  
+        await message.channel.send(f'Done setting your default playlist to **{content.split('set')[1].strip()}**.')
+    else:
+        if user.default_playlist is None:
+            return await message.channel.send('Default playlist not set!')
+        if not user.default_playlist in user.playlists:
+            return await message.channel.send(f'Playlist **{user.default_playlist}** is set as default but does not exist!')
+        content = user.default_playlist + ' ' + content
+        playlist(client, message, content)
+
 async def playlist_create(client, message, args):
     user = User(message.author.id)
     match await user.playlist_create(args):
