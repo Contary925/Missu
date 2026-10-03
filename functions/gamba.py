@@ -112,7 +112,7 @@ async def remove_items_from_list(client, message, args):
     not_in_list_counter = 0
     for item in items:
         try:
-            user_gamble_lists.remove(item)
+            user_gamble_lists[list_name].remove(item)
         except ValueError:
             not_in_list_counter += 1
             continue
