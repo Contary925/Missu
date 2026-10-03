@@ -57,7 +57,9 @@ async def choose_random_item(client, message, content):
 
 async def create_items_list(client, message, args):
     user = User(message.author.id)
-    [list_name, items_string] = (args+'=').split('=', maxsplit=1) #an extra space prevents breaking if there's no =
+    if not '=' in args:
+        args = args + '='
+    [list_name, items_string] = args.split('=', maxsplit=1) #an extra space prevents breaking if there's no =
     list_name = list_name.strip()
     items_string = items_string.strip()
     items_temp = items_string.split(',')
@@ -83,7 +85,7 @@ async def add_items_to_list(client, message, args):
     items_string = items_string.strip()
     items_temp = items_string.split(',')
     items = []
-    for i in range(0, len(items_temp)-1):
+    for i in range(0, len(items_temp)):
         items_temp[i].strip()
         if items_temp[i] != '':
             items.append(items_temp[i])
@@ -103,7 +105,7 @@ async def remove_items_from_list(client, message, args):
     items_string = items_string.strip()
     items_temp = items_string.split(',')
     items = []
-    for i in range(0, len(items_temp)-1):
+    for i in range(0, len(items_temp)):
         items_temp[i].strip()
         if items_temp[i] != '':
             items.append(items_temp[i])
