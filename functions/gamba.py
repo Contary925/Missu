@@ -86,7 +86,7 @@ async def add_items_to_list(client, message, args):
     items_temp = items_string.split(',')
     items = []
     for i in range(0, len(items_temp)):
-        items_temp[i].strip()
+        items_temp[i] = items_temp[i].strip()
         if items_temp[i] != '':
             items.append(items_temp[i])
     user_gamble_lists[list_name] = list(dict.fromkeys(user_gamble_lists[list_name] + items))
@@ -106,7 +106,7 @@ async def remove_items_from_list(client, message, args):
     items_temp = items_string.split(',')
     items = []
     for i in range(0, len(items_temp)):
-        items_temp[i].strip()
+        items_temp[i] = items_temp[i].strip()
         if items_temp[i] != '':
             items.append(items_temp[i])
     not_in_list_counter = 0
