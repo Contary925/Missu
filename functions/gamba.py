@@ -128,6 +128,8 @@ async def show_gamble_lists(client, message, args):
         if text.endswith(', '):
             text = text[:-2] #removing an extra comma and an extra space
         text += '```\n'
+        if text.endswith('``````\n'):
+            text = text[:-4]+'Empty!'+'```\n'
     if text == 'Your gamble lists:\n':
         text = "You don't have any gamble lists setup!"
     return await message.channel.send(text)
