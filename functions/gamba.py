@@ -8,12 +8,12 @@ async def choose(client, message, content):
     args = args.strip()
     match command:   
         case 'create':
-            create_items_list(client, message, args)
+            await create_items_list(client, message, args)
         case 'add':
-            add_items_to_list(client, message, args)
+            await add_items_to_list(client, message, args)
         case 'remove':
-            remove_items_from_list(client, message, args)
-    choose_random_item(client, message, content)
+            await remove_items_from_list(client, message, args)
+    await choose_random_item(client, message, content)
 
 async def choose_random_item(client, message, content):
     user = User(message.author.id)
