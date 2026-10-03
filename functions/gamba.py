@@ -25,6 +25,8 @@ async def choose_random_item(client, message, content):
             break
     if mutations is not None:
         items = user_gamble_lists[list_name]
+        if items == []:
+            return await message.channel.send('The list is empty!')
         mutations = re.findall(r'([+-])\s*(.*?)(?=\s+[+-]|$)', mutations)
         added = []
         removed = []
