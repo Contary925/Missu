@@ -189,7 +189,13 @@
         },
         "default_playlist": "kamnox",
         "gamble_lists": {
-            "iruna classes": []
+            "iruna classes": [
+                "paladin",
+                " gladiator",
+                " beast knight",
+                " assassin",
+                " sniper"
+            ]
         }
     },
     "994552068138336276": {
