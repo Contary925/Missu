@@ -123,7 +123,7 @@ async def show_gamble_lists(client, message, args):
     text = 'Your gamble lists:\n'
     for list_name in user_gamble_lists:
         text += f'## {list_name}:\n```'
-        for item in user_gamble_lists:
+        for item in user_gamble_lists[list_name]:
             text += f'{item},'
         if text.endswith(', '):
             text = text[:-2] #removing an extra comma and an extra space
