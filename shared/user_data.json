@@ -191,11 +191,14 @@
         "gamble_lists": {
             "iruna classes": [
                 "paladin",
-                " gladiator",
-                " beast knight",
-                " assassin",
-                " sniper",
-                " summoner="
+                "gladiator",
+                "beast knight",
+                "assassin",
+                "sniper",
+                "summoner",
+                "bishop",
+                " servant",
+                " monk"
             ]
         }
     },
