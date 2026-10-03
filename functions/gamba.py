@@ -62,7 +62,7 @@ async def create_items_list(client, message, args):
     items_string = items_string.strip()
     items_temp = items_string.split(',')
     items = []
-    for i in range(0, len(items_temp)-1):
+    for i in range(0, len(items_temp)):
         items_temp[i].strip()
         if items_temp[i] != '':
             items.append(items_temp[i])
