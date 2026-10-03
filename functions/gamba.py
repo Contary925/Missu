@@ -63,7 +63,7 @@ async def create_items_list(client, message, args):
     items_temp = items_string.split(',')
     items = []
     for i in range(0, len(items_temp)):
-        items_temp[i].strip()
+        items_temp[i] = items_temp[i].strip()
         if items_temp[i] != '':
             items.append(items_temp[i])
     user_gamble_lists = user.gamble_lists
@@ -124,7 +124,7 @@ async def show_gamble_lists(client, message, args):
     for list_name in user_gamble_lists:
         text += f'## {list_name}:\n```'
         for item in user_gamble_lists[list_name]:
-            text += f'{item},'
+            text += f'{item}, '
         if text.endswith(', '):
             text = text[:-2] #removing an extra comma and an extra space
         text += '```\n'
