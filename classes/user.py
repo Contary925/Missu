@@ -16,6 +16,7 @@ class User() :
         self.favlist = self.read_favlist(self.data) #music favlist
         self.playlists = self.data.get('playlists', {})
         self.default_playlist = self.data.get('default_playlist', None)
+        self.gamble_lists = self.data.get('gamble_lists', {})
 
     def read_data(self, id) -> dict :
         with open('shared/user_data.json', 'r+') as f:
