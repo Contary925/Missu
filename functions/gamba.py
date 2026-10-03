@@ -13,6 +13,8 @@ async def choose(client, message, content):
             return await add_items_to_list(client, message, args)
         case 'remove':
             return await remove_items_from_list(client, message, args)
+        case 'show':
+            return await show_gamble_lists(client, message, args)
     await choose_random_item(client, message, content)
 
 async def choose_random_item(client, message, content):
@@ -114,3 +116,18 @@ async def remove_items_from_list(client, message, args):
             continue
     user.data_update('gamble_lists', user_gamble_lists)
     return await message.channel.send(f'Done! Removed **{len(items) - not_in_list_counter}** items from list **{list_name}**!')
+
+async def show_gamble_lists(client, message, args):
+    user = User(message.author.id)
+    user_gamble_lists = user.gamble_lists
+    text = 'Your gamble lists:\n'
+    for list_name in user_gamble_lists:
+        text += f'## {list_name}:\n```'
+        for item in user_gamble_lists:
+            text += f'{item},'
+        if text.endswith(', '):
+            text = text[:-2] #removing an extra comma and an extra space
+        text += '```\n'
+    if text == 'Your gamble lists:\n':
+        text = "You don't have any gamble lists setup!"
+    return await message.channel.send(text)
