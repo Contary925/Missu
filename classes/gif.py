@@ -2,6 +2,7 @@ import json
 import discord
 import asyncio
 import random
+from functions.check_confirmation import check_confirmation
 
 class Gif:
     def __init__(self, client, message, type, url) :
@@ -28,29 +29,11 @@ class Gif:
 
     async def check(self):
         bot_message = await self.send("Is this a valid gif? Confirm by pressing ✅, or decline by pressing ❌.")
-        check_result = await self.check_confirmation(bot_message)
+        check_result = await check_confirmation(self.message, self.client, bot_message)
         if check_result == 1:
             result = self.add()
             return await self.message.channel.send(result)
         return await self.message.channel.send("Action declined by user.")
-
-    async def check_confirmation(self, bot_message) :
-        await bot_message.add_reaction("✅")
-        await bot_message.add_reaction("❌")
-        def reaction_check(reaction, user): #checking if it's the same message, same person, and a valid reaction
-            return (
-                user == self.message.author and reaction.message.id == bot_message.id 
-                and str(reaction.emoji) in ["✅", "❌"]
-            )
-        try :
-            reaction, user = await self.client.wait_for('reaction_add', timeout=30.0, check=reaction_check)
-        except asyncio.TimeoutError:
-            await self.message.channel.send("Action declined - no confirmation received.")
-        else :
-            if str(reaction.emoji) == "✅" :
-                return 1
-            if str(reaction.emoji) == "❌" :
-                return 0
 
     def add(self) :
         if not self.type in self.gifs :
@@ -109,7 +92,7 @@ class Gif:
             return await self.message.channel.send(f"There is no gif with such index. Double check with gif list {self.type}!")
         self.url = self.gifs[self.type][index-1]
         bot_message = await self.send("Is this the gif you want to remove?")
-        check_result = await self.check_confirmation(bot_message)
+        check_result = await check_confirmation(self.message, self.client, bot_message)
         if check_result == 1:
             del self.gifs[self.type][index-1]
             with open('shared/gifs.json', 'w') as f:

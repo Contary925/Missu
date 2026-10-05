@@ -9,6 +9,7 @@ from functions.cutword import cutword
 from functions.get_youtube_info import get_youtube_info
 from functions.select_youtube_song import select_youtube_song
 from functions.get_stream_url import get_stream_url
+from functions.check_confirmation import check_confirmation
 import random
 
 music_queues = {} #warning: this is a global variable!
@@ -19,9 +20,16 @@ async def play(client, message, content, pushing=False):
     shuffle = content.endswith('-s')
     if shuffle:
         content = content[:-2].strip()
-    select = content.endswith('-select')
+    select = '-select' in content
     if select:
-        content = content[:-7].strip()
+        content, select_limit = content.split('-select', maxsplit=1)
+        content = content.strip()
+        select_limit = select_limit.strip()
+        match select_limit.isdigit():
+            case True:
+                select_limit = int(select_limit)
+            case False:
+                select_limit = 5
     if content == "favlist":
         return await play_favlist(message, shuffle)
     if message.author.voice is None:
@@ -42,15 +50,23 @@ async def play(client, message, content, pushing=False):
         client,
         message,
         content,
+        select_limit
         )   
     else:
-        if content.strip() == 'np':
-            songs = [queue.current_song]
-            if songs == [None]:
-                return await message.channel.send('❌ Nothing is currently playing!')
-        else:
-            process_message = await message.channel.send("Searching for your song...")
-            songs = await get_youtube_info(content)
+        match content.strip():
+            case 'np':
+                songs = [queue.current_song]
+                if songs == [None]:
+                    return await message.channel.send('❌ Nothing is currently playing!')
+            case 'everything':
+                songs = await get_all_songs(message.author.id)
+                process_message = await message.channel.send(f'Unleash the chaos? This will be **{len(songs)} songs.**')
+                if not await check_confirmation(message, client, process_message):
+                    await process_message.delete()
+                    return
+            case _:
+                process_message = await message.channel.send("Searching for your song...")
+                songs = await get_youtube_info(content)
         if not songs:
             await message.channel.send(
                 f"❌ Couldn't find anything for **{content}**."
@@ -64,11 +80,28 @@ async def play(client, message, content, pushing=False):
     for song in songs:
         if process_message:
             await process_message.edit(content=f'Processing songs in background... {counter+1}/{len(songs)}')
+            if not 'url' in song:
+                result = await get_youtube_info(song['webpage_url'])
+                if not result:
+                    await message.channel.send(f"❌ The song **{song['title']}** is unavailable.")
+                    continue
+                song = result[0]
+            print(song)
         if pushing:
             queue.insert(counter, song)    
         else:
             queue.add(song)
         counter += 1 
+        if voice_client.is_playing():
+            continue
+        next_song = queue.next()
+        queue.set_current(next_song)
+        await play_song(
+            voice_client,
+            next_song,
+            queue,
+            message.channel,
+        )
     if len(songs) == 1:
         await message.channel.send(f"✅ Added **{songs[0]['title'].replace('*', '\\*')}** to the queue.")
     else:
@@ -493,3 +526,21 @@ async def handle_song_finished(voice_client, queue, text_channel):
         queue,
         text_channel,
     )
+
+async def get_all_songs(user_id):
+    songs = []
+    user = User(user_id)
+    for song_url in user.favlist:
+        song = {
+            'title': user.favlist[song_url],
+            'webpage_url': song_url
+        }
+        songs.append(song)
+    for playlist in user.playlists:
+        for song_url in user.playlists[playlist]:
+            song = {
+                'title': user.playlists[playlist][song_url],
+                'webpage_url': song_url
+            }
+            songs.append(song)
+    return songs
