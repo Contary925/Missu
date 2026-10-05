@@ -1,7 +1,6 @@
 import random
 from classes.user import User
 import re
-import numpy as np
 
 async def choose(client, message, content):
     [command, args] = (content+' ').split(' ', maxsplit=1) #an extra space prevents breaking if there's only one space
