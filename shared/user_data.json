@@ -208,9 +208,12 @@
                 "https://www.youtube.com/watch?v=uhXW7eqF_SQ": "The Score, 2WEI - Down With The Wolves (Lyric Video)",
                 "https://www.youtube.com/watch?v=ruw2woPI-fg": "The Score - Don't Need A Hero (Official Lyric Video)",
                 "https://www.youtube.com/watch?v=rwvs9jUPMps": "The Score - Deep End (Official Lyric Video)"
+            },
+            "aura farming": {
+                "https://www.youtube.com/watch?v=ZGXOWPZ64DA": "SawanoHiroyuki[nZk]:XAI \u300eDARK ARIA \uff1cLV2\uff1e\u300f Music Video"
             }
         },
-        "default_playlist": "deltarune",
+        "default_playlist": "the score",
         "gamble_lists": {
             "iruna classes": [
                 "paladin",
