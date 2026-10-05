@@ -25,7 +25,9 @@
             },
             "bite": {
                 "825781461021360168": 6,
-                "928033455860772944": 1
+                "928033455860772944": 1,
+                "399204313202950144": 1,
+                "658061917394436146": 1
             },
             "kiss": {
                 "825781461021360168": 12
@@ -41,7 +43,7 @@
                 "825781461021360168": 2,
                 "270904126974590976": 1,
                 "583647391111053323": 2,
-                "658061917394436146": 1,
+                "658061917394436146": 2,
                 "928033455860772944": 2
             },
             "bonk": {
@@ -71,7 +73,9 @@
             "https://www.youtube.com/watch?v=JGoTxg-WQ2c": "Smash Into Pieces - Wake Up (Official Music Video)",
             "https://www.youtube.com/watch?v=ryT512TA4nA": "BILLIE EILISH & KHALID \u2013 Lovely (Cover by Lauren Babic & @jordanradvansky)",
             "https://www.youtube.com/watch?v=ZEJYW2u3jl4": "KAMNOX - Broken Order (Official Lyric Video)",
-            "https://www.youtube.com/watch?v=oE2pRGX_Bbg": "KAMNOX - Legacy [Official Lyric Video]"
+            "https://www.youtube.com/watch?v=oE2pRGX_Bbg": "KAMNOX - Legacy [Official Lyric Video]",
+            "https://www.youtube.com/watch?v=K5U7b_E14cE": "The Score - The Fear (Audio)",
+            "https://www.youtube.com/watch?v=rwvs9jUPMps": "The Score - Deep End (Official Lyric Video)"
         },
         "playlists": {
             "metalcore": {
@@ -175,7 +179,8 @@
                 "https://www.youtube.com/watch?v=ZEJYW2u3jl4": "KAMNOX - Broken Order (Official Lyric Video)",
                 "https://www.youtube.com/watch?v=QPBJe_rB0VE": "KAMNOX - Let Me Fall Beneath (Official Lyric Video)",
                 "https://www.youtube.com/watch?v=oE2pRGX_Bbg": "KAMNOX - Legacy [Official Lyric Video]",
-                "https://www.youtube.com/watch?v=8vXpsCKK3Kc": "KAMNOX - Misfit (Official Lyric Video)"
+                "https://www.youtube.com/watch?v=8vXpsCKK3Kc": "KAMNOX - Misfit (Official Lyric Video)",
+                "https://www.youtube.com/watch?v=8r7ZBNHRHB8": "KAMNOX - Copycat (Official Lyric Video)"
             },
             "black veil brides": {
                 "https://www.youtube.com/watch?v=AThcMJmiTXI": "Black Veil Brides - Bleeders (Official Music Video)",
@@ -184,10 +189,28 @@
             "motivation": {
                 "https://www.youtube.com/watch?v=0dG9pXeOgT0": "STARSET - TRIALS (Official Audio)",
                 "https://www.youtube.com/watch?v=nIYQ8JTQeiY": "Saint Chaos - Kick (Official Music Video)",
-                "https://www.youtube.com/watch?v=F0bDBnJtrIw": "Saint Chaos - Best Excuse (Official Lyric Video)"
+                "https://www.youtube.com/watch?v=F0bDBnJtrIw": "Saint Chaos - Best Excuse (Official Lyric Video)",
+                "https://www.youtube.com/watch?v=Nt1Sh9cykRU": "Saint Chaos feat. Sam Tinnesz - Walk (Official Lyric Video)"
+            },
+            "the score": {
+                "https://www.youtube.com/watch?v=8RDy31N0gdY": "The Score - Can You Hear Me Now (Audio)",
+                "https://www.youtube.com/watch?v=F4dctjz3tUk": "The Score - Fire (Audio)",
+                "https://www.youtube.com/watch?v=QqRp22nqfBs": "The Score - Pull The Cord (Official Visualizer)",
+                "https://www.youtube.com/watch?v=zslGmkDnejQ": "The Score - Head Up (Official Lyric Video)",
+                "https://www.youtube.com/watch?v=2CFBHThW7Dk": "The Score - In My Bones (Lyric Video)",
+                "https://www.youtube.com/watch?v=_PBlykN4KIY": "The Score - Unstoppable (Lyric Video)",
+                "https://www.youtube.com/watch?v=jecQcgbyetw": "The Score - Legend (Audio)",
+                "https://www.youtube.com/watch?v=cNld-AHw-Wg": "The Score - Stronger",
+                "https://www.youtube.com/watch?v=b99r48grKGI": "The Score - Revolution (Official Audio)",
+                "https://www.youtube.com/watch?v=XW4vacvZSmA": "The Score - Miracle (Official Video)",
+                "https://www.youtube.com/watch?v=LAjiTn5t78U": "The Score - Enemies (Official Lyric Video)",
+                "https://www.youtube.com/watch?v=K5U7b_E14cE": "The Score - The Fear (Audio)",
+                "https://www.youtube.com/watch?v=uhXW7eqF_SQ": "The Score, 2WEI - Down With The Wolves (Lyric Video)",
+                "https://www.youtube.com/watch?v=ruw2woPI-fg": "The Score - Don't Need A Hero (Official Lyric Video)",
+                "https://www.youtube.com/watch?v=rwvs9jUPMps": "The Score - Deep End (Official Lyric Video)"
             }
         },
-        "default_playlist": "kamnox",
+        "default_playlist": "the score",
         "gamble_lists": {
             "iruna classes": [
                 "paladin",
@@ -268,6 +291,14 @@
         "favlist": {}
     },
     "744522229718581259": {
+        "alias": {},
+        "interactions": {},
+        "perms": "default",
+        "reactions": {},
+        "responses": {},
+        "favlist": {}
+    },
+    "399204313202950144": {
         "alias": {},
         "interactions": {},
         "perms": "default",
