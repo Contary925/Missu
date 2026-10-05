@@ -14,19 +14,19 @@ class Queue():
         return len(self.songs) == 0
     def set_current(self, song):
         self.current_song = song
-    def show(self):
-        songs_list=""
-        index = 0
+    def show(self, page=0):
+        songs = []
         if self.current_song is not None:
-            index = 1
-            songs_list += f"{index}. **{self.current_song['title']}**\n"
-        for song in self.songs:
-            index += 1
-            if index>20:
-                songs_list += "Cannot display more songs...\nPlease refrain from creating very long queues as streaming URLs may expire over time."
-                break
-            songs_list += f"{index}. **{song['title']}**\n"
-        return songs_list
+            songs.append(self.current_song)
+        songs.extend(self.songs)
+        start = page * 20
+        end = start + 20
+        result = ''
+        for index, song in enumerate(songs[start:end], start=start + 1):
+            result += f'{index}. **{song["title"]}**\n'
+        if not result:
+            return '❌ The queue is empty!'
+        return result
     def shuffle(self):
         random.shuffle(self.songs)
     def push(self, index):

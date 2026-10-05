@@ -1,6 +1,7 @@
 import random
 from classes.user import User
 import re
+import numpy as np
 
 async def choose(client, message, content):
     [command, args] = (content+' ').split(' ', maxsplit=1) #an extra space prevents breaking if there's only one space
@@ -46,14 +47,30 @@ async def choose_random_item(client, message, content):
                     items.remove(item_to_remove)
                 except ValueError:
                     continue
-        print(items)
-        result = random.choice(items)
-        return await message.channel.send(F'The winner is: **{result.strip()}**!')
     else:
         items = content.split(',')
-        result = random.choice(items)
-        return await message.channel.send(F'The winner is: **{result.strip()}**!')
-    
+    print(items)
+    weights = [-1 for _ in items]
+    set_weight_counter = 0
+    weight_left = float(100)
+    for i in range(0, len(items)):
+        if items[i].endswith('%'):
+            try:
+                weights[i] = float(items[i].rsplit(' ', maxsplit=1)[1].replace('%', ''))
+                items[i] = items[i].rsplit(' ', maxsplit=1)[0]
+                set_weight_counter += 1
+                weight_left -= weights[i]
+            except Exception:
+                return await message.channel.send('Found a percent symbol but could not retrieve percentage...')
+    if weight_left < 0:
+        return await message.channel.send('The sum of percentages set exceeds 100%!')
+    unset_counter = len(weights) - set_weight_counter
+    for i in range(0, len(weights)):
+        if weights[i] == -1:
+            weights[i] = float(weight_left) / unset_counter
+    result = random.choices(items, weights=weights, k=1)[0]
+    print(weights)
+    return await message.channel.send(F'The winner is: **{result.strip()}**!')
 
 async def create_items_list(client, message, args):
     user = User(message.author.id)

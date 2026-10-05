@@ -43,7 +43,7 @@
                 "825781461021360168": 2,
                 "270904126974590976": 1,
                 "583647391111053323": 2,
-                "658061917394436146": 2,
+                "658061917394436146": 3,
                 "928033455860772944": 2
             },
             "bonk": {
@@ -210,15 +210,15 @@
                 "https://www.youtube.com/watch?v=rwvs9jUPMps": "The Score - Deep End (Official Lyric Video)"
             }
         },
-        "default_playlist": "the score",
+        "default_playlist": "deltarune",
         "gamble_lists": {
             "iruna classes": [
                 "paladin",
                 "gladiator",
                 "beast knight",
-                "assassin",
                 "sniper",
-                "monk"
+                "monk",
+                "assassin 80%"
             ]
         }
     },

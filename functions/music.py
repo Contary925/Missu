@@ -145,7 +145,7 @@ async def stop(client, message, content):
     else:
         await message.channel.send("❌ Currently not playing anything!")
 
-async def queue(message, content):
+async def queue(client, message, content):
     if content.startswith('remove'):
         content = cutword(content, 'remove').strip()
         match content:
@@ -169,12 +169,51 @@ async def queue(message, content):
         return await message.channel.send(f"✅ Removed song number **{index}** from the queue!")
     guild_id = message.guild.id
     queue = music_queues.setdefault(guild_id, Queue())
-    result = queue.show()
-    match result:
-        case '':
-            return await message.channel.send("❌ The queue is empty!")
-        case _:
-            return await message.channel.send(result)
+    page = 0
+    total_songs = len(queue.songs) + (1 if queue.current_song is not None else 0)
+    total_pages = (total_songs + 19) // 20
+    text = queue.show(page)
+    sent_message = await message.channel.send(text)
+    if total_pages <= 1:
+        return
+    await sent_message.add_reaction('⬅️')
+    await sent_message.add_reaction('➡️')
+    def check(reaction, reactor):
+        return (
+            reactor.id == message.author.id
+            and reaction.message.id == sent_message.id
+            and str(reaction.emoji) in ('⬅️', '➡️')
+        )
+    while True:
+        try:
+            reaction, reactor = await client.wait_for(
+                'reaction_add',
+                timeout=60.0,
+                check=check
+            )
+        except asyncio.TimeoutError:
+            break
+        if str(reaction.emoji) == '➡️':
+            if page < total_pages - 1:
+                page += 1
+            else:
+                page = 0
+            await sent_message.edit(
+                content=queue.show(page)
+            )
+        elif str(reaction.emoji) == '⬅️':
+            if page > 0:
+                page -= 1
+            else:
+                page = total_pages - 1
+
+            await sent_message.edit(
+                content=queue.show(page)
+            )
+        await sent_message.remove_reaction(
+            reaction.emoji,
+            reactor
+        )
 
 async def pause(client, message):
     voice_client = message.guild.voice_client
