@@ -27,7 +27,7 @@
                 "825781461021360168": 6,
                 "928033455860772944": 1,
                 "399204313202950144": 1,
-                "658061917394436146": 1
+                "658061917394436146": 2
             },
             "kiss": {
                 "825781461021360168": 12
@@ -75,7 +75,8 @@
             "https://www.youtube.com/watch?v=ZEJYW2u3jl4": "KAMNOX - Broken Order (Official Lyric Video)",
             "https://www.youtube.com/watch?v=oE2pRGX_Bbg": "KAMNOX - Legacy [Official Lyric Video]",
             "https://www.youtube.com/watch?v=K5U7b_E14cE": "The Score - The Fear (Audio)",
-            "https://www.youtube.com/watch?v=rwvs9jUPMps": "The Score - Deep End (Official Lyric Video)"
+            "https://www.youtube.com/watch?v=rwvs9jUPMps": "The Score - Deep End (Official Lyric Video)",
+            "https://www.youtube.com/watch?v=46aI3_Shbak": "Igris vs Ice Bear | Jinwoo vs Kargalgan | Solo Leveling S2 EP6 OST | SHADOWBORN OST Cover"
         },
         "playlists": {
             "metalcore": {
@@ -210,7 +211,8 @@
                 "https://www.youtube.com/watch?v=rwvs9jUPMps": "The Score - Deep End (Official Lyric Video)"
             },
             "aura farming": {
-                "https://www.youtube.com/watch?v=ZGXOWPZ64DA": "SawanoHiroyuki[nZk]:XAI \u300eDARK ARIA \uff1cLV2\uff1e\u300f Music Video"
+                "https://www.youtube.com/watch?v=ZGXOWPZ64DA": "SawanoHiroyuki[nZk]:XAI \u300eDARK ARIA \uff1cLV2\uff1e\u300f Music Video",
+                "https://www.youtube.com/watch?v=46aI3_Shbak": "Igris vs Ice Bear | Jinwoo vs Kargalgan | Solo Leveling S2 EP6 OST | SHADOWBORN OST Cover"
             }
         },
         "default_playlist": "the score",
@@ -267,7 +269,7 @@
         },
         "interactions": {
             "bite": {
-                "583647391111053323": 1
+                "583647391111053323": 2
             },
             "pat": {
                 "744522229718581259": 1
