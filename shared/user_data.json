@@ -27,7 +27,7 @@
                 "825781461021360168": 6,
                 "928033455860772944": 1,
                 "399204313202950144": 1,
-                "658061917394436146": 2
+                "658061917394436146": 4
             },
             "kiss": {
                 "825781461021360168": 12
@@ -102,7 +102,8 @@
                 "https://www.youtube.com/watch?v=YqBWwR__B3I": "Smash Into Pieces - Heroes (M\u00e5ns Zelmerl\u00f6w Cover)",
                 "https://www.youtube.com/watch?v=BRqjasXnR-c": "Smash Into Pieces - Broken Halo (Official Music Video)",
                 "https://www.youtube.com/watch?v=RG7hZ6dB50k": "APOC - Invincible (Official Lyric Video)",
-                "https://www.youtube.com/watch?v=I1rQiKC_LkM": "APOC - Slave To The Madness (Official Lyric Video)"
+                "https://www.youtube.com/watch?v=I1rQiKC_LkM": "APOC - Slave To The Madness (Official Lyric Video)",
+                "https://www.youtube.com/watch?v=gXcjnQiNpuE": "Smash Into Pieces - Vanguard (Official Music Video)"
             },
             "ds": {
                 "https://www.youtube.com/watch?v=WkLO8llyN64": "Nightstep - Shatter Me",
@@ -181,7 +182,8 @@
                 "https://www.youtube.com/watch?v=QPBJe_rB0VE": "KAMNOX - Let Me Fall Beneath (Official Lyric Video)",
                 "https://www.youtube.com/watch?v=oE2pRGX_Bbg": "KAMNOX - Legacy [Official Lyric Video]",
                 "https://www.youtube.com/watch?v=8vXpsCKK3Kc": "KAMNOX - Misfit (Official Lyric Video)",
-                "https://www.youtube.com/watch?v=8r7ZBNHRHB8": "KAMNOX - Copycat (Official Lyric Video)"
+                "https://www.youtube.com/watch?v=8r7ZBNHRHB8": "KAMNOX - Copycat (Official Lyric Video)",
+                "https://www.youtube.com/watch?v=u4yNCDuZGHs": "KAMNOX - Off With My Head (Official Lyric Video)"
             },
             "black veil brides": {
                 "https://www.youtube.com/watch?v=AThcMJmiTXI": "Black Veil Brides - Bleeders (Official Music Video)",
@@ -212,7 +214,14 @@
             },
             "aura farming": {
                 "https://www.youtube.com/watch?v=ZGXOWPZ64DA": "SawanoHiroyuki[nZk]:XAI \u300eDARK ARIA \uff1cLV2\uff1e\u300f Music Video",
-                "https://www.youtube.com/watch?v=46aI3_Shbak": "Igris vs Ice Bear | Jinwoo vs Kargalgan | Solo Leveling S2 EP6 OST | SHADOWBORN OST Cover"
+                "https://www.youtube.com/watch?v=46aI3_Shbak": "Igris vs Ice Bear | Jinwoo vs Kargalgan | Solo Leveling S2 EP6 OST | SHADOWBORN OST Cover",
+                "https://www.youtube.com/watch?v=Lqx9IsHhrHo": "Jinwoo vs Baran (from \"Solo Leveling\")"
+            },
+            "ori": {
+                "https://www.youtube.com/watch?v=t6vWDz5NzOY": "Light of Nibel (feat. Aeralie Brighton)",
+                "https://www.youtube.com/watch?v=9eR6JC_ng5E": "Escaping the Sandworm",
+                "https://www.youtube.com/watch?v=ClCW2A1355A": "Shriek and Ori",
+                "https://www.youtube.com/watch?v=g6Vhj3XH1PA": "Kwolok's Malaise"
             }
         },
         "default_playlist": "the score",
