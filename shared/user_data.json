@@ -14,12 +14,13 @@
             "\u0410\u0441\u0442\u0440\u0430": "<@928033455860772944>",
             "\u043c\u0435\u043d\u044f": "<@583647391111053323>",
             "\u041c\u0438\u0441\u0441\u0443": "<@1529029241566662746>",
-            "\u041a\u0438\u0441\u0441\u0443": "<@583647391111053323>"
+            "\u041a\u0438\u0441\u0441\u0443": "<@583647391111053323>",
+            "<@1546936087761657952>": "\u0414\u0438"
         },
         "interactions": {
             "hug": {
                 "825781461021360168": 95,
-                "658061917394436146": 2,
+                "658061917394436146": 4,
                 "928033455860772944": 1,
                 "1529029241566662746": 3
             },
@@ -27,7 +28,7 @@
                 "825781461021360168": 6,
                 "928033455860772944": 1,
                 "399204313202950144": 1,
-                "658061917394436146": 4
+                "658061917394436146": 10
             },
             "kiss": {
                 "825781461021360168": 12
@@ -43,7 +44,7 @@
                 "825781461021360168": 2,
                 "270904126974590976": 1,
                 "583647391111053323": 2,
-                "658061917394436146": 3,
+                "658061917394436146": 5,
                 "928033455860772944": 2
             },
             "bonk": {
@@ -103,7 +104,9 @@
                 "https://www.youtube.com/watch?v=BRqjasXnR-c": "Smash Into Pieces - Broken Halo (Official Music Video)",
                 "https://www.youtube.com/watch?v=RG7hZ6dB50k": "APOC - Invincible (Official Lyric Video)",
                 "https://www.youtube.com/watch?v=I1rQiKC_LkM": "APOC - Slave To The Madness (Official Lyric Video)",
-                "https://www.youtube.com/watch?v=gXcjnQiNpuE": "Smash Into Pieces - Vanguard (Official Music Video)"
+                "https://www.youtube.com/watch?v=gXcjnQiNpuE": "Smash Into Pieces - Vanguard (Official Music Video)",
+                "https://www.youtube.com/watch?v=-LnpdGWI4e4": "Smash Into Pieces - Valhalla (Official Lyric Video)",
+                "https://www.youtube.com/watch?v=UOx0yWWWYVY": "Smash Into Pieces - Deadman (Official Lyric Video)"
             },
             "ds": {
                 "https://www.youtube.com/watch?v=WkLO8llyN64": "Nightstep - Shatter Me",
@@ -222,9 +225,13 @@
                 "https://www.youtube.com/watch?v=9eR6JC_ng5E": "Escaping the Sandworm",
                 "https://www.youtube.com/watch?v=ClCW2A1355A": "Shriek and Ori",
                 "https://www.youtube.com/watch?v=g6Vhj3XH1PA": "Kwolok's Malaise"
+            },
+            "geometry dash": {
+                "https://www.youtube.com/watch?v=z6-bdY2PHDE": "[2.0] ''-Sirius-'' 100% (Demon) by FunnyGame | Geometry Dash",
+                "https://www.youtube.com/watch?v=iya93XLERm0": "Xtrullor - Redux"
             }
         },
-        "default_playlist": "the score",
+        "default_playlist": "smash into pieces",
         "gamble_lists": {
             "iruna classes": [
                 "paladin",
@@ -270,7 +277,8 @@
         "interactions": {},
         "perms": "default",
         "reactions": {},
-        "responses": {}
+        "responses": {},
+        "favlist": {}
     },
     "658061917394436146": {
         "alias": {
@@ -278,10 +286,16 @@
         },
         "interactions": {
             "bite": {
-                "583647391111053323": 2
+                "583647391111053323": 4
             },
             "pat": {
                 "744522229718581259": 1
+            },
+            "bonk": {
+                "583647391111053323": 1
+            },
+            "spank": {
+                "583647391111053323": 1
             }
         },
         "perms": "administrator",
