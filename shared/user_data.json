@@ -28,7 +28,7 @@
                 "825781461021360168": 6,
                 "928033455860772944": 1,
                 "399204313202950144": 1,
-                "658061917394436146": 10
+                "658061917394436146": 11
             },
             "kiss": {
                 "825781461021360168": 12
@@ -43,8 +43,8 @@
                 "1529029241566662746": 5,
                 "825781461021360168": 2,
                 "270904126974590976": 1,
-                "583647391111053323": 2,
-                "658061917394436146": 5,
+                "583647391111053323": 3,
+                "658061917394436146": 8,
                 "928033455860772944": 2
             },
             "bonk": {
@@ -229,9 +229,14 @@
             "geometry dash": {
                 "https://www.youtube.com/watch?v=z6-bdY2PHDE": "[2.0] ''-Sirius-'' 100% (Demon) by FunnyGame | Geometry Dash",
                 "https://www.youtube.com/watch?v=iya93XLERm0": "Xtrullor - Redux"
+            },
+            "asking alexandria": {
+                "https://www.youtube.com/watch?v=4cHb8AJDR5Y": "Asking Alexandria - Alone In A Room (Official Music Video)",
+                "https://www.youtube.com/watch?v=zi2wZGPGjs0": "Asking Alexandria - Psycho (Official Video)",
+                "https://www.youtube.com/watch?v=-zyeUFmaYVQ": "Asking Alexandria - Faded Out feat. Within Temptation (Official Music Video)"
             }
         },
-        "default_playlist": "smash into pieces",
+        "default_playlist": "toram",
         "gamble_lists": {
             "iruna classes": [
                 "paladin",
@@ -289,13 +294,14 @@
                 "583647391111053323": 4
             },
             "pat": {
-                "744522229718581259": 1
+                "744522229718581259": 1,
+                "583647391111053323": 1
             },
             "bonk": {
                 "583647391111053323": 1
             },
             "spank": {
-                "583647391111053323": 1
+                "583647391111053323": 2
             }
         },
         "perms": "administrator",
