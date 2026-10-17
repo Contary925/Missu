@@ -22,13 +22,15 @@
                 "825781461021360168": 95,
                 "658061917394436146": 4,
                 "928033455860772944": 1,
-                "1529029241566662746": 3
+                "1529029241566662746": 3,
+                "493688857452216321": 1
             },
             "bite": {
                 "825781461021360168": 6,
                 "928033455860772944": 1,
                 "399204313202950144": 1,
-                "658061917394436146": 11
+                "658061917394436146": 13,
+                "1529029241566662746": 1
             },
             "kiss": {
                 "825781461021360168": 12
@@ -234,9 +236,12 @@
                 "https://www.youtube.com/watch?v=4cHb8AJDR5Y": "Asking Alexandria - Alone In A Room (Official Music Video)",
                 "https://www.youtube.com/watch?v=zi2wZGPGjs0": "Asking Alexandria - Psycho (Official Video)",
                 "https://www.youtube.com/watch?v=-zyeUFmaYVQ": "Asking Alexandria - Faded Out feat. Within Temptation (Official Music Video)"
+            },
+            "iruna": {
+                "https://www.youtube.com/watch?v=pFrNoJqmmJc": "Iruna online [ Oritius Battle BGM ] ost"
             }
         },
-        "default_playlist": "toram",
+        "default_playlist": "iruna",
         "gamble_lists": {
             "iruna classes": [
                 "paladin",
@@ -291,7 +296,7 @@
         },
         "interactions": {
             "bite": {
-                "583647391111053323": 4
+                "583647391111053323": 5
             },
             "pat": {
                 "744522229718581259": 1,
@@ -333,6 +338,14 @@
         "favlist": {}
     },
     "399204313202950144": {
+        "alias": {},
+        "interactions": {},
+        "perms": "default",
+        "reactions": {},
+        "responses": {},
+        "favlist": {}
+    },
+    "493688857452216321": {
         "alias": {},
         "interactions": {},
         "perms": "default",

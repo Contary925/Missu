@@ -53,10 +53,10 @@ async def ai_mode(client, message, content):
                     }
                 ],
             ),
-            timeout=60,
+            timeout=120,
         )
     except asyncio.TimeoutError:
-        await message.channel.send("No response from the AI received in 60 seconds.")
+        await message.channel.send("No response from the AI received in 120 seconds.")
         return
 
     except Exception as e:
@@ -100,8 +100,8 @@ async def ai_mode_deep(client, message, content):
                         "engine": "parallel",
                         "mode": "basic",
                         "max_results": 10,
-                        "max_total_results": 30,
-                        "max_uses": 3,
+                        "max_total_results": 100,
+                        "max_uses": 10,
                     },
                 }
             ],
