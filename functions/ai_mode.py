@@ -58,29 +58,14 @@ async def ai_mode(client, message, content):
     except asyncio.TimeoutError:
         await message.channel.send("No response from the AI received in 120 seconds.")
         return
-
     except Exception as e:
         print(f"AI error: {e}")
         await message.channel.send("Error sending a request.")
         return
-
     response_data = response.model_dump()
-
     print(response_data)
-
-    full_response = f"Response from **{response.model}**:\n\n"
-    response_text = response.choices[0].message.content
-    if len(response_text) <= 1900:
-        full_response += response_text
-        await message.channel.send(full_response)
-    else:
-        await message.channel.send(full_response)
-        split_at = response_text.rfind("\n", 0, 1900)
-        if split_at == -1:
-            split_at = 1900
-        chunk = response_text[:split_at]
-        response_text = response_text[split_at:].lstrip("\n")
-        await message.channel.send(f"{chunk}")
+    full_response = f"Response from **{response.model}**:\n\n{response.choices[0].message.content}"
+    await send_long_message(message.channel, full_response)
     await waiting_msg.delete()
 
 async def ai_mode_deep(client, message, content):
@@ -129,19 +114,19 @@ async def ai_mode_deep(client, message, content):
 
     print(response_data)
 
-    full_response = f"Response from **{response.model}**:\n\n"
-    response_text = response.choices[0].message.content
-    while response_text:
-        if len(response_text) <= 1900:
-            full_response += response_text
-            await message.channel.send(full_response)
-            response_text = ""
-        else:
-            await message.channel.send(full_response)
-            split_at = response_text.rfind("\n", 0, 1900)
-            if split_at == -1:
-                split_at = 1900
-            chunk = response_text[:split_at]
-            response_text = response_text[split_at:].lstrip("\n")
-            await message.channel.send(f"{chunk}")
+    full_response = f"Response from **{response.model}**:\n\n{response.choices[0].message.content}"
+    await send_long_message(message.channel, full_response)
     await waiting_msg.delete()
+
+async def send_long_message(channel, text, limit=1900):
+    while text:
+        if len(text) <= limit:
+            chunk = text
+            text = ""
+        else:
+            split_at = text.rfind("\n", 0, limit)
+            if split_at == -1:
+                split_at = limit
+            chunk = text[:split_at]
+            text = text[split_at:].lstrip("\n")
+        await channel.send(chunk)

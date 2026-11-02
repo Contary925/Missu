@@ -12,6 +12,7 @@ async def react(client, message, content) :
         await send_instructions(message)
 
 async def react_add(message, content) :
+    content = content.casefold()
     args = content.split('=', maxsplit=1)
     if not len(args) == 2 :
         await send_instructions(message)
@@ -19,10 +20,7 @@ async def react_add(message, content) :
     [text, reaction_and_args] = args #reaction and args is supposed to be either just the reaction, or reaction + "all"
     if not text: #just in case there's completely nothing left
         return await message.channel.send("The text is empty! I cannot react to nothing!")
-    while text.startswith(' ') :
-        text = text[1:]
-    while text.endswith(' ') :
-        text = text[:-1]
+    text = text.strip()
     #making sure to delete all the excessive spaces that should not be included
     user = User(message.author.id, None) #the name is unimportant - the id is, though.
     #this will be used for permissions check and then for reaction addition
@@ -44,7 +42,7 @@ async def react_add(message, content) :
     reaction = reaction_and_args.replace(' ', '') #remove all spaces from the reaction string in case there are any
     if not await check_reaction(message, reaction) : #just making sure the reaction is valid
         return await message.channel.send(f"The provided string {reaction} isn't a valid reaction!")
-    if user.add_reaction(text.lower(), reaction) :
+    if user.add_reaction(text, reaction) :
         return await message.channel.send(f'Done! I will now react with {reaction} to "{text}" in your messages.')
     else :
         return await message.channel.send(f'There is a reaction set already to "{text}"!')
@@ -106,8 +104,9 @@ async def check_reaction(message, reaction) :
 async def check_for_reactions(message) :
     with open('shared/reactions.json', 'r+') as f:
         common_reactions = json.load(f)
+    content = message.content.casefold()
     for text in common_reactions :
-        if text in message.content.lower():
+        if text in content:
             await message.add_reaction(common_reactions[text])
     with open('shared/user_data.json', 'r+') as f:
         data = json.load(f)
@@ -116,6 +115,6 @@ async def check_for_reactions(message) :
     user = User(message.author.id, None) #the name is unimportant at the moment
     reactions = user.reactions #a dict of text:reaction pairs
     for text in reactions :
-        if text in message.content.lower():
+        if text in content:
             await message.add_reaction(reactions[text])    
     return

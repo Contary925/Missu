@@ -18,6 +18,8 @@ async def choose(client, message, content):
     await choose_random_item(client, message, content)
 
 async def choose_random_item(client, message, content):
+    if content.strip() == '':
+        return await message.channel.send('Nothing to choose from!')
     user = User(message.author.id)
     user_gamble_lists = user.gamble_lists
     mutations = None
@@ -92,11 +94,12 @@ async def create_items_list(client, message, args):
 async def add_items_to_list(client, message, args):
     user = User(message.author.id)
     user_gamble_lists = user.gamble_lists
+    items_string = None
     for list_name in user_gamble_lists:
         if args.startswith(list_name):
             items_string = args.split(list_name, maxsplit=1)[1]
             break
-    if not items_string:
+    if items_string is None:
         return await message.channel.send("Unknown list!")
     items_string = items_string.strip()
     items_temp = items_string.split(',')
@@ -112,11 +115,12 @@ async def add_items_to_list(client, message, args):
 async def remove_items_from_list(client, message, args):
     user = User(message.author.id)
     user_gamble_lists = user.gamble_lists
+    items_string = None
     for list_name in user_gamble_lists:
         if args.startswith(list_name):
             items_string = args.split(list_name, maxsplit=1)[1]
             break
-    if not items_string:
+    if items_string is None:
         return await message.channel.send("Unknown list!")
     items_string = items_string.strip()
     items_temp = items_string.split(',')

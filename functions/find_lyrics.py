@@ -16,6 +16,8 @@ async def find_lyrics(client, message, content):
         return
     if content.strip() == 'np':
         content = await get_np(message)
+        if content is None:
+            return
         while '[' in content and ']' in content.split('[', maxsplit=1)[1]:
             content = content.split('[', maxsplit=1)[0]+content.split(']', maxsplit=1)[1] 
             #removing square brackets and everything in them - 
@@ -49,15 +51,6 @@ async def find_lyrics(client, message, content):
 
                 await message.channel.send(
                     "Genius returned an unexpected response."
-                )
-                return
-            try:
-                data = json.loads(body)
-            except json.JSONDecodeError:
-                print("Invalid JSON:", body[:1000])
-
-                await message.channel.send(
-                    "Couldn't parse Genius response."
                 )
                 return
     hits = data.get("response", {}).get("hits", [])
@@ -148,11 +141,11 @@ async def get_lyrics(url: str) -> str | None:
 
 async def send_text(message, song):
     lyrics = await get_lyrics(song["url"])
-
     if not lyrics:
         await message.channel.send(
             "Couldn't retrieve lyrics from Genius."
         )
+        return
     while lyrics:
         if len(lyrics) <= 1900:
             chunk = lyrics
@@ -169,6 +162,7 @@ async def get_np(message):
     guild_id = message.guild.id
     queue = music_queues.setdefault(guild_id, Queue())
     song = queue.current_song
-    if song == None:
-        return await message.channel.send('❌ Nothing is currently playing!')
+    if song is None:
+        await message.channel.send('❌ Nothing is currently playing!')
+        return None
     return song['title']

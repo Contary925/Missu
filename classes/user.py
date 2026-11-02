@@ -97,7 +97,7 @@ class User() :
         return 1
 
     def remove_from_favlist(self, index: int) -> str:
-        if index > len(self.favlist):
+        if index > len(self.favlist) or index < 1:
             return 'Song with index not found'
         url = list(self.favlist)[index-1]
         name = self.favlist[url]

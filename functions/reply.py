@@ -12,7 +12,8 @@ async def reply(client, message, content) :
     if not called : #if failed to call a function, send instructions
         await send_instructions(message)
 
-async def reply_add(message, content) :
+async def reply_add(message, content):
+    content = content.casefold()
     args = content.split("=", maxsplit = 1)
     if not len(args) == 2 :
         await send_instructions(message)
@@ -35,7 +36,7 @@ async def reply_add(message, content) :
             json.dump(responses, f)
         return await message.channel.send(f'Done! I will now reply with "{response}" to "{text}" in all messages!')
     response = response_and_args.strip()
-    if user.add_response(text.lower(), response) :
+    if user.add_response(text, response) :
         return await message.channel.send(f'Done! I will now reply with "{response}" to "{text}" in your messages.')
     else :
         return await message.channel.send(f'There is a reply set already to "{text}"!')
@@ -84,11 +85,12 @@ async def reply_listall(message, content):
 
 
 
-async def check_for_replies(message) :
+async def check_for_replies(message):
+    content = message.content.casefold()
     with open('shared/responses.json', 'r+') as f:
         common_responses = json.load(f)
     for text in common_responses :
-        if text in message.content.lower():
+        if text in content:
             await message.channel.send(common_responses[text], allowed_mentions=discord.AllowedMentions(everyone=False, roles=False, users=False))
     with open('shared/user_data.json', 'r+') as f:
         data = json.load(f)
@@ -97,7 +99,7 @@ async def check_for_replies(message) :
     user = User(message.author.id, None) #the name is unimportant at the moment
     responses = user.responses #a dict of text:response pairs
     for text in responses :
-        if text in message.content.lower():
+        if text in content:
             if user.perms == "administrator" :
                 await message.channel.send(responses[text])
             else :
