@@ -17,6 +17,7 @@ music_queues = {} #warning: this is a global variable!
 #be careful when mutating it!
 
 async def play(client, message, content, pushing=False):
+    process_message = None
     shuffle = content.endswith('-s')
     if shuffle:
         content = content[:-2].strip()
@@ -77,20 +78,21 @@ async def play(client, message, content, pushing=False):
     if shuffle:
         random.shuffle(songs)
     counter = 0
+    added_songs = []
     for song in songs:
         if process_message:
             await process_message.edit(content=f'Processing songs in background... {counter+1}/{len(songs)}')
-            if not 'url' in song:
-                result = await get_youtube_info(song['webpage_url'])
-                if not result:
-                    await message.channel.send(f"❌ The song **{song['title']}** is unavailable.")
-                    continue
-                song = result[0]
-            print(song)
+        if not song.get('url'):
+            result = await get_youtube_info(song['webpage_url'])
+            if not result:
+                await message.channel.send(f"❌ The song **{song['title']}** is unavailable.")
+                continue
+            song = result[0]
         if pushing:
             queue.insert(counter, song)    
         else:
             queue.add(song)
+        added_songs.append(song)
         counter += 1 
         if voice_client.is_playing():
             continue
@@ -102,11 +104,15 @@ async def play(client, message, content, pushing=False):
             queue,
             message.channel,
         )
-    if len(songs) == 1:
-        await message.channel.send(f"✅ Added **{songs[0]['title'].replace('*', '\\*')}** to the queue.")
+    if counter == 0:
+        await message.channel.send("❌ Couldn't add any songs.")
+        return
+    elif counter == 1:
+        await message.channel.send(f"✅ Added **{added_songs[0]['title'].replace('*', '\\*')}** to the queue.")
     else:
-        await message.channel.send(f"✅ Added **{len(songs)} songs** to the queue.")
-    await process_message.delete()
+        await message.channel.send(f"✅ Added **{counter} songs** to the queue.")
+    if process_message:
+        await process_message.delete()
     if voice_client.is_playing():
             return
     next_song = queue.next()
@@ -410,11 +416,15 @@ async def play_favlist(message, shuffle=False):
         favlist = dict(songs)
     count = 0
     process_message = await message.channel.send('Processing songs in background...')
-    for song_url in favlist:
-        count += 1
-        process_message = await process_message.edit(content=f'Processing songs in background... {count}/{len(favlist)}')
-        print(song_url)
+    for processed, song_url in enumerate(favlist, start=1):
+        process_message = await process_message.edit(content=f'Processing songs in background... {processed}/{len(favlist)}')
         stream_url = await get_stream_url(song_url)
+        if not stream_url:
+            await message.channel.send(
+                f"❌ Song unavailable: {favlist[song_url]}"
+            )
+            continue
+        count += 1
         song = {
             "title": favlist[song_url],
             "url": stream_url,
@@ -433,10 +443,13 @@ async def play_favlist(message, shuffle=False):
                 message.channel,
             )
     await process_message.delete()
-    if len(favlist) == 1:
+    if count == 0:
+        await message.channel.send("❌ Couldn't add any songs from your favlist...")
+        return
+    if count == 1:
         await message.channel.send(f"✅ Added one song to the queue.")
     else:
-        await message.channel.send(f"✅ Added **{len(favlist)} songs** to the queue.")
+        await message.channel.send(f"✅ Added **{count} songs** to the queue.")
     if voice_client.is_playing():
             return
     next_song = queue.next()

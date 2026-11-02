@@ -24,7 +24,7 @@ async def select_youtube_song(client, message, query, select_limit = 5):
         await process_message.edit(
             content="No results found. Try another search."
         )
-        return []
+        return process_message, []
     lines = []
     for i, song in enumerate(candidates):
         title = song["title"]
@@ -57,7 +57,7 @@ async def select_youtube_song(client, message, query, select_limit = 5):
         await results_message.edit(
             content="Song selection timed out."
         )
-        return []
+        return process_message, []
     index = NUMBER_EMOJIS.index(str(reaction.emoji))
     selected = candidates[index]
     await results_message.edit(

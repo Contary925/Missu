@@ -9,35 +9,29 @@ YTDLP_OPTIONS = {
     'skip_download': True,
     'force_generic_extractor': False,
     'youtube_include_dash_manifest': False,
-    'nocheckcertificate': True,
+    'nocheckcertificate': False,
     'http_headers': {
         'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36'
     }
 }
 
-# Pre-instantiate these globally once to save CPU and RAM cycles
-ydl_client = yt_dlp.YoutubeDL(YTDLP_OPTIONS)
-ydl_playlist_client = yt_dlp.YoutubeDL({**YTDLP_OPTIONS})
-ydl_search_client = yt_dlp.YoutubeDL({
-    **YTDLP_OPTIONS,
-    "extract_flat": False,       
-    "playlist_items": "1",       
-    "youtube_include_dash_manifest": False, 
-    "youtube_include_nsig_html": False,     
-})
-
 async def get_youtube_info(query: str):
     def extract():
         if query.startswith(("http://", "https://")):
-            parsed = urlparse(query)
-            params = parse_qs(parsed.query)
-            # PLAYLISTS
-            if "list=" in query and "v" not in params:
-                return ydl_playlist_client.extract_info(query, download=False)
-            # SINGLE URLS
-            return ydl_client.extract_info(query, download=False, process=True)
-        # SEARCH QUERIES
-        return ydl_search_client.extract_info(f"ytsearch1:{query}", download=False, process=True)
+            options = YTDLP_OPTIONS
+        else:
+            options = {
+                **YTDLP_OPTIONS,
+                "playlist_items": "1",
+                "youtube_include_nsig_html": False,
+            }
+        with yt_dlp.YoutubeDL(options) as ydl:
+            if query.startswith(("http://", "https://")):
+                return ydl.extract_info(query, download=False)
+            return ydl.extract_info(
+                f"ytsearch1:{query}",
+                download=False,
+            )
 
     info = await asyncio.to_thread(extract)
     if not info:
@@ -45,41 +39,40 @@ async def get_youtube_info(query: str):
 
     # Handle containers
     if info.get("_type") == "playlist" and "entries" in info:
-        entries = info["entries"]
-        if not entries:
-            return []
-        
-        # FIX 1: If it came from search, entries[0] contains the actual data
-        if not query.startswith(("http://", "https://")):
-            info = entries[0] 
-        else:
-            # Explicit playlist URL link mapping
-            songs = []
-            for entry in entries:
-                if entry:
-                    video_url = entry.get("url") or f"https://youtube.com{entry['id']}"
-                    songs.append({
-                        "url": video_url, 
-                        "webpage_url": video_url,
-                        "title": entry.get("title", "Unknown"),
-                    })
-            return songs
+        songs = []
+        for entry in info["entries"]:
+            if not entry:
+                continue
+            video_id = entry.get("id")
+            webpage_url = (
+                entry.get("webpage_url")
+                or (
+                    f"https://www.youtube.com/watch?v={video_id}"
+                    if video_id else None
+                )
+            )
+            if not webpage_url:
+                continue
+            songs.append({
+                "url": entry.get("url"),
+                "webpage_url": webpage_url,
+                "title": entry.get("title", "Unknown"),
+            })
+        return songs
 
-    # FIX 2: Safely extract stream URL even if nested inside yt-dlp's formats block
     stream_url = info.get("url")
     if not stream_url and info.get("formats"):
-        audio_formats = [f for f in info["formats"] if f.get("vcodec") == "none"]
+        audio_formats = [
+            f for f in info["formats"]
+            if f.get("vcodec") == "none" and f.get("url")
+        ]
+        formats = info.get("formats") or []
         if audio_formats:
-            stream_url = audio_formats[-1].get("url") # Grab the best available audio format URL
-        else:
-            stream_url = info["formats"][-1].get("url")
-        
+            stream_url = audio_formats[-1]["url"]
+        elif formats:
+            stream_url = formats[-1].get("url")
     if not stream_url:
-        stream_url = info.get("webpage_url")
-    print(f"Title: {info.get('title')}")
-    print(f"URL exists: {bool(stream_url)}")
-    print(f"URL is webpage URL: {stream_url == info.get('webpage_url')}")
-    print(f"Formats count: {len(info.get('formats', []))}")
+        return []
     return [{
         "url": stream_url,
         "webpage_url": info.get("webpage_url"),

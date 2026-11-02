@@ -67,12 +67,13 @@ async def playlist_delete(client, message, args):
 
 async def add_to_playlist(client, message, args):
     user = User(message.author.id)
+    song_name = None
     playlists = user.playlists
     for playlist in playlists:
         if args.startswith(playlist):
             song_name = args.split(playlist, maxsplit=1)[1]
             break
-    if not song_name:
+    if song_name is None:
         return await message.channel.send('❌ Incorrect playlist name!')
     if song_name.strip() == 'np':
         guild_id = message.guild.id
@@ -89,6 +90,8 @@ async def add_to_playlist(client, message, args):
         count += 1
         await user.add_to_playlist(playlist, song)
     match count:
+        case 0:
+            return await message.channel.send("❌ Couldn't find your song...")
         case 1:
             title = song["title"]
             return await message.channel.send(f'✅ Added the song **{title.replace('*', '\\*')}** to playlist **{playlist}**!')
@@ -97,15 +100,20 @@ async def add_to_playlist(client, message, args):
 
 async def remove_from_playlist(client, message, args):
     user = User(message.author.id)
+    index = None
     playlists = user.playlists
     for playlist in playlists:
         if args.startswith(playlist):
             index = args.split(playlist, maxsplit=1)[1]
             break
-    if not index:
+    if index is None:
         return await message.channel.send('❌ Incorrect playlist name!')
     index = index.strip()
-    if not index.isdigit() or int(index) > len(user.playlists[playlist]):
+    if (
+        not index.isdigit()
+        or int(index) < 1
+        or int(index) > len(user.playlists[playlist])
+    ):
         return await message.channel.send("❌ Invalid index!")
     song_title = await user.remove_from_playlist(playlist, int(index))
     return await message.channel.send(f'✅ Removed the song "{song_title.replace('*', '\\*')}" from the playlist "{playlist}"!')
@@ -141,11 +149,15 @@ async def play_playlist(client, message, args):
         playlist = dict(songs)
     count = 0
     process_message = await message.channel.send('Processing songs in background...')
-    for song_url in playlist:
-        count += 1
-        process_message = await process_message.edit(content=f'Processing songs in background... {count}/{len(playlist)}')
-        print(song_url)
+    for processed, song_url in enumerate(playlist, start=1):
+        process_message = await process_message.edit(content=f'Processing songs in background... {processed}/{len(playlist)}')
         stream_url = await get_stream_url(song_url)
+        if not stream_url:
+            await message.channel.send(
+                f"❌ Song unavailable: {playlist[song_url]}"
+            )
+            continue
+        count += 1
         song = {
             "title": playlist[song_url],
             "url": stream_url,
@@ -164,10 +176,15 @@ async def play_playlist(client, message, args):
                 message.channel,
             )
     await process_message.delete()
-    if len(playlist) == 1:
-        await message.channel.send(f"✅ Added one song to the queue.")
+    if count == 0:
+        await message.channel.send("❌ Couldn't add any songs.")
+        return
+    elif count == 1:
+        await message.channel.send("✅ Added one song to the queue.")
     else:
-        await message.channel.send(f"✅ Added **{len(playlist)} songs** to the queue.")
+        await message.channel.send(
+            f"✅ Added **{count} songs** to the queue."
+        )
     if voice_client.is_playing():
             return
     next_song = queue.next()
@@ -209,11 +226,15 @@ async def push_playlist(client, message, args):
         playlist = dict(songs)
     count = 0
     process_message = await message.channel.send('Processing songs in background...')
-    for song_url in playlist:
-        count += 1
-        process_message = await process_message.edit(content=f'Processing songs in background... {count}/{len(playlist)}')
-        print(song_url)
+    for processed, song_url in enumerate(playlist, start=1):
+        process_message = await process_message.edit(content=f'Processing songs in background... {processed}/{len(playlist)}')
         stream_url = await get_stream_url(song_url)
+        if not stream_url:
+            await message.channel.send(
+                f"❌ Song unavailable: {playlist[song_url]}"
+            )
+            continue
+        count += 1
         song = {
             "title": playlist[song_url],
             "url": stream_url,
@@ -232,10 +253,15 @@ async def push_playlist(client, message, args):
                 message.channel,
             )
     await process_message.delete()
-    if len(playlist) == 1:
-        await message.channel.send(f"✅ Added one song to the queue.")
+    if count == 0:
+        await message.channel.send("❌ Couldn't add any songs.")
+        return
+    elif count == 1:
+        await message.channel.send("✅ Added one song to the queue.")
     else:
-        await message.channel.send(f"✅ Added **{len(playlist)} songs** to the queue.")
+        await message.channel.send(
+            f"✅ Added **{count} songs** to the queue."
+        )
     if voice_client.is_playing():
             return
     next_song = queue.next()
