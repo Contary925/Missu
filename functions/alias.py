@@ -16,7 +16,7 @@ async def alias_add(message, content) :
     value = value.strip()
     if key and value :
         if user.update_alias(key, value) :
-            await message.channel.send(f'Done! "{key.casefold}" now means "{value}" for me in your messages.')
+            await message.channel.send(f'Done! "{key.casefold()}" now means "{value}" for me in your messages.')
         else :
             await message.channel.send("Something went wrong when adding an alias.")
     else :
