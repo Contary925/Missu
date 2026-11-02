@@ -61,6 +61,7 @@ async def boop(message):
     await message.channel.send('<:meow:1065633351710548071>')
 
 async def getinfo(client, message, content) :
+    content = content.casefold()
     id1 = message.author.id
     name1 = message.author.display_name
     user1 = User(id1, name1)

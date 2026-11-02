@@ -12,17 +12,11 @@ async def alias(client, message, content) :
 async def alias_add(message, content) :
     user = User(message.author.id, message.author.display_name)
     [key, value] = content.split("=", maxsplit = 2)
-    while key.startswith(" ") :
-        key = key[1:]
-    while key.endswith(" ") :
-        key = key[:-1]
-    while value.startswith(" ") :
-        value = value[1:]
-    while value.endswith(" ") :
-        value = value[:-1]
+    key = key.strip().casefold()
+    value = value.strip()
     if key and value :
         if user.update_alias(key, value) :
-            await message.channel.send(f'Done! "{key}" now means "{value}" for me in your messages.')
+            await message.channel.send(f'Done! "{key.casefold}" now means "{value}" for me in your messages.')
         else :
             await message.channel.send("Something went wrong when adding an alias.")
     else :
@@ -30,7 +24,7 @@ async def alias_add(message, content) :
 
 async def alias_remove(message, content) :
     user = User(message.author.id, message.author.display_name)
-    key = content
+    key = content.casefold()
     if key :
         if user.delete_alias(key) :
             await message.channel.send(f'Done! "{key}" is now associated with nothing else.')
