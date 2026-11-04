@@ -1,13 +1,16 @@
 {
     "583647391111053323": {
         "alias": {
-            "\u043b\u0438\u043d\u0430": "<@658061917394436146>"
+            "\u043b\u0438\u043d\u0430": "<@658061917394436146>",
+            "\u043c\u0438\u0441\u0441\u0443": "<@1529029241566662746>",
+            "\u0443\u0432\u0443": "<@1529029241566662746>",
+            "\u0430\u0441\u0442\u0440\u0430": "<@928033455860772944>"
         },
         "interactions": {
             "hug": {
                 "825781461021360168": 95,
-                "658061917394436146": 17,
-                "928033455860772944": 2,
+                "658061917394436146": 22,
+                "928033455860772944": 3,
                 "1529029241566662746": 3,
                 "493688857452216321": 2,
                 "730436409776668804": 1
@@ -197,7 +200,8 @@
                 "https://www.youtube.com/watch?v=8vXpsCKK3Kc": "KAMNOX - Misfit (Official Lyric Video)",
                 "https://www.youtube.com/watch?v=8r7ZBNHRHB8": "KAMNOX - Copycat (Official Lyric Video)",
                 "https://www.youtube.com/watch?v=u4yNCDuZGHs": "KAMNOX - Off With My Head (Official Lyric Video)",
-                "https://www.youtube.com/watch?v=6xjax8I66JE": "KAMNOX - Think Like You (Official Lyric Video)"
+                "https://www.youtube.com/watch?v=6xjax8I66JE": "KAMNOX - Think Like You (Official Lyric Video)",
+                "https://www.youtube.com/watch?v=-3aJUsAq2Mo": "KAMNOX - Bleed me Slow [Official Lyric Video]"
             },
             "black veil brides": {
                 "https://www.youtube.com/watch?v=AThcMJmiTXI": "Black Veil Brides - Bleeders (Official Music Video)",
@@ -298,10 +302,12 @@
         "favlist": {}
     },
     "658061917394436146": {
-        "alias": {},
+        "alias": {
+            "\u043a\u0438\u0441\u0441\u0443": "<@583647391111053323>"
+        },
         "interactions": {
             "bite": {
-                "583647391111053323": 7,
+                "583647391111053323": 8,
                 "1543566895360253992": 1,
                 "928033455860772944": 1
             },
@@ -317,7 +323,7 @@
                 "583647391111053323": 4
             },
             "hug": {
-                "583647391111053323": 1
+                "583647391111053323": 2
             }
         },
         "perms": "administrator",
@@ -333,6 +339,9 @@
             },
             "kiss": {
                 "658061917394436146": 1
+            },
+            "bite": {
+                "928033455860772944": 1
             }
         },
         "perms": "administrator",
