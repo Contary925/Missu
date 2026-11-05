@@ -9,7 +9,7 @@
         "interactions": {
             "hug": {
                 "825781461021360168": 95,
-                "658061917394436146": 22,
+                "658061917394436146": 25,
                 "928033455860772944": 3,
                 "1529029241566662746": 3,
                 "493688857452216321": 2,
@@ -29,7 +29,7 @@
             "pat": {
                 "825781461021360168": 4,
                 "928033455860772944": 4,
-                "658061917394436146": 1,
+                "658061917394436146": 2,
                 "1529029241566662746": 8
             },
             "spank": {
@@ -38,11 +38,11 @@
                 "270904126974590976": 1,
                 "583647391111053323": 4,
                 "658061917394436146": 18,
-                "928033455860772944": 2
+                "928033455860772944": 3
             },
             "bonk": {
                 "1529029241566662746": 1,
-                "928033455860772944": 1
+                "928033455860772944": 2
             }
         },
         "perms": "administrator",
@@ -59,20 +59,16 @@
             "https://www.youtube.com/watch?v=tSQ6CyyPatM": "Smash Into Pieces - All Eyes On You (Official Lyric Video)",
             "https://www.youtube.com/watch?v=RG7hZ6dB50k": "APOC - Invincible (Official Lyric Video)",
             "https://www.youtube.com/watch?v=BRqjasXnR-c": "Smash Into Pieces - Broken Halo (Official Music Video)",
-            "https://www.youtube.com/watch?v=I1rQiKC_LkM": "APOC - Slave To The Madness (Official Lyric Video)",
-            "https://www.youtube.com/watch?v=7ALLEG1pbtk": "Solence - Ghosts [OFFICIAL VIDEO]",
-            "https://www.youtube.com/watch?v=3QeGXxA-E4Y": "Solence - Heaven [OFFICIAL VIDEO]",
-            "https://www.youtube.com/watch?v=YqBWwR__B3I": "Smash Into Pieces - Heroes (M\u00e5ns Zelmerl\u00f6w Cover)",
             "https://www.youtube.com/watch?v=HDbNCKsrut4": "Smash Into Pieces - In The End (feat. Samuel Ericsson) - 2024 - Lyric Video",
             "https://www.youtube.com/watch?v=JGoTxg-WQ2c": "Smash Into Pieces - Wake Up (Official Music Video)",
             "https://www.youtube.com/watch?v=ryT512TA4nA": "BILLIE EILISH & KHALID \u2013 Lovely (Cover by Lauren Babic & @jordanradvansky)",
-            "https://www.youtube.com/watch?v=ZEJYW2u3jl4": "KAMNOX - Broken Order (Official Lyric Video)",
             "https://www.youtube.com/watch?v=oE2pRGX_Bbg": "KAMNOX - Legacy [Official Lyric Video]",
             "https://www.youtube.com/watch?v=K5U7b_E14cE": "The Score - The Fear (Audio)",
             "https://www.youtube.com/watch?v=rwvs9jUPMps": "The Score - Deep End (Official Lyric Video)",
             "https://www.youtube.com/watch?v=46aI3_Shbak": "Igris vs Ice Bear | Jinwoo vs Kargalgan | Solo Leveling S2 EP6 OST | SHADOWBORN OST Cover",
             "https://www.youtube.com/watch?v=FiCHpuciV08": "Not All is Lost - Better in the Dark (Official Music Video)",
-            "https://www.youtube.com/watch?v=6xjax8I66JE": "KAMNOX - Think Like You (Official Lyric Video)"
+            "https://www.youtube.com/watch?v=6xjax8I66JE": "KAMNOX - Think Like You (Official Lyric Video)",
+            "https://www.youtube.com/watch?v=7ALLEG1pbtk": "Solence - Ghosts [OFFICIAL VIDEO]"
         },
         "playlists": {
             "metalcore": {
@@ -254,7 +250,7 @@
                 "https://www.youtube.com/watch?v=pFrNoJqmmJc": "Iruna online [ Oritius Battle BGM ] ost"
             }
         },
-        "default_playlist": "iruna",
+        "default_playlist": "kamnox",
         "gamble_lists": {
             "iruna classes": [
                 "paladin",
@@ -307,7 +303,7 @@
         },
         "interactions": {
             "bite": {
-                "583647391111053323": 8,
+                "583647391111053323": 9,
                 "1543566895360253992": 1,
                 "928033455860772944": 1
             },
@@ -323,7 +319,7 @@
                 "583647391111053323": 4
             },
             "hug": {
-                "583647391111053323": 2
+                "583647391111053323": 3
             }
         },
         "perms": "administrator",
@@ -342,6 +338,12 @@
             },
             "bite": {
                 "928033455860772944": 1
+            },
+            "spank": {
+                "583647391111053323": 1
+            },
+            "bonk": {
+                "583647391111053323": 1
             }
         },
         "perms": "administrator",
