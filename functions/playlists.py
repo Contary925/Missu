@@ -369,7 +369,8 @@ async def view_users_playlists(client, message, args):
     except Exception as e:
         await message.channel.send("Could not find this user! Correctly mention a user or use alias.")
         return 0
-    other_name = await client.fetch_user(other_id).display_name 
+    other_info = await client.fetch_user(other_id)
+    other_name = other_info.display_name 
     other = User(other_id, other_name)
     if not other.playlists_visibility:
         return await message.channel.send("This user has not allowed others to view their playlists!")
