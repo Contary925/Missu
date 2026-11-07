@@ -2,31 +2,37 @@ import functions.call_function
 from classes.user import User
 import discord
 
-async def alias(client, message, content) :
+async def alias(client, message, content):
     new_content = "alias_" + content
     #if there's nothing making sense after "alias" then call_function will just pass anyway
     called = await functions.call_function.call_function(client, message, new_content)
-    if not called : #if failed to call a function, send instructions
+    if not called: #if failed to call a function, send instructions
         await message.channel.send("Usage: uwu alias add/remove text1=text2.\nFor example: uwu alias add Missu=<@1529029241566662746>")
 
-async def alias_add(message, content) :
+async def alias_add(message, content):
     user = User(message.author.id, message.author.display_name)
-    [key, value] = content.split("=", maxsplit = 2)
-    key = key.strip().casefold()
-    value = value.strip()
-    if key and value :
-        if user.update_alias(key, value) :
-            await message.channel.send(f'Done! "{key.casefold()}" now means "{value}" for me in your messages.')
-        else :
-            await message.channel.send("Something went wrong when adding an alias.")
-    else :
-        await message.channel.send("Usage: uwu alias add text1=text2.\nFor example: uwu alias add Missu=<@1529029241566662746>")
+    [keys, value] = content.split("=", maxsplit = 2)
+    counter = 0
+    for key in keys.split(", "):
+        key = key.strip().casefold()
+        if key and value:
+            if user.update_alias(key, value):
+                counter += 1
+            else:
+                return await message.channel.send("Something went wrong when adding an alias.")
+        else:
+            return await message.channel.send("Usage: uwu alias add text1=text2.\nFor example: uwu alias add Missu=<@1529029241566662746>")
+    match counter:
+        case 1:
+            return await message.channel.send(f'Done! "{key.strip().casefold()}" now means "{value}" for me in your messages.', allowed_mentions=discord.AllowedMentions(everyone=False, roles=False, users=False))
+        case _:
+            return await message.channel.send(f'Done! Added **{counter}** new aliases for {value}.', allowed_mentions=discord.AllowedMentions(everyone=False, roles=False, users=False))
 
-async def alias_remove(message, content) :
+async def alias_remove(message, content):
     user = User(message.author.id, message.author.display_name)
     key = content.casefold()
     if key :
-        if user.delete_alias(key) :
+        if user.delete_alias(key):
             await message.channel.send(f'Done! "{key}" is now associated with nothing else.')
         else :
             await message.channel.send(f'The specified alias does not exist. Usage: uwu alias remove text')
