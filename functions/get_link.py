@@ -5,7 +5,7 @@ from functions.get_youtube_info import get_youtube_info
 async def get_link(client, message, content):
     if content != "":
         query = content.strip()
-        songs = get_youtube_info(query)
+        songs = await get_youtube_info(query)
         if len(songs) == 0:
             return await message.channel.send("Nothing found.")
         song = songs[0]
