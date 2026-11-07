@@ -375,4 +375,11 @@ async def view_users_playlists(client, message, args):
     if not other.playlists_visibility:
         return await message.channel.send("This user has not allowed others to view their playlists!")
     else:
-        return await message.channel.send(f"Checks passed, ready to view {other.name}")
+        text = ''
+        count = 0
+        for playlist in other.playlists:
+            count += 1
+            text += f'{count}. **{playlist}**\n'
+        if count == 0:
+            return await message.channel.send("❌ This user doesn't have any playlists!")
+        return await message.channel.send(text)
