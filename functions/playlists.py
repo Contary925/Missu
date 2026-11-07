@@ -274,7 +274,7 @@ async def push_playlist(client, message, args):
     )    
 
 async def show_playlist(client, message, args):
-    user = User(message.author.id)
+    user = User(message.author.id, message.author.display_name)
     if args not in user.playlists:
         return await message.channel.send(
             f'❌ Cannot find playlist "{args}"!'
@@ -290,7 +290,7 @@ async def show_playlist(client, message, args):
     def get_page(page):
         start = page * 20
         end = start + 20
-        text = ''
+        text = f"Showing {user.name}\'s playlist \"{args.strip()}\"\n"
         for index, title in enumerate(
             songs[start:end],
             start=start + 1
