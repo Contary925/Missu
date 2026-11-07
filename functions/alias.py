@@ -24,9 +24,9 @@ async def alias_add(message, content):
             return await message.channel.send("Usage: uwu alias add text1=text2.\nFor example: uwu alias add Missu=<@1529029241566662746>")
     match counter:
         case 1:
-            return await message.channel.send(f'Done! "{key.strip().casefold()}" now means "{value}" for me in your messages.', allowed_mentions=discord.AllowedMentions(everyone=False, roles=False, users=False))
+            return await message.channel.send(f'Done! "{key.strip().casefold()}" now means "{value.strip()}" for me in your messages.', allowed_mentions=discord.AllowedMentions(everyone=False, roles=False, users=False))
         case _:
-            return await message.channel.send(f'Done! Added **{counter}** new aliases for {value}.', allowed_mentions=discord.AllowedMentions(everyone=False, roles=False, users=False))
+            return await message.channel.send(f'Done! Added **{counter}** new aliases for {value.strip()}.', allowed_mentions=discord.AllowedMentions(everyone=False, roles=False, users=False))
 
 async def alias_remove(message, content):
     user = User(message.author.id, message.author.display_name)
