@@ -623,7 +623,7 @@ async def view_users_favlist(client, message, mention):
     if not other.playlists_visibility:
         return await message.channel.send("This user has not allowed others to view their playlists!")
     else:
-        if other.favlsist == {}:
+        if other.favlist == {}:
             return await message.channel.send("This user's favlist is empty!")
         page = 0
         total_pages = (len(other.favlist) + 19) // 20
