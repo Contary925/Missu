@@ -15,6 +15,7 @@ class User() :
         self.responses = self.read_responses(self.data)
         self.favlist = self.read_favlist(self.data) #music favlist
         self.playlists = self.data.get('playlists', {})
+        self.playlists_visibility = self.data.get("playlists_visibility", False)
         self.default_playlist = self.data.get('default_playlist', None)
         self.gamble_lists = self.data.get('gamble_lists', {})
 
@@ -316,3 +317,7 @@ class User() :
         del self.playlists[playlist][song_url]
         self.data_update('playlists', self.playlists)
         return title
+
+    async def set_playlists_visibility(self, value):
+        self.data_update("playlists_visibility", value)
+        self.playlists_visibility = value

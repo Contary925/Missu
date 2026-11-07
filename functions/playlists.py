@@ -29,6 +29,10 @@ async def playlist(client, message, content):
             await show_playlist(client, message, args)
         case 'showall':
             await show_playlists(client, message)
+        case 'visibility': 
+            await set_playlists_visibility(message, args)
+        case 'browse':
+            await view_users_playlists(client, message, args)
         case _:
             await message.channel.send('Invalid syntax! Usage: uwu playlist [create/delete/add/remove/play] [arguments]. Example: uwu playlist create Three Days Grace')
 
@@ -342,3 +346,32 @@ async def show_playlists(client, message):
     if count == 0:
         return await message.channel.send("❌ You don't have any playlists!")
     return await message.channel.send(text)
+
+async def set_playlists_visibility(message, args):
+    user = User(message.author.id)
+    match args.casefold():
+        case "on":
+            user.set_playlists_visibility(True)
+            return await message.channel.send("Done! Now other users can view your playlists.")
+        case "off":
+            user.set_playlists_visibility(False)
+            return await message.channel.send("Done! Now other users cannot view your playlists.")
+        case _:
+            return await message.channel.send("Invalid syntax! Usage: uwu playlist visibility on/off.")
+
+async def view_users_playlists(client, message, args):
+    self = User(message.author.id)
+    args = args.strip()
+    if args in self.alias :
+        args = self.alias[args]
+    try:
+        other_id = args.split("<@")[1].split(">")[0]
+    except Exception as e:
+        await message.channel.send("Could not find this user! Correctly mention a user or use alias.")
+        return 0
+    other_name = await client.fetch_user(other_id).display_name 
+    other = User(other_id, other_name)
+    if not other.playlists_visibility:
+        return await message.channel.send("This user has not allowed others to view their playlists!")
+    else:
+        return await message.channel.send(f"Checks passed, ready to view {other.name}")
