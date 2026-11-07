@@ -188,42 +188,29 @@ If music is already playing, saved songs will be added to the queue."""
 
 
 async def help_playlists(message):
-    text = """# Create and manage your own playlists!
-1. `uwu playlist create [name]` — create a playlist.
-2. `uwu playlist delete [name]` — delete a playlist.
-3. `uwu playlist add [name] [source]` — add songs from a search, video link or playlist link.
-   Use `np` to add the currently playing song.
-   Short form: `uwu playlist + [name] [source]`.
-4. `uwu playlist remove [name] [index]` — remove a song.
-   Short form: `uwu playlist - [name] [index]`.
-5. `uwu playlist show [name]` — view the contents of a playlist.
-6. `uwu playlist showall` — view all your playlists.
-7. `uwu playlist play [name]` — add playlist songs to the queue.
-8. `uwu playlist push [name]` — add playlist songs to the front of the queue.
-   Add `-s` to shuffle songs.
+    text = """# Create and manage playlists!
+**Your playlists:**
+- `uwu playlist create [name]` / `delete [name]` — create or delete a playlist.
+- `uwu playlist add [name] [source]` — add songs from YouTube search, video or playlist links. Use `np` for the currently playing song. Alias: `+`.
+- `uwu playlist remove [name] [index]` — remove a song. Alias: `-`.
+- `uwu playlist show [name]` — view a playlist.
+- `uwu playlist showall` — list your playlists.
+- `uwu playlist play [name]` / `push [name]` — add songs to the queue or its front. Add `-s` to shuffle.
 
-**Explore other users' playlists:**
-9. `uwu playlist browse [@user]` — view another user's playlists.
-   Add `= [playlist name]` to view a specific playlist:
-   `uwu playlist browse @user = Three Days Grace`.
-   Personal aliases can be used instead of mentions.
+**Other users' playlists:**
+- `uwu playlist browse [@user]` — view their playlists. Add `= [playlist name]` to view a specific one.
+- `uwu playlist copy [@user] = [playlist name]` — copy a playlist. Add `AS [new name]` to rename your copy.
+- Personal aliases can replace user mentions.
 
-10. `uwu playlist copy [@user] = [playlist name]` — copy another user's playlist into your collection.
-    You can specify a different name for your copy using `AS`:
-    `uwu playlist copy @user = Three Days Grace AS My Favourite Songs`.
+**Visibility:**
+- `uwu playlist visibility on` / `off` — allow or deny access to your playlists and favlist.
+- Disabled by default. Other users cannot browse or copy your collections without permission.
 
-**Visibility settings:**
-11. `uwu playlist visibility on` — allow other users to view your playlists and favlist.
-12. `uwu playlist visibility off` — hide your playlists and favlist from other users.
+**Default playlist:**
+- `uwu playlistdefault set [name]` (or `uwu pld set [name]`) — choose your default playlist.
+- Use `uwu playlistdefault [command]` to omit its name in supported commands, e.g. `play`, `show`, `add`.
 
-Visibility is disabled by default. Other users cannot browse or copy your playlists unless you enable it.
-
-**Default playlist:** use `uwu playlistdefault set [name]` to set one.
-After that, you can omit the playlist name in supported commands:
-`uwu playlistdefault play`, `uwu playlistdefault show`, `uwu playlistdefault add [source]`, etc.
-Short alias: `uwu pld set [name]`.
-
-Playlists are personal to each user. Browsing and copying another user's playlists does not modify their original collection."""
+Playlists are personal to each user. Copying never modifies the original."""
     await message.channel.send(text)
 
 
