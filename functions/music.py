@@ -603,4 +603,4 @@ async def now_playing(client, message, content):
     song = queue.current_song
     if song == None:
         return await message.channel.send('❌ Nothing is currently playing!')
-    return await message.channel.send(f"Now playing: **{song["title"]}**\n\n({song["webpage_url"]})[Listen on YouTube]")
+    return await message.channel.send(f"Now playing: **{song["title"]}**\n\n[{song["webpage_url"]}](Listen on YouTube)")
