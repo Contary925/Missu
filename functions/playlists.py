@@ -368,6 +368,7 @@ async def view_users_playlists(client, message, args):
         other_id = args.split("<@")[1].split(">")[0]
     except Exception as e:
         await message.channel.send("Could not find this user! Correctly mention a user or use alias.")
+        await message.channel.send(f"Info\n{args}")
         return 0
     other_info = await client.fetch_user(other_id)
     other_name = other_info.display_name 
