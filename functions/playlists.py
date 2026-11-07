@@ -361,7 +361,7 @@ async def set_playlists_visibility(message, args):
 
 async def view_users_playlists(client, message, args):
     self = User(message.author.id)
-    args = args.strip()
+    args = args.strip().casefold()
     if args in self.alias :
         args = self.alias[args]
     try:
