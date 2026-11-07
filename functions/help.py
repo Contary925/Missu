@@ -155,7 +155,11 @@ You must be in a voice channel to use these commands. If music is already playin
 11. `uwu link` (or `uwu ссылка`) — get a link to the currently playing song.
 12. `uwu play np` — add the currently playing song to the queue.
 
-For saved music, see `uwu help favlist` or `uwu help playlists`."""
+Missu supports personal music collections:
+- `uwu favlist` — manage your favourite songs.
+- `uwu playlist` — create, manage and share playlists.
+
+See `uwu help favlist` and `uwu help playlists` for details."""
     await message.channel.send(text)
 
 
@@ -168,6 +172,16 @@ async def help_favlist(message):
 5. `uwu favlist clear` — clear your favlist.
 6. `uwu play favlist` (or `uwu playfav`) — add all saved songs to the queue.
    Add `-s` to shuffle them: `uwu play favlist -s`.
+
+**Explore other users' music:**
+7. `uwu favlist browse [@user]` — view another user's favlist.
+   Personal aliases can be used instead of mentions.
+
+**Visibility settings:**
+8. `uwu playlist visibility on` — allow other users to view your playlists and favlist.
+9. `uwu playlist visibility off` — hide your playlists and favlist from other users.
+
+Visibility is disabled by default. You can only browse another user's music if they have enabled visibility.
 
 If music is already playing, saved songs will be added to the queue."""
     await message.channel.send(text)
@@ -182,18 +196,34 @@ async def help_playlists(message):
    Short form: `uwu playlist + [name] [source]`.
 4. `uwu playlist remove [name] [index]` — remove a song.
    Short form: `uwu playlist - [name] [index]`.
-5. `uwu playlist show [name]` — view a playlist.
+5. `uwu playlist show [name]` — view the contents of a playlist.
 6. `uwu playlist showall` — view all your playlists.
 7. `uwu playlist play [name]` — add playlist songs to the queue.
 8. `uwu playlist push [name]` — add playlist songs to the front of the queue.
    Add `-s` to shuffle songs.
+
+**Explore other users' playlists:**
+9. `uwu playlist browse [@user]` — view another user's playlists.
+   Add `= [playlist name]` to view a specific playlist:
+   `uwu playlist browse @user = Three Days Grace`.
+   Personal aliases can be used instead of mentions.
+
+10. `uwu playlist copy [@user] = [playlist name]` — copy another user's playlist into your collection.
+    You can specify a different name for your copy using `AS`:
+    `uwu playlist copy @user = Three Days Grace AS My Favourite Songs`.
+
+**Visibility settings:**
+11. `uwu playlist visibility on` — allow other users to view your playlists and favlist.
+12. `uwu playlist visibility off` — hide your playlists and favlist from other users.
+
+Visibility is disabled by default. Other users cannot browse or copy your playlists unless you enable it.
 
 **Default playlist:** use `uwu playlistdefault set [name]` to set one.
 After that, you can omit the playlist name in supported commands:
 `uwu playlistdefault play`, `uwu playlistdefault show`, `uwu playlistdefault add [source]`, etc.
 Short alias: `uwu pld set [name]`.
 
-Playlists are personal to each user."""
+Playlists are personal to each user. Browsing and copying another user's playlists does not modify their original collection."""
     await message.channel.send(text)
 
 
