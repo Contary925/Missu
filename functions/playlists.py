@@ -453,7 +453,7 @@ async def view_users_playlists(client, message, args):
 async def copy_users_playlist(client, message, args):
     self = User(message.author.id)
     pl_name = ""
-    alias = ""
+    pl_alias = "" #defaults to pl_name if not set
     if "=" in args:
         [mention, pl_name_and_alias] = args.split("=", maxsplit=1)
         mention = mention.strip().casefold()
@@ -463,6 +463,7 @@ async def copy_users_playlist(client, message, args):
             pl_alias = pl_alias.strip()
         else:
             pl_name = pl_name_and_alias.strip()
+            pl_alias = pl_name
     else:
         await message.channel.send("Invalid syntax! Usage: uwu playlist copy mention = playlist name.")
     if mention in self.alias :
@@ -472,10 +473,8 @@ async def copy_users_playlist(client, message, args):
     except Exception as e:
         await message.channel.send("Could not find this user! Correctly mention a user or use alias.")
         return 0
-    if pl_name in self.playlists and alias == "":
+    if pl_alias in self.playlists:
         return await message.channel.send(f"You already have a playlist **{pl_name}**! Delete it or alias it as something else!")
-    elif alias in self.playlists:
-        return await message.channel.send(f"You already have a playlist **{pl_name}**! Delete it or use a different alias!")
     other_info = await client.fetch_user(other_id)
     other_name = other_info.display_name 
     other = User(other_id, other_name)
@@ -492,9 +491,9 @@ async def copy_users_playlist(client, message, args):
                 f'❌ The playlist "{pl_name}" is empty!'
             )
         songs = list(playlist.values())
-        self.playlist_create(alias)
+        self.playlist_create(pl_alias)
         counter = 0
         for song in songs:
             counter += 1
-            self.add_to_playlist(alias, song)
-        await message.channel.send(f"Created a playlist **{alias}** and added {counter} songs!")
+            self.add_to_playlist(pl_alias, song)
+        await message.channel.send(f"Created a playlist **{pl_alias}** and added {counter} songs!")
