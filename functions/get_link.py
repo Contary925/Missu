@@ -9,7 +9,7 @@ async def get_link(client, message, content):
         if len(songs) == 0:
             return await message.channel.send("Nothing found.")
         song = songs[0]
-        return await message.channel.send(song.webpage_url)
+        return await message.channel.send(song["webpage_url"])
     guild_id = message.guild.id
     queue = music_queues.setdefault(guild_id, Queue())
     if queue.current_song is None:
