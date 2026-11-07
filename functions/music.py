@@ -345,6 +345,8 @@ async def favlist(client, message, content):
         await add_to_favlist(message, cutword(content, 'add'))
     if content.startswith('remove'):
         await remove_from_favlist(message, cutword(content, 'remove'))
+    if content.startswith('browse'):
+        await view_users_favlist(client, message, cutword(content, 'browse'))
 
 async def add_to_favlist(message, content):
     if content.strip() == 'np':
@@ -604,3 +606,61 @@ async def now_playing(client, message, content):
     if song == None:
         return await message.channel.send('❌ Nothing is currently playing!')
     return await message.channel.send(f"Now playing: **{song["title"]}**\n\n[Listen on YouTube]({song["webpage_url"]})")
+
+async def view_users_favlist(client, message, mention):
+    self = User(message.author.id)
+    mention = mention.strip().casefold()
+    if mention in self.alias :
+        mention = self.alias[mention]
+    try:
+        other_id = mention.split("<@")[1].split(">")[0]
+    except Exception as e:
+        await message.channel.send("Could not find this user! Correctly mention a user or use alias.")
+        return 0
+    other_info = await client.fetch_user(other_id)
+    other_name = other_info.display_name 
+    other = User(other_id, other_name)
+    if not other.playlists_visibility:
+        return await message.channel.send("This user has not allowed others to view their playlists!")
+    else:
+        if other.favlsist == {}:
+            return await message.channel.send("This user's favlist is empty!")
+        page = 0
+        total_pages = (len(other.favlist) + 19) // 20
+        text = other.show_favlist(page)
+        sent_message = await message.channel.send(text)
+        if total_pages <= 1:
+            return
+        await sent_message.add_reaction('⬅️')
+        await sent_message.add_reaction('➡️')
+        def check(reaction, reactor):
+            return (
+                 reactor.id == message.author.id
+                 and reaction.message.id == sent_message.id
+                and str(reaction.emoji) in ('⬅️', '➡️')
+            )
+        while True:
+            try:
+                reaction, reactor = await client.wait_for(
+                    'reaction_add',
+                    timeout=60.0,
+                    check=check
+                )
+            except asyncio.TimeoutError:
+                break
+            if str(reaction.emoji) == '➡️':
+                if page < total_pages - 1:
+                    page += 1
+                    await sent_message.edit(
+                        content=other.show_favlist(page)
+                    )
+            elif str(reaction.emoji) == '⬅️':
+                if page > 0:
+                    page -= 1
+                    await sent_message.edit(
+                        content=other.show_favlist(page)
+                    )
+            await sent_message.remove_reaction(
+                reaction.emoji,
+                reactor
+            )
