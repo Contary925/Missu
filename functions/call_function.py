@@ -16,7 +16,7 @@ from functions.react import react, react_add, react_remove, react_list, react_li
 from functions.reply import reply, reply_add, reply_remove, reply_list, reply_listall
 from functions.music import (
     play, stop, skip, queue, shuffle, pause, resume, push, playnum,
-    favlist, repeat, play_favlist
+    favlist, repeat, play_favlist, now_playing
 )
 from functions.press_F import press_F
 from functions.playlists import playlist, playlist_default
@@ -90,6 +90,7 @@ function_map: dict[str, Callable] = {
     "playlist": playlist,
     "playlistdefault": playlist_default,
     "link": get_link,
+    "now_playing": now_playing,
 
     # AI and lyrics
     "ai": ai_mode,
@@ -165,6 +166,9 @@ function_alias: dict[str, str] = {
     "ф": "f",
     "pl": "playlist",
     "pld": "playlistdefault",
+    "np": "now_playing",
+    "нп": "now_playing",
+    "чтоиграет": "now_playing",
     "ии": "ai",
     "текст": "lyrics",
     "дипсик": "ai_deep",
@@ -197,7 +201,6 @@ function_alias: dict[str, str] = {
 async def call_function(client, message, content):
     if not content.strip():
         return 0
-
     pre_alias_command = content.split()[0].lower()
     command = pre_alias_command
 

@@ -596,3 +596,11 @@ async def get_all_songs(user_id):
             }
             songs.append(song)
     return songs
+
+async def now_playing(client, message, content):
+    guild_id = message.guild.id
+    queue = music_queues.setdefault(guild_id, Queue())
+    song = queue.current_song
+    if song == None:
+        return await message.channel.send('❌ Nothing is currently playing!')
+    return await message.channel.send(f"Now playing: **{song["title"]}**\n\n({song["webpage_url"]})[Listen on YouTube]")
