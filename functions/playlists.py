@@ -474,7 +474,7 @@ async def copy_users_playlist(client, message, args):
         await message.channel.send("Could not find this user! Correctly mention a user or use alias.")
         return 0
     if pl_alias in self.playlists:
-        return await message.channel.send(f"You already have a playlist **{pl_name}**! Delete it or alias it as something else!")
+        return await message.channel.send(f"You already have a playlist **{pl_alias}**! Delete it or alias it as something else!")
     other_info = await client.fetch_user(other_id)
     other_name = other_info.display_name 
     other = User(other_id, other_name)
