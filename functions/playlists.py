@@ -361,12 +361,13 @@ async def set_playlists_visibility(message, args):
 
 async def view_users_playlists(client, message, args):
     self = User(message.author.id)
-    args = args.strip().casefold()
     pl_name = ""
     if "=" in args:
         [mention, pl_name] = args.split("=", maxsplit=1)
+        mention = mention.strip().casefold()
+        pl_name = pl_name.strip()
     else:
-        mention = args
+        mention = args.strip().casefold()
     if mention in self.alias :
         mention = self.alias[mention]
     try:
