@@ -491,9 +491,9 @@ async def copy_users_playlist(client, message, args):
                 f'❌ The playlist "{pl_name}" is empty!'
             )
         songs = list(playlist.values())
-        self.playlist_create(pl_alias)
+        await self.playlist_create(pl_alias)
         counter = 0
         for song in songs:
             counter += 1
-            self.add_to_playlist(pl_alias, song)
+            await self.add_to_playlist(pl_alias, song)
         await message.channel.send(f"Created a playlist **{pl_alias}** and added {counter} songs!")
