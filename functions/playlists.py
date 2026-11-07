@@ -351,10 +351,10 @@ async def set_playlists_visibility(message, args):
     user = User(message.author.id)
     match args.casefold():
         case "on":
-            user.set_playlists_visibility(True)
+            await user.set_playlists_visibility(True)
             return await message.channel.send("Done! Now other users can view your playlists.")
         case "off":
-            user.set_playlists_visibility(False)
+            await user.set_playlists_visibility(False)
             return await message.channel.send("Done! Now other users cannot view your playlists.")
         case _:
             return await message.channel.send("Invalid syntax! Usage: uwu playlist visibility on/off.")
