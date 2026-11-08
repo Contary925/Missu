@@ -23,7 +23,8 @@ class Queue():
         end = start + 20
         result = ''
         for index, song in enumerate(songs[start:end], start=start + 1):
-            result += f'{index}. **{song["title"]}**\n'
+            pinned = "📌 " if song.get("pinned", False) else ""
+            result += f'{index}. {pinned}**{song["title"]}**\n'
         if not result:
             return '❌ The queue is empty!'
         return result
@@ -37,3 +38,7 @@ class Queue():
         self.songs.insert(0, song)
     def insert(self, index, song):
         self.songs.insert(index, song)
+    def pin(self, index):
+        self.songs[index]["pinned"] = True
+    def unpin(self, index):
+        self.songs[index]["pinned"] = False

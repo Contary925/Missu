@@ -16,7 +16,7 @@ music_queues = {} #warning: this is a global variable!
 #it is, however, only being accessed and changed through guild_id keys.
 #be careful when mutating it!
 
-async def play(client, message, content, pushing=False):
+async def play(client, message, content, pushing=False, pinning=False):
     process_message = None
     shuffle = content.endswith('-s')
     if shuffle:
@@ -88,6 +88,8 @@ async def play(client, message, content, pushing=False):
                 await message.channel.send(f"❌ The song **{song['title']}** is unavailable.")
                 continue
             song = result[0]
+        if pinning:
+            song["pinned"] = True
         if pushing:
             queue.insert(counter, song)    
         else:
@@ -664,3 +666,70 @@ async def view_users_favlist(client, message, mention):
                 reaction.emoji,
                 reactor
             )
+
+async def pin(client, message, content):
+    if content.isdigit():
+        index = int(content)
+    else:
+        match content:
+            case 'last':
+                index = 'last'
+            case _:
+                return await play(client, message, content, pushing=True, pinning=True)
+    if message.author.voice is None:
+        await message.channel.send(
+            "❌ You must be in a voice channel to use this command!"
+        )
+        return
+    channel = message.author.voice.channel
+    voice_client = message.guild.voice_client
+    if voice_client is not None:
+        await voice_client.move_to(channel)
+    else:
+        voice_client = await channel.connect()
+    guild_id = message.guild.id
+    queue = music_queues.setdefault(guild_id, Queue())
+    if index == 'last':
+        index = len(queue.songs)+1
+    if index < 1:
+        return await message.channel.send(f"❌ Incorrect index!")
+    if len(queue.songs)+1 < index:
+        return await message.channel.send(f"❌ No song number **{index}** in the queue!")
+    if index == 1:
+        return await message.channel.send(f"❌ This song is already playing!")
+    queue.pin(index)
+    queue.push(index)
+    return await message.channel.send(f"✅ Pinned song number {index}!")
+
+async def unpin(client, message, content):
+    if content.isdigit():
+        index = int(content)
+    else:
+        match content:
+            case 'last':
+                index = 'last'
+            case _:
+                return await message.channel.send("Usage: uwu unpin [song index in queue]")
+    if message.author.voice is None:
+        await message.channel.send(
+            "❌ You must be in a voice channel to use this command!"
+        )
+        return
+    channel = message.author.voice.channel
+    voice_client = message.guild.voice_client
+    if voice_client is not None:
+        await voice_client.move_to(channel)
+    else:
+        voice_client = await channel.connect()
+    guild_id = message.guild.id
+    queue = music_queues.setdefault(guild_id, Queue())
+    if index == 'last':
+        index = len(queue.songs)+1
+    if index < 1:
+        return await message.channel.send(f"❌ Incorrect index!")
+    if len(queue.songs)+1 < index:
+        return await message.channel.send(f"❌ No song number **{index}** in the queue!")
+    if index == 1:
+        return await message.channel.send(f"❌ This song is already playing!")
+    queue.unpin(index)
+    return await message.channel.send(f"✅ Unpinned song number {index}!")
