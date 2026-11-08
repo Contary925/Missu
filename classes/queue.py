@@ -39,6 +39,6 @@ class Queue():
     def insert(self, index, song):
         self.songs.insert(index, song)
     def pin(self, index):
-        self.songs[index]["pinned"] = True
+        self.songs[index-2]["pinned"] = True
     def unpin(self, index):
-        self.songs[index]["pinned"] = False
+        self.songs[index-2]["pinned"] = False
