@@ -48,4 +48,6 @@ class Queue():
     def pin(self, index):
         self.songs[index-2]["pinned"] = True
     def unpin(self, index):
-        self.songs[index-2]["pinned"] = False
+        song = self.songs.pop(index-2)
+        song["pinned"] = False
+        self.insert(index, song)
