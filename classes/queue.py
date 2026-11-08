@@ -41,7 +41,7 @@ class Queue():
         song = self.current_song
         self.songs.insert(0, song)
     def insert(self, index, song):
-        pos = index
+        pos = index-1
         while pos < len(self.songs) and self.songs[pos].get("pinned", False) and not song.get("pinned", False):
             pos += 1
         self.songs.insert(pos, song)
@@ -50,4 +50,4 @@ class Queue():
     def unpin(self, index):
         song = self.songs.pop(index-2)
         song["pinned"] = False
-        self.insert(index, song)
+        self.insert(index-1, song) #-1 since the song was deleted and everything got shifted
