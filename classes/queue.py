@@ -33,15 +33,12 @@ class Queue():
         random.shuffle(self.songs)
     def push(self, index):
         song = self.songs.pop(index-2)
-        pos = 0
-        while pos < len(self.songs) and self.songs[pos].get("pinned", False) and not song.get("pinned", False):
-            pos += 1
-        self.songs.insert(pos, song)
+        self.insert(0, song)
     def repeat_current(self):
         song = self.current_song
         self.songs.insert(0, song)
     def insert(self, index, song):
-        pos = index-1
+        pos = index
         while pos < len(self.songs) and self.songs[pos].get("pinned", False) and not song.get("pinned", False):
             pos += 1
         self.songs.insert(pos, song)
