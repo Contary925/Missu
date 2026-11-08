@@ -16,7 +16,7 @@ from functions.react import react, react_add, react_remove, react_list, react_li
 from functions.reply import reply, reply_add, reply_remove, reply_list, reply_listall
 from functions.music import (
     play, stop, skip, queue, shuffle, pause, resume, push, playnum,
-    favlist, repeat, play_favlist, now_playing
+    favlist, repeat, play_favlist, now_playing, pin, unpin
 )
 from functions.press_F import press_F
 from functions.playlists import playlist, playlist_default
@@ -91,6 +91,8 @@ function_map: dict[str, Callable] = {
     "playlistdefault": playlist_default,
     "link": get_link,
     "now_playing": now_playing,
+    "pin": pin,
+    "unpin": unpin,
 
     # AI and lyrics
     "ai": ai_mode,
