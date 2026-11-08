@@ -8,6 +8,7 @@ YTDL_OPTS = {
     'no_warnings': True,
     'nocheckcertificate': False,
     'youtube_include_dash_manifest': False, 
+    "cookiefile": "cookies.txt",
 }
 
 async def get_stream_url(youtube_url: str) -> str | None:

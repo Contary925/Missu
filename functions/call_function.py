@@ -171,6 +171,7 @@ function_alias: dict[str, str] = {
     "np": "now_playing",
     "нп": "now_playing",
     "чтоиграет": "now_playing",
+    "пин": "pin",
     "ии": "ai",
     "текст": "lyrics",
     "дипсик": "ai_deep",
