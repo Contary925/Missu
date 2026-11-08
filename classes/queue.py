@@ -13,6 +13,7 @@ class Queue():
     def is_empty(self):
         return len(self.songs) == 0
     def set_current(self, song):
+        song["pinned"] = False
         self.current_song = song
     def show(self, page=0):
         songs = []
