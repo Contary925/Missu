@@ -34,14 +34,17 @@ class Queue():
     def push(self, index):
         song = self.songs.pop(index-2)
         pos = 0
-        while pos < len(self.songs) and self.songs[pos].get("pinned", False) == True:
+        while pos < len(self.songs) and self.songs[pos].get("pinned", False):
             pos += 1
         self.songs.insert(pos, song)
     def repeat_current(self):
         song = self.current_song
         self.songs.insert(0, song)
     def insert(self, index, song):
-        self.songs.insert(index, song)
+        pos = index
+        while pos < len(self.songs) and self.songs[pos].get("pinned", False):
+            pos += 1
+        self.songs.insert(pos, song)
     def pin(self, index):
         self.songs[index-2]["pinned"] = True
     def unpin(self, index):
