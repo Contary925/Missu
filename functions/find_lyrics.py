@@ -9,6 +9,8 @@ from classes.queue import Queue
 from functions.music import music_queues #for the np argument to work
 import asyncio
 
+NUMBER_EMOJIS = ["1️⃣", "2️⃣", "3️⃣", "4️⃣", "5️⃣"]
+
 GENIUS_TOKEN = os.getenv("GENIUS_ACCESS_TOKEN")
 
 async def find_lyrics(client, message, content):
@@ -58,8 +60,41 @@ async def find_lyrics(client, message, content):
     if not hits:
         await message.channel.send("Nothing found on Genius.")
         return
+    song = hits[0]["result"]
+    embed = discord.Embed(
+        title=song["title"],
+        url=song["url"],
+        description=(
+            f"**Artist:** {song['primary_artist']['name']}\n"
+            f"[Read lyrics on Genius]({song['url']})"
+        ),
+        color =0xE8D1EA,
+    )
+    link_message = await message.channel.send(embed=embed)
+    await link_message.add_reaction("📖")
+    await link_message.add_reaction("➕")
+    def check(reaction, reactor):
+        return (
+            reactor.id == message.author.id
+            and reaction.message.id == link_message.id
+            and str(reaction.emoji) in ["📖", "➕"]
+        )
+    while True:
+        try:
+            reaction, _ = await client.wait_for(
+                'reaction_add',
+                timeout=60.0,
+                check=check
+            )
+        except asyncio.TimeoutError:
+            break
+        if str(reaction.emoji) == "📖":
+            await send_text(message, song)
+        if str(reaction.emoji) == "➕":
+            await find_lyrics_multiple(client, message, hits)
+
+async def find_lyrics_multiple(client, message, hits):
     songs = []
-    count = 0
     for hit in hits:
         count += 1
         if count > 5:
@@ -80,24 +115,25 @@ async def find_lyrics(client, message, content):
         )
         embeds.append(embed)
     link_message = await message.channel.send(embeds=embeds)
-    await link_message.add_reaction("📖")
+    for i in range(count):
+        await link_message.add_reaction(NUMBER_EMOJIS[i])
     def check(reaction, reactor):
         return (
             reactor.id == message.author.id
             and reaction.message.id == link_message.id
-            and str(reaction.emoji) == "📖"
+            and str(reaction.emoji) in NUMBER_EMOJIS[:count]
         )
     while True:
         try:
-            await client.wait_for(
+            reaction, _ = await client.wait_for(
                 'reaction_add',
                 timeout=60.0,
                 check=check
             )
         except asyncio.TimeoutError:
             break
-        else:
-            await send_text(message, song)
+        index = NUMBER_EMOJIS.index(str(reaction.emoji))
+        return await send_text(message, songs[index-1])
 
 async def get_lyrics(url: str) -> str | None:
     headers = {
