@@ -465,7 +465,7 @@ async def play_favlist(message, shuffle=False):
         message.channel,
     )
 
-async def repeat(message):
+async def repeat(message, content):
     if message.author.voice is None:
         await message.channel.send(
             "❌ You must be in a voice channel to use this command!"
@@ -481,7 +481,12 @@ async def repeat(message):
     queue = music_queues.setdefault(guild_id, Queue())
     if queue.current_song is None:
         return await message.channel.send("❌ Nothing is currently playing!")
-    queue.repeat_current()
+    if content.strip().isdigit():
+        count = int(content)
+    else:
+        count = 1
+    for _ in range(count):
+        queue.repeat_current()
     return await message.channel.send("✅ The current song will play once again!")
 
 #helper functions
