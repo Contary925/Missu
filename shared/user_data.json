@@ -259,9 +259,14 @@
                 "https://www.youtube.com/watch?v=tXhy3Z-Z_Ac": "Unroyal - Glorious (Official Visualizer)",
                 "https://www.youtube.com/watch?v=i7V2hyJ-p90": "Unroyal - Game (Official Visualizer)",
                 "https://www.youtube.com/watch?v=NyGmaJsg-oY": "Unroyal - Blame (Official Visualizer)"
+            },
+            "three days grace": {
+                "https://www.youtube.com/watch?v=IeXg2HgO_Ns": "Three Days Grace - Time Of Dying",
+                "https://www.youtube.com/watch?v=v6KcS3OtxjU": "Three Days Grace - Now or Never (Audio)",
+                "https://www.youtube.com/watch?v=nuLMDvoshrk": "Three Days Grace - Fallen Angel (Audio)"
             }
         },
-        "default_playlist": "unroyal",
+        "default_playlist": "three days grace",
         "gamble_lists": {
             "iruna classes": [
                 "paladin",

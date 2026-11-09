@@ -58,17 +58,28 @@ async def find_lyrics(client, message, content):
     if not hits:
         await message.channel.send("Nothing found on Genius.")
         return
-    song = hits[0]["result"]
-    embed = discord.Embed(
-        title=song["title"],
-        url=song["url"],
-        description=(
-            f"**Artist:** {song['primary_artist']['name']}\n"
-            f"[Read lyrics on Genius]({song['url']})"
-        ),
-        color =0xE8D1EA,
-    )
-    link_message = await message.channel.send(embed=embed)
+    songs = []
+    count = 0
+    for hit in hits:
+        count += 1
+        if count > 5:
+            break
+        songs.append(hit["result"])
+    embeds = []
+    count = 0
+    for song in songs:
+        count += 1
+        embed = discord.Embed(
+            title=f"{count}. "+song["title"],
+            url=song["url"],
+            description=(
+                f"**Artist:** {song['primary_artist']['name']}\n"
+                f"[Read lyrics on Genius]({song['url']})"
+            ),
+            color =0xE8D1EA,
+        )
+        embeds.append(embed)
+    link_message = await message.channel.send(embeds=embeds)
     await link_message.add_reaction("📖")
     def check(reaction, reactor):
         return (
