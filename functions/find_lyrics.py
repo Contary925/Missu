@@ -69,7 +69,7 @@ async def find_lyrics(client, message, content):
         color =0xE8D1EA,
     )
     link_message = await message.channel.send(embed=embed)
-    link_message.add_reaction("📖")
+    await link_message.add_reaction("📖")
     def check(reaction, reactor):
         return (
             reactor.id == message.author.id
