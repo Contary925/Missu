@@ -481,10 +481,7 @@ async def repeat(message, content):
     queue = music_queues.setdefault(guild_id, Queue())
     if queue.current_song is None:
         return await message.channel.send("❌ Nothing is currently playing!")
-    if content.strip().isdigit():
-        count = int(content)
-    else:
-        count = 1
+    count = int(content) if content.strip().isdigit() and int(content) !=0 else 1
     if count > 20:
         await message.channel.send("Slow down a little...")
         count = 10
