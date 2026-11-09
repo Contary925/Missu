@@ -485,9 +485,16 @@ async def repeat(message, content):
         count = int(content)
     else:
         count = 1
+    if count > 20:
+        await message.channel.send("Slow down a little...")
+        count = 10
     for _ in range(count):
         queue.repeat_current()
-    return await message.channel.send("✅ The current song will play once again!")
+    match count:
+        case 1:
+            return await message.channel.send("✅ The current song will play once again!")
+        case _:
+            return await message.channel.send(f"✅ The current song will play {count} more times!")
 
 #helper functions
 
