@@ -134,7 +134,7 @@ async def find_lyrics_multiple(client, message, hits):
         except asyncio.TimeoutError:
             break
         index = NUMBER_EMOJIS.index(str(reaction.emoji))
-        return await send_text(message, songs[index-1])
+        return await send_text(message, songs[index])
 
 async def get_lyrics(url: str) -> str | None:
     headers = {
