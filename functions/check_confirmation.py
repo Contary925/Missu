@@ -8,11 +8,11 @@ async def check_confirmation(message, client, bot_message) :
             user == message.author and reaction.message.id == bot_message.id 
         and str(reaction.emoji) in ["✅", "❌"]
             )
-    try :
+    try:
         reaction, user = await client.wait_for('reaction_add', timeout=30.0, check=reaction_check)
     except asyncio.TimeoutError:
         await message.channel.send("Action declined - no confirmation received.")
-    else :
+    else:
         if str(reaction.emoji) == "✅" :
                 return 1
         if str(reaction.emoji) == "❌" :

@@ -7,6 +7,7 @@ import html as html_lib
 import json
 from classes.queue import Queue
 from functions.music import music_queues #for the np argument to work
+import asyncio
 
 GENIUS_TOKEN = os.getenv("GENIUS_ACCESS_TOKEN")
 
@@ -68,7 +69,24 @@ async def find_lyrics(client, message, content):
         color =0xE8D1EA,
     )
     link_message = await message.channel.send(embed=embed)
-    await send_text(message, song)
+    link_message.add_reaction("📖")
+    def check(reaction, reactor):
+        return (
+            reactor.id == message.author.id
+            and reaction.message.id == link_message.id
+            and str(reaction.emoji) == "📖"
+        )
+    while True:
+        try:
+            await client.wait_for(
+                'reaction_add',
+                timeout=60.0,
+                check=check
+            )
+        except asyncio.TimeoutError:
+            break
+        else:
+            await send_text(message, song)
 
 async def get_lyrics(url: str) -> str | None:
     headers = {
