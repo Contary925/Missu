@@ -95,6 +95,7 @@ async def find_lyrics(client, message, content):
 
 async def find_lyrics_multiple(client, message, hits):
     songs = []
+    count = 0
     for hit in hits:
         count += 1
         if count > 5:
