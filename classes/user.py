@@ -293,7 +293,9 @@ class User() :
         await message.channel.send(embed = embed)
 
     async def playlist_create(self, name):
-        if name in self.playlists or "," in name:
+        name = name.replace(',', ' ').replace('  ', ' ') #get rid of commas and double whitespaces if any - 
+        #getting rid of commas may create double whitespaces, so this is necessary
+        if name in self.playlists:
             return False
         self.playlists[name] = {}
         self.data_update('playlists', self.playlists)
