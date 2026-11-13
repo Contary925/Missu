@@ -293,7 +293,7 @@ class User() :
         await message.channel.send(embed = embed)
 
     async def playlist_create(self, name):
-        if name in self.playlists:
+        if name in self.playlists or "," in name:
             return False
         self.playlists[name] = {}
         self.data_update('playlists', self.playlists)

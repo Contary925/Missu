@@ -59,7 +59,10 @@ async def playlist_create(client, message, args, pushing=False, pinning=False):
         case True:
             await message.channel.send(f'✅ Successfully created the playlist "{args}"!')
         case False:
-            await message.channel.send(f'❌ A playlist "{args}" already exists!')
+            if ',' in args:
+                await message.channel.send('❌ Prohibited symbols in playlist name: commas are not allowed!')
+            if args in user.playlists:
+                await message.channel.send(f'❌ A playlist "{args}" already exists!')
 
 async def playlist_delete(client, message, args, pushing=False, pinning=False):
     user = User(message.author.id)
