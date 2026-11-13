@@ -345,15 +345,8 @@ async def play_favlist(message, shuffle=False, pushing=False, pinning=False):
     process_message = await message.channel.send('Processing songs in background...')
     songs = []
     for song_url in favlist:
-        stream_url = await get_stream_url(song_url)
-        if not stream_url:
-            await message.channel.send(
-                f"❌ Song unavailable: {favlist[song_url]}"
-            )
-            continue
         songs.append({
            "title": favlist[song_url],
-            "url": stream_url,
             "webpage_url": song_url 
         })
     await add_and_play(message, songs, process_message, shuffle, pushing, pinning)
