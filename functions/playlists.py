@@ -8,37 +8,34 @@ from functions.music import music_queues #warning: this is a global variable!
 #be careful when mutating it!
 
 async def playlist(client, message, content):
-    [command, args] = (content+' ').split(' ', maxsplit=1) #an extra space prevents breaking if there's only one space
-    command = command.strip()
-    args = args.strip()
-    match command:
-        case 'create':
-            await playlist_create(client, message, args)
-        case 'delete':
-            await playlist_delete(client, message, args)
-        case 'add' | '+':
-            await add_to_playlist(client, message, args)
-        case 'remove' | '-':
-            await remove_from_playlist(client, message, args)
-        case 'play':
-            await play_playlist(client, message, args)
-        case 'push':
-            await play_playlist(client, message, args, pushing=True)
-        case 'pin':
-            await play_playlist(client, message, args, pinning=True)
-        case 'show':
-            await show_playlist(client, message, args)
-        case 'showall':
-            await show_playlists(client, message)
-        case 'visibility': 
-            await set_playlists_visibility(message, args)
-        case 'browse':
-            await view_users_playlists(client, message, args)
-        case 'copy':
-            await copy_users_playlist(client, message, args)
-        case _:
-            await message.channel.send('Invalid syntax! Usage: uwu playlist [create/delete/add/remove/play] [arguments]. Example: uwu playlist create Three Days Grace')
-
+    HANDLERS = {
+            "play many": playlist_create,
+            "create": playlist_create,
+            "add": add_to_playlist,
+            "+": add_to_playlist,
+            "remove": remove_from_playlist,
+            "-": remove_from_playlist,
+            "play": play_playlist,
+            "play many": play_multiple_playlists,
+            "push": play_playlist,
+            "pin": play_playlist,
+            "show": show_playlist,
+            "showall": show_playlists,
+            "visibility": set_playlists_visibility,
+            "browse": view_users_playlists,
+            "copy": copy_users_playlist
+        }
+    COMMAND_KEYS = sorted(HANDLERS.keys(), key=len, reverse=True)
+    content = content.strip()
+    for cmd in COMMAND_KEYS:
+        if content.casefold() == cmd or content.casefold().startswith(cmd + " "):
+            args = content[len(cmd):].strip()
+            handler = HANDLERS[cmd]
+            pushing = True if cmd in ["push", "pin"] else False
+            pinning = True if cmd == "pin" else False
+            return await handler(client, message, args, pushing, pinning)
+    await message.channel.send('Invalid syntax! Usage: uwu playlist [create/delete/add/remove/play] [arguments]. Example: uwu playlist create Three Days Grace')
+            
 async def playlist_default(client, message, content):
     user = User(message.author.id)
     if content.strip().startswith('set'): 
@@ -56,7 +53,7 @@ async def playlist_default(client, message, content):
         content = command + ' ' + user.default_playlist + ' ' + args
         await playlist(client, message, content)
 
-async def playlist_create(client, message, args):
+async def playlist_create(client, message, args, pushing=False, pinning=False):
     user = User(message.author.id)
     match await user.playlist_create(args):
         case True:
@@ -64,7 +61,7 @@ async def playlist_create(client, message, args):
         case False:
             await message.channel.send(f'❌ A playlist "{args}" already exists!')
 
-async def playlist_delete(client, message, args):
+async def playlist_delete(client, message, args, pushing=False, pinning=False):
     user = User(message.author.id)
     match await user.playlist_delete(args):
         case True:
@@ -72,7 +69,7 @@ async def playlist_delete(client, message, args):
         case False:
             await message.channel.send(f'❌ No playlist "{args}" found.')
 
-async def add_to_playlist(client, message, args):
+async def add_to_playlist(client, message, args, pushing=False, pinning=False):
     user = User(message.author.id)
     song_name = None
     playlists = user.playlists
@@ -105,7 +102,7 @@ async def add_to_playlist(client, message, args):
         case _:
             return await message.channel.send(f'✅ Added {count} songs to playlist **{playlist}**!')
 
-async def remove_from_playlist(client, message, args):
+async def remove_from_playlist(client, message, args, pushing=False, pinning=False):
     user = User(message.author.id)
     index = None
     playlists = user.playlists
@@ -151,7 +148,40 @@ async def play_playlist(client, message, args, pushing=False, pinning=False):
     process_message = await message.channel.send('Processing songs in background...')
     await add_and_play(message, songs, process_message, shuffle, pushing, pinning)
 
-async def show_playlist(client, message, args):
+async def play_multiple_playlists(client, message, args, pushing=False, pinning=False):
+    shuffle = False
+    if args.endswith('-s'):
+        shuffle = True
+        args = args[:-2].strip()
+    user = User(message.author.id)
+    requested_playlists = [part.strip() for part in args.split(',') if part.strip()]
+    playlists = []
+    not_found = []
+    for requested_playlist in requested_playlists:
+        if requested_playlist in user.playlists:
+            playlists.append(user.playlists[requested_playlist])
+        else:
+            not_found.append(requested_playlist)
+    if playlists == []:
+        return await message.channel.send("Couldn't find any matching playlists!")
+    if message.author.voice is None:
+        await message.channel.send(
+            "❌ You must be in a voice channel to use this command!"
+        )
+        return
+    songs = []
+    for playlist in playlists:
+        for song_url in playlist:
+            songs.append({
+                "title": playlist[song_url],
+                "webpage_url": song_url 
+            })
+    process_message = await message.channel.send('Processing songs in background...')
+    await add_and_play(message, songs, process_message, shuffle, pushing, pinning)
+    
+
+
+async def show_playlist(client, message, args, pushing=False, pinning=False):
     user = User(message.author.id, message.author.display_name)
     if args not in user.playlists:
         return await message.channel.send(
@@ -210,7 +240,7 @@ async def show_playlist(client, message, args):
             reactor
         )
 
-async def show_playlists(client, message):
+async def show_playlists(client, message, args, pushing=False, pinning=False):
     user = User(message.author.id)
     text = ''
     count = 0
@@ -221,7 +251,7 @@ async def show_playlists(client, message):
         return await message.channel.send("❌ You don't have any playlists!")
     return await message.channel.send(text)
 
-async def set_playlists_visibility(message, args):
+async def set_playlists_visibility(clitne, message, args, pushing=False, pinning=False):
     user = User(message.author.id)
     match args.casefold():
         case "on":
@@ -233,7 +263,7 @@ async def set_playlists_visibility(message, args):
         case _:
             return await message.channel.send("Invalid syntax! Usage: uwu playlist visibility on/off.")
 
-async def view_users_playlists(client, message, args):
+async def view_users_playlists(client, message, args, pushing=False, pinning=False):
     self = User(message.author.id)
     pl_name = ""
     if "=" in args:
@@ -322,7 +352,7 @@ async def view_users_playlists(client, message, args):
                     reactor
                 )
 
-async def copy_users_playlist(client, message, args):
+async def copy_users_playlist(client, message, args, pushing=False, pinning=False):
     self = User(message.author.id)
     pl_name = ""
     pl_alias = "" #defaults to pl_name if not set
