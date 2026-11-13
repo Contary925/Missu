@@ -1,7 +1,7 @@
 from classes.user import User
 from functions.get_youtube_info import get_youtube_info
 from classes.queue import Queue
-from functions.music import get_stream_url, play_song
+from functions.music import get_stream_url, play_song, add_and_play
 import random
 import asyncio
 from functions.music import music_queues #warning: this is a global variable!
@@ -24,7 +24,9 @@ async def playlist(client, message, content):
         case 'play':
             await play_playlist(client, message, args)
         case 'push':
-            await push_playlist(client, message, args)
+            await play_playlist(client, message, args, pushing=True)
+        case 'pin':
+            await play_playlist(client, message, args, pinning=True)
         case 'show':
             await show_playlist(client, message, args)
         case 'showall':
@@ -125,7 +127,7 @@ async def remove_from_playlist(client, message, args):
     return await message.channel.send(f'✅ Removed the song "{song_title.replace('*', '\\*')}" from the playlist "{playlist}"!')
     
 
-async def play_playlist(client, message, args):
+async def play_playlist(client, message, args, pushing=False, pinning=False):
     shuffle = False
     if args.endswith('-s'):
         shuffle = True
@@ -141,143 +143,14 @@ async def play_playlist(client, message, args):
             "❌ You must be in a voice channel to use this command!"
         )
         return
-    channel = message.author.voice.channel
-    voice_client = message.guild.voice_client
-    if voice_client is not None:
-        await voice_client.move_to(channel)
-    else:
-        voice_client = await channel.connect()
-    guild_id = message.guild.id
-    queue = music_queues.setdefault(guild_id, Queue())
-    if shuffle:
-        songs = list(playlist.items())
-        random.shuffle(songs)
-        playlist = dict(songs)
-    count = 0
-    process_message = await message.channel.send('Processing songs in background...')
-    for processed, song_url in enumerate(playlist, start=1):
-        process_message = await process_message.edit(content=f'Processing songs in background... {processed}/{len(playlist)}')
-        stream_url = await get_stream_url(song_url)
-        if not stream_url:
-            await message.channel.send(
-                f"❌ Song unavailable: {playlist[song_url]}"
-            )
-            continue
-        count += 1
-        song = {
+    songs = []
+    for song_url in playlist:
+        songs.append({
             "title": playlist[song_url],
-            "url": stream_url,
-            "webpage_url": song_url
-        }
-        queue.add(song)
-        if count == 1:
-            if voice_client.is_playing():
-                continue
-            next_song = queue.next()
-            queue.set_current(next_song)
-            await play_song(
-                voice_client,
-                next_song,
-                queue,
-                message.channel,
-            )
-    await process_message.delete()
-    if count == 0:
-        await message.channel.send("❌ Couldn't add any songs.")
-        return
-    elif count == 1:
-        await message.channel.send("✅ Added one song to the queue.")
-    else:
-        await message.channel.send(
-            f"✅ Added **{count} songs** to the queue."
-        )
-    if voice_client.is_playing():
-            return
-    next_song = queue.next()
-    queue.set_current(next_song)
-    await play_song(
-        voice_client,
-        next_song,
-        queue,
-        message.channel,
-    )
-
-async def push_playlist(client, message, args):
-    shuffle = False
-    if args.endswith('-s'):
-        shuffle = True
-        args = args[:-2].strip()
-    user = User(message.author.id)
-    if not args in user.playlists:
-        return await message.channel.send(f'❌ Cannot find playlist "{args}"!')
-    playlist = user.playlists[args]
-    if playlist == {}:
-        return await message.channel.send(f'❌ The playlist is empty!')
-    if message.author.voice is None:
-        await message.channel.send(
-            "❌ You must be in a voice channel to use this command!"
-        )
-        return
-    channel = message.author.voice.channel
-    voice_client = message.guild.voice_client
-    if voice_client is not None:
-        await voice_client.move_to(channel)
-    else:
-        voice_client = await channel.connect()
-    guild_id = message.guild.id
-    queue = music_queues.setdefault(guild_id, Queue())
-    if shuffle:
-        songs = list(playlist.items())
-        random.shuffle(songs)
-        playlist = dict(songs)
-    count = 0
+            "webpage_url": song_url 
+        })
     process_message = await message.channel.send('Processing songs in background...')
-    for processed, song_url in enumerate(playlist, start=1):
-        process_message = await process_message.edit(content=f'Processing songs in background... {processed}/{len(playlist)}')
-        stream_url = await get_stream_url(song_url)
-        if not stream_url:
-            await message.channel.send(
-                f"❌ Song unavailable: {playlist[song_url]}"
-            )
-            continue
-        count += 1
-        song = {
-            "title": playlist[song_url],
-            "url": stream_url,
-            "webpage_url": song_url
-        }
-        queue.insert(count-1, song)  
-        if count == 1:
-            if voice_client.is_playing():
-                continue
-            next_song = queue.next()
-            queue.set_current(next_song)
-            await play_song(
-                voice_client,
-                next_song,
-                queue,
-                message.channel,
-            )
-    await process_message.delete()
-    if count == 0:
-        await message.channel.send("❌ Couldn't add any songs.")
-        return
-    elif count == 1:
-        await message.channel.send("✅ Added one song to the queue.")
-    else:
-        await message.channel.send(
-            f"✅ Added **{count} songs** to the queue."
-        )
-    if voice_client.is_playing():
-            return
-    next_song = queue.next()
-    queue.set_current(next_song)
-    await play_song(
-        voice_client,
-        next_song,
-        queue,
-        message.channel,
-    )    
+    await add_and_play(message, songs, process_message, shuffle, pushing, pinning)
 
 async def show_playlist(client, message, args):
     user = User(message.author.id, message.author.display_name)
