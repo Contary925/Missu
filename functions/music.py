@@ -31,7 +31,7 @@ async def play(client, message, content, pushing=False, pinning=False):
     if content.strip().casefold().startswith("everything") or content.strip().startswith("all"):
         excluded = (content.strip()+" ").split(" ", maxsplit=1)[1] #only cuts off an "everything" or an "all"
         #the extra space is to ensure splitting works. It's harmless because all excluded items will be further stripped
-        await play_all_saved_songs(client, message, excluded, shuffle, pushing, pinning)    
+        return await play_all_saved_songs(client, message, excluded, shuffle, pushing, pinning)    
     if message.author.voice is None:
         await message.channel.send(
             "❌ You must be in a voice channel to use this command!"
@@ -594,8 +594,6 @@ async def play_all_saved_songs(client, message, excluded="", shuffle=False, push
     if excluded != "":
         excluded = [part.strip() for part in excluded.split('-') if part.strip()]
     songs = await get_all_songs(message.author.id, excluded)
-
-    
     process_message = await message.channel.send(f'Unleash the chaos? This will be **{len(songs)} songs.**')
     if not await check_confirmation(message, client, process_message):
         await process_message.delete()
