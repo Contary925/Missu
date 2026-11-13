@@ -48,6 +48,7 @@ async def play(client, message, content, pushing=False, pinning=False):
     else:
         match content.strip():
             case 'np':
+                queue = music_queues.setdefault(message.guild.id, Queue())
                 songs = [queue.current_song]
                 if songs == [None]:
                     return await message.channel.send('❌ Nothing is currently playing!')
