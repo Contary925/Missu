@@ -15,6 +15,7 @@ async def playlist(client, message, content):
             "+": add_to_playlist,
             "remove": remove_from_playlist,
             "-": remove_from_playlist,
+            "delete": playlist_delete,
             "play": play_playlist,
             "play many": play_multiple_playlists,
             "push": play_playlist,
@@ -57,9 +58,9 @@ async def playlist_create(client, message, args, pushing=False, pinning=False):
     user = User(message.author.id)
     match await user.playlist_create(args):
         case True:
-            await message.channel.send(f'✅ Successfully created the playlist "{args}"!')
+            await message.channel.send(f'✅ Successfully created the playlist "{args.replace(',', ' ').replace('  ', ' ')}"!')
         case False:
-            await message.channel.send(f'❌ A playlist "{args}" already exists!')
+            await message.channel.send(f'❌ A playlist "{args.replace(',', ' ').replace('  ', ' ')}" already exists!')
 
 async def playlist_delete(client, message, args, pushing=False, pinning=False):
     user = User(message.author.id)
@@ -406,4 +407,4 @@ async def copy_users_playlist(client, message, args, pushing=False, pinning=Fals
             }
             counter += 1
             await self.add_to_playlist(pl_alias, song)
-        await message.channel.send(f"Created a playlist **{pl_alias}** and added {counter} songs!")
+        await message.channel.send(f"Created a playlist **{pl_alias.replace(',', ' ').replace('  ', ' ')}** and added {counter} songs!")
