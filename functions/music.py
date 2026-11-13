@@ -623,7 +623,7 @@ async def add_and_play(message, songs, process_message=None, shuffle=False, push
             song = result[0]
         if pinning:
             song["pinned"] = True
-        if pushing:
+        if pushing or pinning: #pinning new songs means pushing them too!
             queue.insert(counter, song)    
         else:
             queue.add(song)
