@@ -29,8 +29,9 @@ async def play(client, message, content, pushing=False, pinning=False):
     if content == "favlist":
         return await play_favlist(message, shuffle, pushing, pinning)
     if content.strip().casefold().startswith("everything") or content.strip().startswith("all"):
-        mutations = content.strip().casefold().split("everything", maxsplit=1)[1] if "everything" in content.strip().casefold().startswith("everything") else content.strip().casefold().split("all", maxsplit=1)[1]
-        await play_all_saved_songs(client, message, mutations, shuffle, pushing, pinning)    
+        excluded = (content.strip()+" ").split(" ", maxsplit=1)[1] #only cuts off an "everything" or an "all"
+        #the extra space is to ensure splitting works. It's harmless because all excluded items will be further stripped
+        await play_all_saved_songs(client, message, excluded, shuffle, pushing, pinning)    
     if message.author.voice is None:
         await message.channel.send(
             "❌ You must be in a voice channel to use this command!"
@@ -436,7 +437,7 @@ async def handle_song_finished(voice_client, queue, text_channel):
         text_channel,
     )
 
-async def get_all_songs(user_id):
+async def get_all_songs(user_id, excluded=[]):
     songs = []
     user = User(user_id)
     for song_url in user.favlist:
@@ -446,6 +447,8 @@ async def get_all_songs(user_id):
         }
         songs.append(song)
     for playlist in user.playlists:
+        if playlist in excluded:
+            continue
         for song_url in user.playlists[playlist]:
             song = {
                 'title': user.playlists[playlist][song_url],
@@ -587,10 +590,11 @@ async def unpin(client, message, content):
     queue.unpin(index)
     return await message.channel.send(f"✅ Unpinned song number {index}!")
 
-async def play_all_saved_songs(client, message, mutations="", shuffle=False, pushing=False, pinning=False):
-    songs = await get_all_songs(message.author.id)
-    if mutations != "":
-        mutations = [part.strip() for part in mutations.split('-') if part.strip()]
+async def play_all_saved_songs(client, message, excluded="", shuffle=False, pushing=False, pinning=False):
+    if excluded != "":
+        excluded = [part.strip() for part in excluded.split('-') if part.strip()]
+    songs = await get_all_songs(message.author.id, excluded)
+
     
     process_message = await message.channel.send(f'Unleash the chaos? This will be **{len(songs)} songs.**')
     if not await check_confirmation(message, client, process_message):
