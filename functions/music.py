@@ -31,7 +31,7 @@ async def play(client, message, content, pushing=False, pinning=False):
             case False:
                 select_limit = 5
     if content == "favlist":
-        return await play_favlist(message, shuffle)
+        return await play_favlist(message, shuffle, pushing, pinning)
     if message.author.voice is None:
         await message.channel.send(
             "❌ You must be in a voice channel to use this command!"
@@ -332,79 +332,31 @@ async def remove_from_favlist(message, content):
             return await message.channel.send(f"✅ Removed the song **{removed}** from your favlist!")
     
 
-async def play_favlist(message, shuffle=False):
-    #it is possible that this command is run by a user rather than
-    #automatically, in which case we need to know if they have
-    #specified shuffle or not
-    if message.content.endswith('-s'):
-        shuffle = True
+async def play_favlist(message, shuffle=False, pushing=False, pinning=False):
     if message.author.voice is None:
         await message.channel.send(
             "❌ You must be in a voice channel to use this command!"
         )
         return
-    channel = message.author.voice.channel
-    voice_client = message.guild.voice_client
-    if voice_client is not None:
-        await voice_client.move_to(channel)
-    else:
-        voice_client = await channel.connect()
-    guild_id = message.guild.id
-    queue = music_queues.setdefault(guild_id, Queue())
     user = User(message.author.id)
     favlist = user.favlist
     if favlist == {}:
         return await message.channel.send('❌ Your favlist is empty!')
-    if shuffle:
-        songs = list(favlist.items())
-        random.shuffle(songs)
-        favlist = dict(songs)
-    count = 0
     process_message = await message.channel.send('Processing songs in background...')
-    for processed, song_url in enumerate(favlist, start=1):
-        process_message = await process_message.edit(content=f'Processing songs in background... {processed}/{len(favlist)}')
+    songs = []
+    for song_url in favlist:
         stream_url = await get_stream_url(song_url)
         if not stream_url:
             await message.channel.send(
                 f"❌ Song unavailable: {favlist[song_url]}"
             )
             continue
-        count += 1
-        song = {
-            "title": favlist[song_url],
+        songs.append({
+           "title": favlist[song_url],
             "url": stream_url,
-            "webpage_url": song_url
-        }
-        queue.add(song)
-        if count == 1:
-            if voice_client.is_playing():
-                continue
-            next_song = queue.next()
-            queue.set_current(next_song)
-            await play_song(
-                voice_client,
-                next_song,
-                queue,
-                message.channel,
-            )
-    await process_message.delete()
-    if count == 0:
-        await message.channel.send("❌ Couldn't add any songs from your favlist...")
-        return
-    if count == 1:
-        await message.channel.send(f"✅ Added one song to the queue.")
-    else:
-        await message.channel.send(f"✅ Added **{count} songs** to the queue.")
-    if voice_client.is_playing():
-            return
-    next_song = queue.next()
-    queue.set_current(next_song)
-    await play_song(
-        voice_client,
-        next_song,
-        queue,
-        message.channel,
-    )
+            "webpage_url": song_url 
+        })
+    await add_and_play(message, songs, process_message, shuffle, pushing, pinning)
 
 async def repeat(message, content):
     if message.author.voice is None:
@@ -412,12 +364,6 @@ async def repeat(message, content):
             "❌ You must be in a voice channel to use this command!"
         )
         return
-    channel = message.author.voice.channel
-    voice_client = message.guild.voice_client
-    if voice_client is not None:
-        await voice_client.move_to(channel)
-    else:
-        voice_client = await channel.connect()
     guild_id = message.guild.id
     queue = music_queues.setdefault(guild_id, Queue())
     if queue.current_song is None:
@@ -435,41 +381,6 @@ async def repeat(message, content):
             return await message.channel.send(f"✅ The current song will play {count} more times!")
 
 #helper functions
-
-async def old_play_song(voice_client, song, queue, text_channel):
-    source = discord.PCMVolumeTransformer(
-        discord.FFmpegPCMAudio(
-            song["url"],
-            before_options=(
-                "-reconnect 1 "
-                "-reconnect_streamed 1 "
-                "-reconnect_on_network_error 1 "
-                "-reconnect_on_http_error 4xx,5xx "
-                "-reconnect_delay_max 2 "
-                "-probesize 32 "         
-                "-analyzeduration 0"   
-            ),
-            options=(
-                "-vn "      
-                "-ac 2 "          
-                "-ar 48000 "   
-                "-b:a 64k"   
-            ),
-        ),
-    volume=0.5,
-    )
-    loop = asyncio.get_running_loop()
-    def playback_finished(error):
-        if error:
-            print(f"Playback error: {error}")
-        asyncio.run_coroutine_threadsafe(
-            handle_song_finished(voice_client, queue, text_channel),
-            loop,
-        )
-    voice_client.play(source, after=playback_finished)
-    await text_channel.send(
-        f"Playing **{song['title'].replace('*', '\\*')}**"
-    )
 
 async def play_song(voice_client, song, queue, text_channel):
     if not song:
