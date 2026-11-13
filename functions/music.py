@@ -1,14 +1,10 @@
 import discord
-import yt_dlp
 import asyncio
-import os
 from classes.queue import Queue
-from urllib.parse import urlparse, parse_qs
 from classes.user import User
 from functions.cutword import cutword
 from functions.get_youtube_info import get_youtube_info
 from functions.select_youtube_song import select_youtube_song
-from functions.get_stream_url import get_stream_url
 from functions.check_confirmation import check_confirmation
 import random
 
@@ -17,12 +13,12 @@ music_queues = {} #warning: this is a global variable!
 #be careful when mutating it!
 
 async def play(client, message, content, pushing=False, pinning=False):
-    shuffle = content.endswith('-s')
+    shuffle = content.casefold().endswith('-s')
     if shuffle:
         content = content[:-2].strip()
-    select = '-select' in content
+    select = '-select' in content.casefold()
     if select:
-        content, select_limit = content.split('-select', maxsplit=1)
+        content, select_limit = content.casefold.split('-select', maxsplit=1)
         content = content.strip()
         select_limit = select_limit.strip()
         match select_limit.isdigit():
@@ -32,6 +28,9 @@ async def play(client, message, content, pushing=False, pinning=False):
                 select_limit = 5
     if content == "favlist":
         return await play_favlist(message, shuffle, pushing, pinning)
+    if content.strip().casefold().startswith("everything") or content.strip().startswith("all"):
+        mutations = content.strip().casefold().split("everything", maxsplit=1)[1] if "everything" in content.strip().casefold().startswith("everything") else content.strip().casefold().split("all", maxsplit=1)[1]
+        await play_all_saved_songs(client, message, mutations, shuffle, pushing, pinning)    
     if message.author.voice is None:
         await message.channel.send(
             "❌ You must be in a voice channel to use this command!"
@@ -52,8 +51,6 @@ async def play(client, message, content, pushing=False, pinning=False):
                 songs = [queue.current_song]
                 if songs == [None]:
                     return await message.channel.send('❌ Nothing is currently playing!')
-            case 'everything':
-                await play_all_saved_songs(client, message, content, shuffle, pushing, pinning)
             case _:
                 process_message = await message.channel.send("Searching for your song...")
                 songs = await get_youtube_info(content)
@@ -590,8 +587,11 @@ async def unpin(client, message, content):
     queue.unpin(index)
     return await message.channel.send(f"✅ Unpinned song number {index}!")
 
-async def play_all_saved_songs(client, message, content, shuffle=False, pushing=False, pinning=False):
+async def play_all_saved_songs(client, message, mutations="", shuffle=False, pushing=False, pinning=False):
     songs = await get_all_songs(message.author.id)
+    if mutations != "":
+        mutations = [part.strip() for part in mutations.split('-') if part.strip()]
+    
     process_message = await message.channel.send(f'Unleash the chaos? This will be **{len(songs)} songs.**')
     if not await check_confirmation(message, client, process_message):
         await process_message.delete()
