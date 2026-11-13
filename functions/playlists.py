@@ -168,6 +168,7 @@ async def play_multiple_playlists(client, message, args, pushing=False, pinning=
         text = "Couldn't find the following playlists: "
         for playlist_name in not_found:
             text += f"\n - {playlist_name}"
+        await message.channel.send(text)
     if message.author.voice is None:
         await message.channel.send(
             "❌ You must be in a voice channel to use this command!"
