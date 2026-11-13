@@ -10,12 +10,16 @@
             "\u043c\u0438\u0441\u0441\u0443": " <@1529029241566662746>",
             "\u043a\u0438\u0441\u0441\u0443": " <@583647391111053323>",
             "kissu": " <@583647391111053323>",
-            "\u0443\u0432\u0443": " <@1529029241566662746>"
+            "\u0443\u0432\u0443": " <@1529029241566662746>",
+            "\u043c\u044f\u0441\u043d\u043e\u0439": " <@645174656067960834>",
+            "\u043c\u044f\u0441": " <@645174656067960834>",
+            "\u043c\u044f\u0441\u043e": " <@645174656067960834>",
+            "\ud83e\udd69": " <@645174656067960834>"
         },
         "interactions": {
             "hug": {
                 "825781461021360168": 95,
-                "658061917394436146": 27,
+                "658061917394436146": 29,
                 "928033455860772944": 3,
                 "1529029241566662746": 3,
                 "493688857452216321": 2,
@@ -25,12 +29,12 @@
                 "825781461021360168": 6,
                 "928033455860772944": 1,
                 "399204313202950144": 1,
-                "658061917394436146": 22,
+                "658061917394436146": 23,
                 "1529029241566662746": 1
             },
             "kiss": {
                 "825781461021360168": 12,
-                "658061917394436146": 1
+                "658061917394436146": 3
             },
             "pat": {
                 "825781461021360168": 4,
@@ -77,25 +81,6 @@
             "https://www.youtube.com/watch?v=7ALLEG1pbtk": "Solence - Ghosts [OFFICIAL VIDEO]"
         },
         "playlists": {
-            "metalcore": {
-                "https://www.youtube.com/watch?v=JjRBSEnl1n8": "Storm Of Ruin \ud83d\udc80 Dark Melodic Metalcore Instrumental Mix | Emotional, Heavy & Cinematic",
-                "https://www.youtube.com/watch?v=40PmqAL0lJU": "Blood Harvest \u2620\ufe0f Heavy Cinematic Metalcore Instrumental Mix | Dark & Aggressive",
-                "https://rr6---sn-ug5onuxaxjvh-n8v6.googlevideo.com/videoplayback?expire=1793584032&ei=QJfnapfAA8KGhc4Pl6CliA4&ip=109.126.175.68&id=o-AJfGXthzV67af5MkbnO8Tq-50CGUKPcZhVCqWqMfeft2&itag=251&source=youtube&requiressl=yes&xpc=EgVo2aDSNQ%3D%3D&cps=424&met=1793562432%2C&mh=Z6&mm=31%2C29&mn=sn-ug5onuxaxjvh-n8v6%2Csn-u14g55-cw&ms=au%2Crdu&mv=m&mvi=6&pl=24&rms=au%2Cau&gcr=by&initcwndbps=48625&bui=AZFAFb9E_ZzglEVj4V2KotlijsW48wbQuos_gHgHWy9KrIC373H12mof9gtf_Cj7pnIANaljDM5mCxja&spc=mpRQ_2-zcgXwE57Q87Vr-GTQGQb_opcJ8Sy0a2RSRiQ5ReDYGQhh0_IVaH4G&vprv=1&svpuc=1&mime=audio%2Fwebm&rqh=1&gir=yes&clen=1368725&dur=81.381&lmt=1714906522479088&mt=1793562068&fvip=3&epbp=1&keepalive=yes&fexp=51565115%2C52184236%2C52271469&c=VISIONOS&txp=2318224&sparams=expire%2Cei%2Cip%2Cid%2Citag%2Csource%2Crequiressl%2Cxpc%2Cgcr%2Cbui%2Cspc%2Cvprv%2Csvpuc%2Cmime%2Crqh%2Cgir%2Cclen%2Cdur%2Clmt&sig=AE0s2JYwRQIhAJDu3h8uy81SKAf5jknGS-tHDEqJqEY3nAfESze-0WcpAiBDSvsaFxawLJG_EgzFIhMfbC76PDDvszNCNBOWyJBw1w%3D%3D&lsparams=cps%2Cmet%2Cmh%2Cmm%2Cmn%2Cms%2Cmv%2Cmvi%2Cpl%2Crms%2Cinitcwndbps&lsig=APaTxxMwRQIgIu6AQWEi3Cfr-fTd1ohaII_1MOUdm3AS4METgI4S5NUCIQDFH68ULFlRbyKhvKwPFGW23vsOgy0dQ6HcYH3hS1D1tQ%3D%3D": "//Denial",
-                "https://rr1---sn-ug5onuxaxjvh-n8v6.googlevideo.com/videoplayback?expire=1793584033&ei=QZfnatXuHvKLhc4PwZ2nsAM&ip=109.126.175.68&id=o-ACMFgNmmf5q53rNUGt-Qmg-mP_IotS8BTcjv8mfZgpNc&itag=251&source=youtube&requiressl=yes&xpc=EgVo2aDSNQ%3D%3D&cps=369&met=1793562433%2C&mh=yr&mm=31%2C29&mn=sn-ug5onuxaxjvh-n8v6%2Csn-4g5ednsl&ms=au%2Crdu&mv=m&mvi=1&pl=24&rms=au%2Cau&gcr=by&initcwndbps=48625&bui=AZFAFb-k3urwmpoczHswJ9lzlCPr9zTUjeCtlYjPwQ5aE-6OB4alIAPD_NcovLtmPKHVmRMK5jDvj5hB&spc=mpRQ_7b_3xIYXpfJtOZXoeYGnO7vHIDzi0MoPfH8kxsS3XbeMOBXOIgYV-6j&vprv=1&svpuc=1&mime=audio%2Fwebm&rqh=1&gir=yes&clen=3663786&dur=224.661&lmt=1714822467122559&mt=1793562068&fvip=5&epbp=1&keepalive=yes&fexp=51565115%2C52184236%2C52271469&c=VISIONOS&txp=2318224&sparams=expire%2Cei%2Cip%2Cid%2Citag%2Csource%2Crequiressl%2Cxpc%2Cgcr%2Cbui%2Cspc%2Cvprv%2Csvpuc%2Cmime%2Crqh%2Cgir%2Cclen%2Cdur%2Clmt&sig=AE0s2JYwRgIhAI1fYt4Jz4A4ZdJfZ2xT8GRYxDIaxwpouGnK30OYgZVOAiEA09_pFtLI8D6ptXa1v0FCIqhC142hpt3Qm4mEe0da1co%3D&lsparams=cps%2Cmet%2Cmh%2Cmm%2Cmn%2Cms%2Cmv%2Cmvi%2Cpl%2Crms%2Cinitcwndbps&lsig=APaTxxMwRAIgAnk1FHxfU213Zmq7gAXBg057BtkYQX07SBBYIns-d6kCIC_mrvJEADN6xRPosK_nBUFUp99fEykVeo0gl9Z1Rkh3": "In Moment",
-                "https://rr5---sn-ug5onuxaxjvh-n8v6.googlevideo.com/videoplayback?expire=1793584035&ei=Q5fnaq63BtzT6dsPzZ_JoQs&ip=109.126.175.68&id=o-AMBhDWvgXdqEwY2g-tKa1nm5kQuGbPDmnSNOqAWThYLu&itag=251&source=youtube&requiressl=yes&xpc=EgVo2aDSNQ%3D%3D&cps=287&met=1793562435%2C&mh=um&mm=31%2C29&mn=sn-ug5onuxaxjvh-n8v6%2Csn-4g5lznsl&ms=au%2Crdu&mv=m&mvi=5&pl=24&rms=au%2Cau&gcr=by&initcwndbps=48625&bui=AZFAFb_pKiKeOvjZVBGuEO8nKTXig87FP35PLJaKWBoOiQrGmheNEHqDoxlFxEk1dvxI6s-zUG6jEQH_&spc=mpRQ_79KGejkVfhruMg3yQGDb1LE69SgJ_W6nXgmmd-bTyvxgT7kwUalmWqY&vprv=1&svpuc=1&mime=audio%2Fwebm&rqh=1&gir=yes&clen=4038707&dur=245.701&lmt=1714688363244940&mt=1793562068&fvip=1&epbp=1&keepalive=yes&fexp=51565115%2C52184236%2C52271469&c=VISIONOS&txp=2318224&sparams=expire%2Cei%2Cip%2Cid%2Citag%2Csource%2Crequiressl%2Cxpc%2Cgcr%2Cbui%2Cspc%2Cvprv%2Csvpuc%2Cmime%2Crqh%2Cgir%2Cclen%2Cdur%2Clmt&sig=AE0s2JYwRQIhAIZlKObrAXJ4Cyfz8lpsaJInop6YFiSZfc_s5g2lws53AiBhKB_CgYQepgpObMf95SBskZxcIn3J6IMK12z1mu735A%3D%3D&lsparams=cps%2Cmet%2Cmh%2Cmm%2Cmn%2Cms%2Cmv%2Cmvi%2Cpl%2Crms%2Cinitcwndbps&lsig=APaTxxMwRQIhAKq2yOUgQKELvOT1HI2YIfCX2t8AdJBnSAeNuJ3S4wahAiBKH16--sfhR_LMPfkYeyRssXsF011O1L1IW5rl95mlwA%3D%3D": "Disconnect",
-                "https://rr2---sn-gxuo03g-3c2l.googlevideo.com/videoplayback?expire=1793584036&ei=RJfnaoSvHdKYx_AP49ah6QY&ip=109.126.175.68&id=o-AHkKTxWTCLcftOngzQOTelWPU5-VN2IlawQKYGp2L7_C&itag=251&source=youtube&requiressl=yes&xpc=EgVo2aDSNQ%3D%3D&cps=217&met=1793562436%2C&mh=fO&mm=31%2C29&mn=sn-gxuo03g-3c2l%2Csn-u14g55-cj&ms=au%2Crdu&mv=m&mvi=2&pcm2cms=yes&pl=24&rms=au%2Cau&gcr=by&initcwndbps=481125&bui=AZFAFb_aGJI_D628UWqPxh3uS6nmUEaPjfelMvs3griyHR6zx5cX4gKetnZI3z56PyR_7mIQtvgeNMAx&spc=mpRQ_xG8fLGWmqJ4AEC2k9nEEh8fIVDKNiG5wJYiQW33g1sYrhtWNlO1UtFX&vprv=1&svpuc=1&mime=audio%2Fwebm&rqh=1&gir=yes&clen=950786&dur=59.781&lmt=1714738774755729&mt=1793562068&fvip=3&epbp=1&keepalive=yes&fexp=51565115%2C52184236%2C52271469&c=VISIONOS&txp=2318224&sparams=expire%2Cei%2Cip%2Cid%2Citag%2Csource%2Crequiressl%2Cxpc%2Cgcr%2Cbui%2Cspc%2Cvprv%2Csvpuc%2Cmime%2Crqh%2Cgir%2Cclen%2Cdur%2Clmt&sig=AE0s2JYwRAIgT-u30-i6PSKzGvnWQs7mxyM2czQpe6gP48mV3OUOvKYCIC8D3zhliJCasRi7yyYQyKPnoF2uE03lsyFTgEhvcdf6&lsparams=cps%2Cmet%2Cmh%2Cmm%2Cmn%2Cms%2Cmv%2Cmvi%2Cpcm2cms%2Cpl%2Crms%2Cinitcwndbps&lsig=APaTxxMwRAIgBhrOHf7X-ZlnMOzTWK3x4KRPW9BD5URCVbBN0tznMnkCIFwpLLYmOApXvXouZ-vjWLuZb-BWLcoXTqsvj57cYCCp": "//Anger",
-                "https://rr4---sn-hgn7yn76.googlevideo.com/videoplayback?expire=1793584037&ei=RZfnarH3I6jC1PIPivq-uAI&ip=109.126.175.68&id=o-AH4UGCYjfEZFRDAgQrP-D7L71LsrrnOna0rML3jhVUwJ&itag=251&source=youtube&requiressl=yes&xpc=EgVo2aDSNQ%3D%3D&cps=323&met=1793562437%2C&mh=FS&mm=31%2C29&mn=sn-hgn7yn76%2Csn-4g5e6nsy&ms=au%2Crdu&mv=m&mvi=4&pl=24&rms=au%2Cau&gcr=by&initcwndbps=1089750&bui=AZFAFb8DF3PDCGdJI2HXjkpkCLGWYilNIxPBTpa8eDeESc5kxNPTYnHhd1g1cWmV0crQseAiyQwOlSLD&spc=mpRQ_4X5Zg3vWIe3lHLeonOSasXNcHq7af5LtzF4_avtZXSvrt_vOVsCSZSv&vprv=1&svpuc=1&mime=audio%2Fwebm&rqh=1&gir=yes&clen=3813912&dur=232.541&lmt=1714545029876871&mt=1793562068&fvip=3&epbp=1&keepalive=yes&fexp=51565115%2C52184236%2C52271469&c=VISIONOS&txp=2318224&sparams=expire%2Cei%2Cip%2Cid%2Citag%2Csource%2Crequiressl%2Cxpc%2Cgcr%2Cbui%2Cspc%2Cvprv%2Csvpuc%2Cmime%2Crqh%2Cgir%2Cclen%2Cdur%2Clmt&sig=AE0s2JYwRgIhAOtos4WCACbePOagJGulujs1TpxuvfqKW2TFfp_QMUInAiEA8PjS-6apOwf1tH071hJlymLbqEVpP2jH2nIvUNPtAUg%3D&lsparams=cps%2Cmet%2Cmh%2Cmm%2Cmn%2Cms%2Cmv%2Cmvi%2Cpl%2Crms%2Cinitcwndbps&lsig=APaTxxMwRgIhAIzWFR0EJ1dOjnq1-jN9vTBSYqLWFAlFSIXQQ0IHwCCkAiEAx_Oh2bmWKH6P1BIT7BYQOgjoqGZfMLlvGcUMDFddw0Q%3D": "Love//Loss",
-                "https://rr4---sn-ug5onuxaxjvh-n8v6.googlevideo.com/videoplayback?expire=1793584038&ei=RpfnasiaNq6E6LUPmcDt2Qk&ip=109.126.175.68&id=o-ADIpDBlDIWhsu06BNa9MVJ_KFtc8S-JPOqvCspYLANKJ&itag=251&source=youtube&requiressl=yes&xpc=EgVo2aDSNQ%3D%3D&cps=387&met=1793562438%2C&mh=SB&mm=31%2C29&mn=sn-ug5onuxaxjvh-n8v6%2Csn-4g5edndr&ms=au%2Crdu&mv=m&mvi=4&pl=24&rms=au%2Cau&gcr=by&initcwndbps=48625&bui=AZFAFb_Qp6-NtjSE6SRNRUC4l8VaboyaZ9CNeFWh3bLsmVB9a2tPsDlUSflHlUhDYKGpkuZ9h9Pof8Ja&spc=mpRQ_zSfiFc9phlDrFQp0xFnw5gSwySUv3RqWtvu6Z0luQS-4SKNzO8YEySo&vprv=1&svpuc=1&mime=audio%2Fwebm&rqh=1&gir=yes&clen=4303803&dur=269.901&lmt=1714908312243948&mt=1793562068&fvip=5&epbp=1&keepalive=yes&fexp=51565115%2C52184236%2C52271469&c=VISIONOS&txp=2318224&sparams=expire%2Cei%2Cip%2Cid%2Citag%2Csource%2Crequiressl%2Cxpc%2Cgcr%2Cbui%2Cspc%2Cvprv%2Csvpuc%2Cmime%2Crqh%2Cgir%2Cclen%2Cdur%2Clmt&sig=AE0s2JYwRQIgPY-yYL8ey8a3CF9qzLxLmDudEQacrCf4Qeb7R5HISi4CIQCiSjeFpibm-YbQsipZP5s9G3Gpg-vLJV7RqvCtiD51WQ%3D%3D&lsparams=cps%2Cmet%2Cmh%2Cmm%2Cmn%2Cms%2Cmv%2Cmvi%2Cpl%2Crms%2Cinitcwndbps&lsig=APaTxxMwRgIhANgMdhefgykCfqZyyoVa0r1dPeglqimYJIJBtEwxTtskAiEA0fC83WNKNxwkVQCqeBWNTTajMms869Q-FXYu6GS2UWU%3D": "Wraiths",
-                "https://rr5---sn-3c27sn7s.googlevideo.com/videoplayback?expire=1793584040&ei=SJfnauu3HvqIhc4PmNTe-A0&ip=109.126.175.68&id=o-AIef_dw-ryZxQ4MISxVZmAO37JJ56Z1v-ZoMV0H5KzVF&itag=251&source=youtube&requiressl=yes&xpc=EgVo2aDSNQ%3D%3D&cps=321&met=1793562440%2C&mh=1C&mm=31%2C29&mn=sn-3c27sn7s%2Csn-4g5lznl7&ms=au%2Crdu&mv=m&mvi=5&pl=24&rms=au%2Cau&gcr=by&initcwndbps=991375&bui=AZFAFb-NJY5JyrT5CpgwIKCllYjZBoZNieBDRERKTk22m0znKbMnXAQsdtlRESgWFV45WF-vVOt0GZ7p&spc=mpRQ_0RNCOWrss6MIUwJoqwivN_na8-kINkfC-uuIo4rWzeS2Tc_nVGSylcm&vprv=1&svpuc=1&mime=audio%2Fwebm&rqh=1&gir=yes&clen=1408130&dur=79.161&lmt=1714629853272937&mt=1793562335&fvip=2&epbp=1&keepalive=yes&fexp=51565115%2C52184236%2C52271469&c=VISIONOS&txp=2318224&sparams=expire%2Cei%2Cip%2Cid%2Citag%2Csource%2Crequiressl%2Cxpc%2Cgcr%2Cbui%2Cspc%2Cvprv%2Csvpuc%2Cmime%2Crqh%2Cgir%2Cclen%2Cdur%2Clmt&sig=AE0s2JYwRQIge64pDksBV0OL6YnNcidXcs-nNqV3wQ7eFL9rbQ98qqsCIQDmYQSBj3_UqSDlf9DqD6V6RJgacfKQTOi5v-jVf8Jzag%3D%3D&lsparams=cps%2Cmet%2Cmh%2Cmm%2Cmn%2Cms%2Cmv%2Cmvi%2Cpl%2Crms%2Cinitcwndbps&lsig=APaTxxMwRAIgSQDWUeyeINA2IYaHhfqsiYMh3UjnmtLRKwj7NwTydtYCIC3xGTd_1z_G2IpUmQ02TBr2yKOmGVpl3a1DWlteeFbq": "//Bargaining",
-                "https://rr4---sn-hgn7yn76.googlevideo.com/videoplayback?expire=1793584041&ei=SZfnaqraI5bM1PIP-a3WoQ0&ip=109.126.175.68&id=o-AIvLvnuhBWGmzhQpyu_kfZvzs8bw1e7pU0cJ9x4Qc7w5&itag=251&source=youtube&requiressl=yes&xpc=EgVo2aDSNQ%3D%3D&cps=332&met=1793562441%2C&mh=ph&mm=31%2C29&mn=sn-hgn7yn76%2Csn-4g5edndl&ms=au%2Crdu&mv=m&mvi=4&pl=24&rms=au%2Cau&gcr=by&initcwndbps=1089750&bui=AZFAFb-FsQwxbQL-h9yJO635aQcNru7_lswCJgHfIguo3Y7Mism3qoFkiBB_9mSIgXXPmgKAmzcJ7biA&spc=mpRQ_yK4Uwi-sAAg6Fg7UWD6ShO-klCbdWYcSu63pr4L59lz6yUTmg8hcRzr&vprv=1&svpuc=1&mime=audio%2Fwebm&rqh=1&gir=yes&clen=3844256&dur=230.661&lmt=1714783655901543&mt=1793562068&fvip=2&epbp=1&keepalive=yes&fexp=51565115%2C52184236%2C52271469&c=VISIONOS&txp=2318224&sparams=expire%2Cei%2Cip%2Cid%2Citag%2Csource%2Crequiressl%2Cxpc%2Cgcr%2Cbui%2Cspc%2Cvprv%2Csvpuc%2Cmime%2Crqh%2Cgir%2Cclen%2Cdur%2Clmt&sig=AE0s2JYwRgIhAMtHlXg_wsMG_o618Jfq6pAgPcgPVE8SmDKcIac2bH2-AiEAlC0EBrVVrd3O4u7pLjj3f69ZS64SYXSVEyI8GjuUm_c%3D&lsparams=cps%2Cmet%2Cmh%2Cmm%2Cmn%2Cms%2Cmv%2Cmvi%2Cpl%2Crms%2Cinitcwndbps&lsig=APaTxxMwRQIhAJW_mAcnyyWQ8iZBPA0zJ2vBVHZuOXxHQUGECz6ertx3AiA5KpHfa_Alh_0wOOjUP5iqxEU0Z2aGhhlSQz9ncIZGQQ%3D%3D": "Weight & Carriage",
-                "https://rr15---sn-3c27sn76.googlevideo.com/videoplayback?expire=1793584042&ei=Spfnapz-L7WIhc4PwtWxkA0&ip=109.126.175.68&id=o-AJbdJc4w4i99BSyr_jTnwqdYvrr8bi0EVsB3w0YVxxPX&itag=251&source=youtube&requiressl=yes&xpc=EgVo2aDSNQ%3D%3D&cps=330&met=1793562442%2C&mh=Eh&mm=31%2C29&mn=sn-3c27sn76%2Csn-u14g55-58&ms=au%2Crdu&mv=m&mvi=15&pl=24&rms=au%2Cau&gcr=by&initcwndbps=1089875&bui=AZFAFb-QGJvno-E3a-N77kMLuAT1jJ9QrUkHFsmwknTZm7s17gFsQHqzoDvViLUIq7anDlya8kOZrmxd&spc=mpRQ_1HG3dvieM833TXg5JFYY1aIxN0OlDyqdyU83MDJyBqcRXujXAkmnR6u&vprv=1&svpuc=1&mime=audio%2Fwebm&rqh=1&gir=yes&clen=3817158&dur=227.621&lmt=1714495352774263&mt=1793562068&fvip=3&epbp=1&keepalive=yes&fexp=51565115%2C52184236%2C52271469&c=VISIONOS&txp=2318224&sparams=expire%2Cei%2Cip%2Cid%2Citag%2Csource%2Crequiressl%2Cxpc%2Cgcr%2Cbui%2Cspc%2Cvprv%2Csvpuc%2Cmime%2Crqh%2Cgir%2Cclen%2Cdur%2Clmt&sig=AE0s2JYwRgIhANCUm0br79Xt6x0OcBjW7X-PiMryiq0zF6o7NQ9SaoT5AiEA4TT2kbjL9OKuvnRFkhnLL0LwPBhc29yCfmsjbxyiQUU%3D&lsparams=cps%2Cmet%2Cmh%2Cmm%2Cmn%2Cms%2Cmv%2Cmvi%2Cpl%2Crms%2Cinitcwndbps&lsig=APaTxxMwRQIgV5aFA-P4VXLBH3Qcut4OT7oNF9A09ljlA5YKrMWKgZoCIQDraTdAPGLEJyrbxQBlsNUwrF3dfKg2Ky36MiG6Ug137A%3D%3D": "Divisions (The Exchange)",
-                "https://rr4---sn-hgn7yn76.googlevideo.com/videoplayback?expire=1793584043&ei=S5fnapSENqf_6LUPl7DL8A0&ip=109.126.175.68&id=o-AE3DRspOfr9i1sazj4ou-nTu_5VvF4MtxgRw9for9-iJ&itag=251&source=youtube&requiressl=yes&xpc=EgVo2aDSNQ%3D%3D&cps=407&met=1793562443%2C&mh=KW&mm=31%2C29&mn=sn-hgn7yn76%2Csn-4g5lznld&ms=au%2Crdu&mv=m&mvi=4&pl=24&rms=au%2Cau&gcr=by&initcwndbps=1089875&bui=AZFAFb-G4E7q16CapAcA5Cj_FRLecUOBS11DSv0WbgzuQoud-Fhvch0qkPgICZdb3sNMcIHka34ULFAU&spc=mpRQ_84XajCwXrK6W5N5MHbULgmOLrEevTAtrCv7QIVs-OfUyrCj8ilPwRdA&vprv=1&svpuc=1&mime=audio%2Fwebm&rqh=1&gir=yes&clen=1041878&dur=62.481&lmt=1714767212400107&mt=1793562068&fvip=5&epbp=1&keepalive=yes&fexp=51565115%2C52184236%2C52271469&c=VISIONOS&txp=2318224&sparams=expire%2Cei%2Cip%2Cid%2Citag%2Csource%2Crequiressl%2Cxpc%2Cgcr%2Cbui%2Cspc%2Cvprv%2Csvpuc%2Cmime%2Crqh%2Cgir%2Cclen%2Cdur%2Clmt&sig=AE0s2JYwRQIhAOHFH5YDXs48gY8C3KbErPGwQit9runTsyDud4Bc8tBGAiBhsTwFP4ki23qmC_BsFv6EpGtacPmtqGVpr2bpMNg8wA%3D%3D&lsparams=cps%2Cmet%2Cmh%2Cmm%2Cmn%2Cms%2Cmv%2Cmvi%2Cpl%2Crms%2Cinitcwndbps&lsig=APaTxxMwRgIhAJYWQ-0eUDCC6CyXRKXdp5gPucW3ThK8UXNZ-la8t5gmAiEA1sVxV46rUjzDgeKPUh__mofJTUGF0QoRczXpA53K5Hc%3D": "//Depression",
-                "https://rr3---sn-ojhgnc-54.googlevideo.com/videoplayback?expire=1793584044&ei=TJfnapv2NraWhc4PmKGr4Q0&ip=109.126.175.68&id=o-AIg7JwInN9nF7Ney_b6EBo83kyv70vs7nSAn80YeT94u&itag=251&source=youtube&requiressl=yes&xpc=EgVo2aDSNQ%3D%3D&cps=240&met=1793562444%2C&mh=ce&mm=31%2C29&mn=sn-ojhgnc-54%2Csn-4g5lzns7&ms=au%2Crdu&mv=m&mvi=3&pl=24&rms=au%2Cau&gcr=by&initcwndbps=1089875&bui=AZFAFb97Uar4SADqB0owJ7tlZ-Sd62r9Xz_EHcOSnuijt4tk4MIQgSAUE7TYmZQUAV5QtYbLFFXu1UnA&spc=mpRQ_2lcl2yUHzD0EjVssmskOtMUcG20BSm8b7sPMei9FFoR8DOMBkSbPIKp&vprv=1&svpuc=1&mime=audio%2Fwebm&rqh=1&gir=yes&clen=3796690&dur=234.621&lmt=1714658138437737&mt=1793562068&fvip=5&epbp=1&keepalive=yes&fexp=51565115%2C52184236%2C52271469&c=VISIONOS&txp=2318224&sparams=expire%2Cei%2Cip%2Cid%2Citag%2Csource%2Crequiressl%2Cxpc%2Cgcr%2Cbui%2Cspc%2Cvprv%2Csvpuc%2Cmime%2Crqh%2Cgir%2Cclen%2Cdur%2Clmt&sig=AE0s2JYwRAIgfyBYTQJRCS8yjofdRieHyjaRQ20713oNSUtUpmf7944CIEpHKBCkbjxR2p2bIl62uDJNncGPmWmtr7MmqiOXOIGQ&lsparams=cps%2Cmet%2Cmh%2Cmm%2Cmn%2Cms%2Cmv%2Cmvi%2Cpl%2Crms%2Cinitcwndbps&lsig=APaTxxMwRQIhALPa2MdrDnZVp6eRw28ZYjnGhwFhSlXATCn0QHTjilxfAiAtYAxyggC2KodVhuXru-fV-AdyV2eAJMnzEZImRzDY0w%3D%3D": "Speak of Sorrow",
-                "https://rr13---sn-3c27sn7d.googlevideo.com/videoplayback?expire=1793584046&ei=TZfnauCvPJ-Yhc4Pqqvq4Q0&ip=109.126.175.68&id=o-AFQJcUA4OYXo8piM_ljN6pPXtlJQorJbi__vmZZAAXQk&itag=251&source=youtube&requiressl=yes&xpc=EgVo2aDSNQ%3D%3D&cps=325&met=1793562445%2C&mh=BF&mm=31%2C29&mn=sn-3c27sn7d%2Csn-aj4g55-52&ms=au%2Crdu&mv=m&mvi=13&pl=24&rms=au%2Cau&initcwndbps=1089875&bui=AZFAFb9M8KDvDqE3JNF4i15FjUvraC46aPLChpudsBIMAaN9ynfL75LcMD1S-UT-6iytR7_LjfZAlmLW&spc=mpRQ_0kU73JJGq0CW_pd3PgjqV4W-2AkdLLtQJdAkHgfNSBkwr-RYZDnV-3F&vprv=1&svpuc=1&mime=audio%2Fwebm&rqh=1&gir=yes&clen=4048554&dur=246.081&lmt=1746320711951453&mt=1793562068&fvip=3&epbp=1&keepalive=yes&fexp=51565115%2C52184236%2C52271469&c=VISIONOS&txp=8208224&sparams=expire%2Cei%2Cip%2Cid%2Citag%2Csource%2Crequiressl%2Cxpc%2Cbui%2Cspc%2Cvprv%2Csvpuc%2Cmime%2Crqh%2Cgir%2Cclen%2Cdur%2Clmt&sig=AE0s2JYwRAIgExTUfxbUkgdfxNarJB9Gj3EuoA6o4a3ZOYM-bbMcW8QCIExEKpDoMZ1Cz1PlE27ZcVOcNFRWtK4s9jUA6qhyJNyk&lsparams=cps%2Cmet%2Cmh%2Cmm%2Cmn%2Cms%2Cmv%2Cmvi%2Cpl%2Crms%2Cinitcwndbps&lsig=APaTxxMwRAIgCzucSuw7ksfHM776V6C-j96_ek5tcAAe7Fyg0lueJxgCIBl8yQt9os4ybksyjtiZEk9vRixiIp112mFDBFZG-k19": "Our Hollow, Our Home - Father & Ghost: Guitar Playthrough",
-                "https://rr2---sn-ojhgnc-54.googlevideo.com/videoplayback?expire=1793584046&ei=Tpfnat78OfuWhc4P28O60A0&ip=109.126.175.68&id=o-AJiAIL41og0csy4SFxlkT691OMdj3tAhC5uLESNiQUwu&itag=251&source=youtube&requiressl=yes&xpc=EgVo2aDSNQ%3D%3D&cps=343&met=1793562446%2C&mh=Fc&mm=31%2C29&mn=sn-ojhgnc-54%2Csn-aj4g55-52&ms=au%2Crdu&mv=m&mvi=2&pl=24&rms=au%2Cau&gcr=by&initcwndbps=1089875&bui=AZFAFb-gU_OTAOnDmp0PEUEzoAlvdkujBUD3NyJYtJ-FixUMG4lsQhvVUTWX332VbpP-_Y6s8F242H1h&spc=mpRQ_7u82i5E_F5ah4XUpibd5l4c2Od9SSIDPAZ0XiiIBmvTn7ZBh-nJtdtr&vprv=1&svpuc=1&mime=audio%2Fwebm&rqh=1&gir=yes&clen=1005963&dur=47.341&lmt=1714641944155347&mt=1793562068&fvip=4&epbp=1&keepalive=yes&fexp=51565115%2C52184236%2C52271469&c=VISIONOS&txp=2318224&sparams=expire%2Cei%2Cip%2Cid%2Citag%2Csource%2Crequiressl%2Cxpc%2Cgcr%2Cbui%2Cspc%2Cvprv%2Csvpuc%2Cmime%2Crqh%2Cgir%2Cclen%2Cdur%2Clmt&sig=AE0s2JYwRQIhAPVqK5PNfEtkNNL-WQWq08iq9ql8YYuxuJfrrG4oiZU8AiBzm-mIBo1hXtjQS7KiHqiFIsysFkmcAcQHXoV1KVEXEg%3D%3D&lsparams=cps%2Cmet%2Cmh%2Cmm%2Cmn%2Cms%2Cmv%2Cmvi%2Cpl%2Crms%2Cinitcwndbps&lsig=APaTxxMwRgIhAKgC8YDozPf1G1FyLHkp0ODhIo60MajYheqlpuQ79--VAiEAwuOrW5AMzy_RQD0D57p8P-vzgnL-LQUy59YpxPrmJ2c%3D": "//Acceptance",
-                "https://rr2---sn-hgn7yn7z.googlevideo.com/videoplayback?expire=1793584048&ei=UJfnaq_ICM6Lhc4P0OfXgAQ&ip=109.126.175.68&id=o-AOcBN9xWU7_IVEbY5v4-4c9PuFJxd8N8tkePesP_1uQM&itag=251&source=youtube&requiressl=yes&xpc=EgVo2aDSNQ%3D%3D&cps=368&met=1793562448%2C&mh=Nc&mm=31%2C29&mn=sn-hgn7yn7z%2Csn-aj4g55-52&ms=au%2Crdu&mv=m&mvi=2&pl=24&rms=au%2Cau&gcr=by&initcwndbps=1089750&bui=AZFAFb9g17ogE9Mv44Vjh4PWRTrYqAAhhS0p_G0CENcyQSmNe0VR6fdj6dNL4M4DDydg3h2nElLr6iHU&spc=mpRQ_8LFBZfpLFmTFt9Gq7r2HLqekWNH1Y4xyXd6KZEoyiHdZFZ-Qg3ZZ4Qu&vprv=1&svpuc=1&mime=audio%2Fwebm&rqh=1&gir=yes&clen=4599377&dur=258.941&lmt=1714626500945559&mt=1793562068&fvip=4&epbp=1&keepalive=yes&fexp=51565115%2C52184236%2C52271469&c=VISIONOS&txp=2318224&sparams=expire%2Cei%2Cip%2Cid%2Citag%2Csource%2Crequiressl%2Cxpc%2Cgcr%2Cbui%2Cspc%2Cvprv%2Csvpuc%2Cmime%2Crqh%2Cgir%2Cclen%2Cdur%2Clmt&sig=AE0s2JYwRQIgKQA55THQmgGW-NeubT-GeTz7oXVI2bNmRymNvJPR338CIQCJXqD7_TQfGgDh4xm5SHP4YZdwUBth3n4botncsZKBTw%3D%3D&lsparams=cps%2Cmet%2Cmh%2Cmm%2Cmn%2Cms%2Cmv%2Cmvi%2Cpl%2Crms%2Cinitcwndbps&lsig=APaTxxMwRgIhAL5xW2R5PAf8m74r_gCQ3216KXhMqE0ShmcW1yGGMrjYAiEA7gNjpoTACstKGIwjhyLdWPbIUFABK3K4fQ2FdV0BkrE%3D": "Parting Gift",
-                "https://rr3---sn-gxuo03g-3c2z.googlevideo.com/videoplayback?expire=1793584049&ei=UZfnaue8EfXt6LUPhYaQ6A0&ip=109.126.175.68&id=o-ABc2R5tVZJDjSJWArEH-xRQ1BhXf5cSsOUFXHrXeLOqx&itag=251&source=youtube&requiressl=yes&xpc=EgVo2aDSNQ%3D%3D&cps=306&met=1793562449%2C&mh=tv&mm=31%2C29&mn=sn-gxuo03g-3c2z%2Csn-4g5edns7&ms=au%2Crdu&mv=m&mvi=3&pl=24&rms=au%2Cau&gcr=by&initcwndbps=481125&bui=AZFAFb_vZF6HfT-kKY_GO80Uhoyj_nMUMXl5TBrUOEAMZ1H3bUjDWPgPpyEzYbPUqvRlRIYrSWuD8RKw&spc=mpRQ_4SF3O6KxOTKGJzPIvMgHfarljfAOn9R-vrf1QHXSi0bCjVieeOmgPc2&vprv=1&svpuc=1&mime=audio%2Fwebm&rqh=1&gir=yes&clen=4489493&dur=274.481&lmt=1714685356120353&mt=1793562068&fvip=5&epbp=1&keepalive=yes&fexp=51565115%2C52184236%2C52271469&c=VISIONOS&txp=2318224&sparams=expire%2Cei%2Cip%2Cid%2Citag%2Csource%2Crequiressl%2Cxpc%2Cgcr%2Cbui%2Cspc%2Cvprv%2Csvpuc%2Cmime%2Crqh%2Cgir%2Cclen%2Cdur%2Clmt&sig=AE0s2JYwRAIgbCjKjuygvfn6TLLEd6X4eVLnKPuHA8eRaVmplbsJrj0CIEnETufXPljaNcx8YhaqEr_SB14qeE-uPHR2J-RKxgu0&lsparams=cps%2Cmet%2Cmh%2Cmm%2Cmn%2Cms%2Cmv%2Cmvi%2Cpl%2Crms%2Cinitcwndbps&lsig=APaTxxMwRgIhALsN9G-4qKJfuZP8f5JVr-lOsN0FpaRRDJDXpO9aPTndAiEAwujGNtd9WrrHLoYYeAQQbC4WAhpmtJ4grpWbd3qxn3k%3D": "In Memory"
-            },
             "melodic electronic": {
                 "https://www.youtube.com/watch?v=qaovaa_AgW4": "Jim Yosef - Bleeding Rose (Official Lyric Video)",
                 "https://www.youtube.com/watch?v=yJsezhG09oY": "Eqwillus - \"Demons\""
@@ -272,6 +257,10 @@
                 "https://www.youtube.com/watch?v=W57wScCwNcE": "Three Days Grace - Give In To Me (Official Audio)",
                 "https://www.youtube.com/watch?v=g_OyNABjHTo": "Three Days Grace - Broken Glass (Official Audio)",
                 "https://www.youtube.com/watch?v=vKnjoDnphvU": "Three Days Grace - Let It Die"
+            },
+            "metalcore": {
+                "https://www.youtube.com/watch?v=ZAL4IrsisVE": "Abyssal Requiem \ud83d\udc80 Dark Melodic Metalcore Instrumental Mix | Cinematic Heavy Atmospheric Metal",
+                "https://www.youtube.com/watch?v=40PmqAL0lJU": "Blood Harvest \u2620\ufe0f Heavy Cinematic Metalcore Instrumental Mix | Dark & Aggressive"
             }
         },
         "default_playlist": "three days grace",
@@ -328,23 +317,24 @@
         },
         "interactions": {
             "bite": {
-                "583647391111053323": 10,
+                "583647391111053323": 12,
                 "1543566895360253992": 1,
                 "928033455860772944": 1
             },
             "pat": {
                 "744522229718581259": 1,
-                "583647391111053323": 3,
+                "583647391111053323": 4,
                 "645174656067960834": 1
             },
             "bonk": {
                 "583647391111053323": 1
             },
             "spank": {
-                "583647391111053323": 5
+                "583647391111053323": 6,
+                "1368162174500995152": 1
             },
             "hug": {
-                "583647391111053323": 3
+                "583647391111053323": 4
             }
         },
         "perms": "administrator",
@@ -418,6 +408,14 @@
         "favlist": {}
     },
     "645174656067960834": {
+        "alias": {},
+        "interactions": {},
+        "perms": "default",
+        "reactions": {},
+        "responses": {},
+        "favlist": {}
+    },
+    "1368162174500995152": {
         "alias": {},
         "interactions": {},
         "perms": "default",
