@@ -17,7 +17,6 @@ music_queues = {} #warning: this is a global variable!
 #be careful when mutating it!
 
 async def play(client, message, content, pushing=False, pinning=False):
-    process_message = None
     shuffle = content.endswith('-s')
     if shuffle:
         content = content[:-2].strip()
@@ -38,14 +37,7 @@ async def play(client, message, content, pushing=False, pinning=False):
             "❌ You must be in a voice channel to use this command!"
         )
         return
-    channel = message.author.voice.channel
-    voice_client = message.guild.voice_client
-    if voice_client is not None:
-        await voice_client.move_to(channel)
-    else:
-        voice_client = await channel.connect()
-    guild_id = message.guild.id
-    queue = music_queues.setdefault(guild_id, Queue())
+    process_message = None
     if select:
         process_message, songs = await select_youtube_song(
         client,
@@ -60,11 +52,7 @@ async def play(client, message, content, pushing=False, pinning=False):
                 if songs == [None]:
                     return await message.channel.send('❌ Nothing is currently playing!')
             case 'everything':
-                songs = await get_all_songs(message.author.id)
-                process_message = await message.channel.send(f'Unleash the chaos? This will be **{len(songs)} songs.**')
-                if not await check_confirmation(message, client, process_message):
-                    await process_message.delete()
-                    return
+                await play_all_saved_songs(client, message, content, shuffle, pushing, pinning)
             case _:
                 process_message = await message.channel.send("Searching for your song...")
                 songs = await get_youtube_info(content)
@@ -75,56 +63,8 @@ async def play(client, message, content, pushing=False, pinning=False):
             if process_message:
                 await process_message.delete()
             return
-    if shuffle:
-        random.shuffle(songs)
-    counter = 0
-    added_songs = []
-    for song in songs:
-        if process_message:
-            await process_message.edit(content=f'Processing songs in background... {counter+1}/{len(songs)}')
-        if not song.get('url'):
-            result = await get_youtube_info(song['webpage_url'])
-            if not result:
-                await message.channel.send(f"❌ The song **{song['title']}** is unavailable.")
-                continue
-            song = result[0]
-        if pinning:
-            song["pinned"] = True
-        if pushing:
-            queue.insert(counter, song)    
-        else:
-            queue.add(song)
-        added_songs.append(song)
-        counter += 1 
-        if voice_client.is_playing():
-            continue
-        next_song = queue.next()
-        queue.set_current(next_song)
-        await play_song(
-            voice_client,
-            next_song,
-            queue,
-            message.channel,
-        )
-    if counter == 0:
-        await message.channel.send("❌ Couldn't add any songs.")
-        return
-    elif counter == 1:
-        await message.channel.send(f"✅ Added **{added_songs[0]['title'].replace('*', '\\*')}** to the queue.")
-    else:
-        await message.channel.send(f"✅ Added **{counter} songs** to the queue.")
-    if process_message:
-        await process_message.delete()
-    if voice_client.is_playing():
-            return
-    next_song = queue.next()
-    queue.set_current(next_song)
-    await play_song(
-        voice_client,
-        next_song,
-        queue,
-        message.channel,
-    )
+    await add_and_play(message, songs, process_message, shuffle, pushing, pinning)
+
 
 
 async def skip(client, message, auto=False):
@@ -742,3 +682,72 @@ async def unpin(client, message, content):
         return await message.channel.send(f"❌ This song is already playing!")
     queue.unpin(index)
     return await message.channel.send(f"✅ Unpinned song number {index}!")
+
+async def play_all_saved_songs(client, message, content, shuffle=False, pushing=False, pinning=False):
+    songs = await get_all_songs(message.author.id)
+    process_message = await message.channel.send(f'Unleash the chaos? This will be **{len(songs)} songs.**')
+    if not await check_confirmation(message, client, process_message):
+        await process_message.delete()
+        return
+    await add_and_play(message, songs, process_message, shuffle, pushing, pinning)
+
+#a DRY helper to play songs
+async def add_and_play(message, songs, process_message=None, shuffle=False, pushing=False, pinning=False):
+    channel = message.author.voice.channel
+    voice_client = message.guild.voice_client
+    if voice_client is not None:
+        await voice_client.move_to(channel)
+    else:
+        voice_client = await channel.connect()
+    guild_id = message.guild.id
+    queue = music_queues.setdefault(guild_id, Queue())
+    if shuffle:
+        random.shuffle(songs)
+    counter = 0
+    added_songs = []
+    for song in songs:
+        if process_message:
+            await process_message.edit(content=f'Processing songs in background... {counter+1}/{len(songs)}')
+        if not song.get('url'):
+            result = await get_youtube_info(song['webpage_url'])
+            if not result:
+                await message.channel.send(f"❌ The song **{song['title']}** is unavailable.")
+                continue
+            song = result[0]
+        if pinning:
+            song["pinned"] = True
+        if pushing:
+            queue.insert(counter, song)    
+        else:
+            queue.add(song)
+        added_songs.append(song)
+        counter += 1 
+        if voice_client.is_playing():
+            continue
+        next_song = queue.next()
+        queue.set_current(next_song)
+        await play_song(
+            voice_client,
+            next_song,
+            queue,
+            message.channel,
+        )
+    if counter == 0:
+        await message.channel.send("❌ Couldn't add any songs.")
+        return
+    elif counter == 1:
+        await message.channel.send(f"✅ Added **{added_songs[0]['title'].replace('*', '\\*')}** to the queue.")
+    else:
+        await message.channel.send(f"✅ Added **{counter} songs** to the queue.")
+    if process_message:
+        await process_message.delete()
+    if voice_client.is_playing():
+            return
+    next_song = queue.next()
+    queue.set_current(next_song)
+    await play_song(
+        voice_client,
+        next_song,
+        queue,
+        message.channel,
+    )
