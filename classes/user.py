@@ -7,108 +7,71 @@ class User() :
     def __init__(self, id, name=None):
         self.id = str(id)
         self.name = name
-        self.data = self.read_data(self.id)
-        self.alias = self.read_alias(self.data)
-        self.interactions = self.read_interactions(self.data)
-        self.perms = self.read_perms(self.data)
-        self.reactions = self.read_reactions(self.data)
-        self.responses = self.read_responses(self.data)
-        self.favlist = self.read_favlist(self.data) #music favlist
+        self.data = self.read_data()
+        self.alias = self.data.get('alias', {})
+        self.interactions = self.data.get('interactions', {})
+        self.perms = self.data.get('perms', 'default')
+        self.reactions = self.data.get('reactions', {})
+        self.responses = self.data.get('responses', {})
+        self.favlist = self.data.get('favlist', {})
         self.playlists = self.data.get('playlists', {})
         self.playlists_visibility = self.data.get("playlists_visibility", False)
         self.default_playlist = self.data.get('default_playlist', None)
         self.gamble_lists = self.data.get('gamble_lists', {})
 
-    def read_data(self, id) -> dict :
+    def read_data(self) -> dict:
         with open('shared/user_data.json', 'r+') as f:
             data = json.load(f)
-        if not id in data: #that's a new user! need to initialize data here
-            data[id] = {
-                "alias" : {},
-                "interactions": {},
-            }
+        if not self.id in data: #that's a new user! need to initialize data here
+            data[self.id] = {}
         with open('shared/user_data.json', 'w') as f:
-                json.dump(data, f, indent=4)
-        return data[id]
+            json.dump(data, f, indent=4)
+        return data[self.id]
     
-    def data_update(self, key, value) : #a function to use if a key is missing in user data for whatever reason
+    def data_update(self, key, value): 
         with open('shared/user_data.json', 'r+') as f:
             data = json.load(f)
         data[self.id][key] = value
         with open('shared/user_data.json', 'w') as f:
             json.dump(data, f, indent=4)
-        self.data[key] = value
-        
-    def read_alias(self, data) -> dict :
-        if not "alias" in data :
-            self.data_update("alias", {})
-        return data["alias"]
+        self.data[key] = value #make sure all of the data fields are up to date - data_update is responsible for this
+        self.alias = self.data.get('alias', {})
+        self.interactions = self.data.get('interactions', {})
+        self.perms = self.data.get('perms', 'default')
+        self.reactions = self.data.get('reactions', {})
+        self.responses = self.data.get('responses', {})
+        self.favlist = self.data.get('favlist', {})
+        self.playlists = self.data.get('playlists', {})
+        self.playlists_visibility = self.data.get("playlists_visibility", False)
+        self.default_playlist = self.data.get('default_playlist', None)
+        self.gamble_lists = self.data.get('gamble_lists', {})
 
-    def read_interactions(self, data) -> dict:
-        if not "interactions" in data :
-            self.data_update("interactions", {})
-        return data["interactions"]
-
-    def read_perms(self, data) -> str:
-        if not "perms" in data :
-            self.data_update("perms", "default")
-        return data["perms"]
 
     def set_perms(self, access_level) :
         if self.perms == access_level :
             return 0
         self.data_update("perms", access_level)
-        self.perms = access_level
         return 1
 
-    def read_reactions(self, data) -> str:
-        if not "reactions" in data:
-            self.data_update("reactions", {})
-        return data["reactions"]
-
-    def read_responses(self, data) -> str:
-        if not "responses" in data:
-            self.data_update("responses", {})
-        return data["responses"]
-
-    def read_favlist(self, data) -> dict:
-        if not "favlist" in data:
-            self.data_update("favlist", {})
-        return data["favlist"]
-
     def clear_favlist(self) -> dict:
-        self.favlist = {}
-        self.data_update("favlist", self.favlist)
-        with open('shared/user_data.json', 'r+') as f:
-            data = json.load(f)
-        data[self.id]["favlist"] = {}
-        with open('shared/user_data.json', 'w') as f:
-            json.dump(data, f, indent=4)
+        self.data_update("favlist", {})
 
     def add_to_favlist(self, song: dict):
         if song["url"] in self.favlist:
             return 0
-        with open('shared/user_data.json', 'r+') as f:
-            data = json.load(f)
-        data[self.id]["favlist"][song["url"]] = song["title"]
-        with open('shared/user_data.json', 'w') as f:
-            json.dump(data, f, indent=4)
-        self.favlist[song["url"]] = song["title"]
-        self.data["favlist"][song["url"]] = song["title"]
+        favlist = self.favlist
+        favlist[song["url"]] = song["title"]
+        self.data_update("favlist", favlist)
         return 1
 
     def remove_from_favlist(self, index: int) -> str:
-        if index > len(self.favlist) or index < 1:
+        favlist = self.favlist
+        if index > len(favlist) or index < 1:
             return 'Song with index not found'
-        url = list(self.favlist)[index-1]
-        name = self.favlist[url]
-        del self.favlist[url]
-        with open('shared/user_data.json', 'r+') as f:
-            data = json.load(f)
-        del data[self.id]["favlist"][url]
-        with open('shared/user_data.json', 'w') as f:
-            json.dump(data, f, indent=4)
-        self.data_update("favlist", self.favlist)
+        url = list(favlist)[index-1]
+        name = favlist[url]
+        del favlist[url]
+        self.data_update("favlist", favlist)
         return name
 
     def show_favlist(self, page=0) -> str:
@@ -124,97 +87,64 @@ class User() :
             return 'No songs on this page.'
         return result
 
-                
-
-    def add_reaction(self, text, reaction) :
-        if text in self.reactions :
+    def add_reaction(self, text, reaction):
+        reactions = self.reactions
+        if text in reactions:
             return 0 
-        with open('shared/user_data.json', 'r+') as f:
-            data = json.load(f)
-        data[self.id]["reactions"][text] = reaction
-        with open('shared/user_data.json', 'w') as f:
-            json.dump(data, f, indent=4)
-        self.reactions[text] = reaction
-        self.data_update("reactions", self.reactions)
+        reactions[text] = reaction
+        self.data_update("reactions", reactions)
         return 1
 
-    def add_response(self, text, response) :
-            if text in self.responses :
-                return 0 
-            with open('shared/user_data.json', 'r+') as f:
-                data = json.load(f)
-            data[self.id]["responses"][text] = response
-            with open('shared/user_data.json', 'w') as f:
-                json.dump(data, f, indent=4)
-            self.responses[text] = response
-            self.data_update("responses", self.responses)
-            return 1
-
-    def delete_reaction(self, text) :
-        if not text in self.reactions :
-            return 0
-        with open('shared/user_data.json', 'r+') as f:
-            data = json.load(f)
-        data[self.id]["reactions"].pop(text, None)
-        with open('shared/user_data.json', 'w') as f:
-            json.dump(data, f, indent=4)
-        self.reactions.pop(text, None)
-        self.data_update("reactions", self.reactions)
+    def add_response(self, text, response):
+        responses = self.responses
+        if text in responses:
+             return 0 
+        responses[text] = response
+        self.data_update("responses", responses)
         return 1
 
-    def delete_response(self, text) :
-        if not text in self.responses :
+    def delete_reaction(self, text):
+        reactions = self.reactions
+        if not text in reactions :
             return 0
-        with open('shared/user_data.json', 'r+') as f:
-            data = json.load(f)
-        data[self.id]["responses"].pop(text, None)
-        with open('shared/user_data.json', 'w') as f:
-            json.dump(data, f, indent=4)
-        self.responses.pop(text, None)
-        self.data_update("responses", self.responses)
+        del reactions[text]
+        self.data_update("reactions", reactions)
+        return 1
+
+    def delete_response(self, text):
+        responses = self.responses
+        if not text in responses :
+            return 0
+        del responses[text]
+        self.data_update("responses", responses)
         return 1
     
-    def update_alias(self, alias_key, alias_value) :
-        self.read_alias(self.data) #returns nothing, but guaratnees that the alias dict exists
-        with open('shared/user_data.json', 'r+') as f:
-            data = json.load(f)
-        data[self.id]["alias"][alias_key] = alias_value
-        with open('shared/user_data.json', 'w') as f:
-            json.dump(data, f, indent=4)
-        self.alias[alias_key] = alias_value
-        self.data_update("alias", self.alias)
+    def update_alias(self, alias_key, alias_value):
+        alias = self.alias
+        alias[alias_key] = alias_value
+        self.data_update("alias", alias)
         return 1
 
-    def add_interaction(self, other, type) :
-        with open('shared/user_data.json', 'r+') as f:
-            data = json.load(f)
-        if not "interactions" in data[self.id] :    
-            data[self.id]["interactions"] = {}
-        if not type in data[self.id]["interactions"] :
-            data[self.id]["interactions"][type] = {}
-        if not other.id in data[self.id]["interactions"][type] :
-            data[self.id]["interactions"][type][other.id] = 0
-        data[self.id]["interactions"][type][other.id] += 1
-        with open('shared/user_data.json', 'w') as f:
-            json.dump(data, f, indent=4)
-        self.interactions = data[self.id]["interactions"]
-        return self.interactions[type][other.id]
+    def add_interaction(self, other, type):
+        interactions = self.interactions
+        if not type in interactions:
+            interactions[type] = {}
+        interactions[type][other.id] = interactions[type].get(other.id, 0) + 1
+        self.data_update("interactions", interactions)
+        return interactions[type][other.id]
     
     def delete_alias(self, alias_key) :
-        self.read_alias(self.data) #returns nothing, but guaratnees that the alias dict exists
-        with open('shared/user_data.json', 'r+') as f:
-            data = json.load(f)
-        if alias_key in data[self.id]["alias"] :
-            del data[self.id]["alias"][alias_key] 
-            with open('shared/user_data.json', 'w') as f:
-                json.dump(data, f, indent=4)
+        alias = self.alias
+        if alias_key in alias:
+            del alias[alias_key] 
+            self.data_update("alias", alias)
             return 1
         return 0
 
     def check_interaction(self, other, type) :
-        if not type in self.interactions :
+        if not type in self.interactions:
             return 0
-        if not other.id in self.interactions[type] :
+        if not other.id in self.interactions[type]:
             return 0
         return self.interactions[type][other.id]
 
@@ -227,7 +157,7 @@ class User() :
     
     async def hug(self, other, message) :
         url = await self.get_random_gif("hug", message)
-        if not url:  #a message already sent by the get_random_gif method
+        if not url:
             return
         num_hugs = self.add_interaction(other, "hug")
         if num_hugs == 1 :
@@ -257,6 +187,8 @@ class User() :
 
     async def pat(self, other, message) :
         url = await self.get_random_gif("pat", message)
+        if not url:
+            return
         num_pats = self.add_interaction(other, "pat")
         if num_pats == 1 :
             await self.send_embed(message, f"{self.name} pats {other.name}! That's their first pat!", url)
@@ -265,6 +197,8 @@ class User() :
 
     async def bonk(self, other, message) :
         url = await self.get_random_gif("bonk", message)
+        if not url:
+            return
         num_bonks = self.add_interaction(other, "bonk")
         if num_bonks == 1 :
             await self.send_embed(message, f"{self.name} bonks {other.name}! That's their first bonk!", url)
@@ -280,6 +214,8 @@ class User() :
 
     async def lick(self,  message) :
         url = await self.get_random_gif("lick", message)
+        if not url:
+            return
         await self.send_embed(message, None, url)
 
     async def send_embed(self, message, title, url) :
@@ -295,31 +231,34 @@ class User() :
     async def playlist_create(self, name):
         name = name.replace(',', ' ').replace('  ', ' ') #get rid of commas and double whitespaces if any - 
         #getting rid of commas may create double whitespaces, so this is necessary
-        if name in self.playlists:
+        playlists = self.playlists
+        if name in playlists:
             return False
-        self.playlists[name] = {}
-        self.data_update('playlists', self.playlists)
+        playlists[name] = {}
+        self.data_update('playlists', playlists)
         return True
 
     async def playlist_delete(self, name):
-        if name not in self.playlists:
+        playlists = self.playlists
+        if name not in playlists:
             return False
-        del self.playlists[name]
-        self.data_update('playlists', self.playlists)
+        del playlists[name]
+        self.data_update('playlists', playlists)
         return True
 
     async def add_to_playlist(self, playlist, song):
-        self.playlists[playlist][song["webpage_url"]] = song["title"]
-        self.data_update('playlists', self.playlists)
+        playlists = self.playlists
+        playlists[playlist][song["webpage_url"]] = song["title"]
+        self.data_update('playlists', playlists)
         return
 
     async def remove_from_playlist(self, playlist, index):
-        song_url = list(self.playlists[playlist])[index-1]
-        title = self.playlists[playlist][song_url]
-        del self.playlists[playlist][song_url]
-        self.data_update('playlists', self.playlists)
+        playlists = self.playlists
+        song_url = list(playlists[playlist])[index-1]
+        title = playlists[playlist][song_url]
+        del playlists[playlist][song_url]
+        self.data_update('playlists', playlists)
         return title
 
     async def set_playlists_visibility(self, value):
         self.data_update("playlists_visibility", value)
-        self.playlists_visibility = value

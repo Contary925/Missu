@@ -14,14 +14,14 @@ from auto_git_push import sync_to_github
 from functions.perms import *
 from functions.react import react, react_add, react_remove, react_list, react_listall
 from functions.reply import reply, reply_add, reply_remove, reply_list, reply_listall
-from functions.music import (
+from functions.music.music import (
     play, stop, skip, queue, shuffle, pause, resume, push, playnum,
     favlist, repeat, play_favlist, now_playing, pin, unpin
 )
 from functions.press_F import press_F
-from functions.playlists import playlist, playlist_default
-from functions.find_lyrics import find_lyrics
-from functions.get_link import get_link
+from functions.music.playlists import playlist, playlist_default
+from functions.music.find_lyrics import find_lyrics
+from functions.music.get_link import get_link
 from functions.ai_mode import ai_mode, ai_mode_deep
 from functions.reboot import reboot
 from functions.gamba import choose
