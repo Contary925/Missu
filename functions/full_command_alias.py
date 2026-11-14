@@ -38,8 +38,8 @@ async def fca_create(message, args):
     user = User(message.author.id)
     if key in user.full_command_alias:
         return await message.channel.send(f"The alias \"{key}\" already exists!")
-    if "commandalias" in key:
-        return await message.channel.send("Alias key contains prohibited words (avoid using \"commandalias\" in your alias as this may mess up with interpretation)")
+    if "commandalias" in key or "commandalias" in value:
+        return await message.channel.send("Alias key or value contains prohibited words (avoid using \"commandalias\" in your alias as this may mess up with interpretation)")
     user.create_full_command_alias(key, value)
     await message.channel.send(f"Done! __{key}__ now means **{value}** for me in your messages! Run \"uwu commandalias remove {key}\" to remove it!")
     

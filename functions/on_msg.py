@@ -15,11 +15,14 @@ async def on_msg(client, message):
     if message.author.bot:
         return
     content = await check_for_alias(message.author.id, message.content)
-    if message.content.lower().startswith(prefix1):
-        content = cutword(message.content, prefix1)
-    if message.content.lower().startswith(prefix2):
-        content = cutword(message.content, prefix2)
-    if content: #only possible if the message starts with a prefix - the bot can do something with the message then.
+    called = False
+    if content.lower().startswith(prefix1):
+        content = cutword(content, prefix1)
+        called = True
+    if content.lower().startswith(prefix2):
+        content = cutword(content, prefix2)
+        called = True
+    if called: #only possible if the message starts with a prefix - the bot can do something with the message then.
         #otherwise, it is completely ignored.
         print(f"Message:\n{content}\nSent by user:\n{message.author.name}, ID {message.author.id}")
         await call_function(client, message, content)
