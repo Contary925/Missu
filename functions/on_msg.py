@@ -2,21 +2,22 @@ from functions.call_function import call_function
 from functions.cutword import cutword
 from functions.react import check_for_reactions
 from functions.reply import check_for_replies
+from functions.full_command_alias import check_for_alias
 
 prefix1 = 'uwu'
 prefix2 = 'уву'
-async def on_msg(client, message) :
+async def on_msg(client, message):
     if message.author == client.user:
         return
     await check_for_reactions(message) #the only thing the bot can do without a prefix - check if the message contains anything
-        #it's supposed to react or reply to
+        #it's supposed to react or reply to or read as a command
     await check_for_replies(message)
-    if message.author.bot :
+    if message.author.bot:
         return
-    content = None
-    if message.content.lower().startswith(prefix1) :
+    content = await check_for_alias(message.author.id, message.content)
+    if message.content.lower().startswith(prefix1):
         content = cutword(message.content, prefix1)
-    if message.content.lower().startswith(prefix2) :
+    if message.content.lower().startswith(prefix2):
         content = cutword(message.content, prefix2)
     if content: #only possible if the message starts with a prefix - the bot can do something with the message then.
         #otherwise, it is completely ignored.

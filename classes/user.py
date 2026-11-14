@@ -2,13 +2,14 @@ import discord
 import json
 from classes.gif import Gif
 
-class User() :
+class User():
 
     def __init__(self, id, name=None):
         self.id = str(id)
         self.name = name
         self.data = self.read_data()
         self.alias = self.data.get('alias', {})
+        self.full_command_alias = self.data.get('full_command_alias', {})
         self.interactions = self.data.get('interactions', {})
         self.perms = self.data.get('perms', 'default')
         self.reactions = self.data.get('reactions', {})
@@ -18,6 +19,8 @@ class User() :
         self.playlists_visibility = self.data.get("playlists_visibility", False)
         self.default_playlist = self.data.get('default_playlist', None)
         self.gamble_lists = self.data.get('gamble_lists', {})
+        #all of this could be accessed via data.get(), but I've created separate data fields instead for an even easier access
+        #data_update() makes sure these are ALWAYS up to date with self.data
 
     def read_data(self) -> dict:
         with open('shared/user_data.json', 'r+') as f:
@@ -47,8 +50,8 @@ class User() :
         self.gamble_lists = self.data.get('gamble_lists', {})
 
 
-    def set_perms(self, access_level) :
-        if self.perms == access_level :
+    def set_perms(self, access_level):
+        if self.perms == access_level:
             return 0
         self.data_update("perms", access_level)
         return 1
@@ -105,7 +108,7 @@ class User() :
 
     def delete_reaction(self, text):
         reactions = self.reactions
-        if not text in reactions :
+        if not text in reactions:
             return 0
         del reactions[text]
         self.data_update("reactions", reactions)
@@ -113,7 +116,7 @@ class User() :
 
     def delete_response(self, text):
         responses = self.responses
-        if not text in responses :
+        if not text in responses:
             return 0
         del responses[text]
         self.data_update("responses", responses)
@@ -133,7 +136,7 @@ class User() :
         self.data_update("interactions", interactions)
         return interactions[type][other.id]
     
-    def delete_alias(self, alias_key) :
+    def delete_alias(self, alias_key):
         alias = self.alias
         if alias_key in alias:
             del alias[alias_key] 
@@ -141,7 +144,7 @@ class User() :
             return 1
         return 0
 
-    def check_interaction(self, other, type) :
+    def check_interaction(self, other, type):
         if not type in self.interactions:
             return 0
         if not other.id in self.interactions[type]:
@@ -155,70 +158,70 @@ class User() :
             return None
         return url
     
-    async def hug(self, other, message) :
+    async def hug(self, other, message):
         url = await self.get_random_gif("hug", message)
         if not url:
             return
         num_hugs = self.add_interaction(other, "hug")
-        if num_hugs == 1 :
+        if num_hugs == 1:
             await self.send_embed(message, f"{self.name} hugs {other.name}! That's their first hug!", url)
-        else :
+        else:
             await self.send_embed(message, f"{self.name} hugs {other.name}! That's {num_hugs} hugs now!", url)
     
-    async def kiss(self, other, message) :
+    async def kiss(self, other, message):
         url = await self.get_random_gif("kiss", message)
         if not url:
             return
         num_kisses = self.add_interaction(other, "kiss")
-        if num_kisses == 1 :
+        if num_kisses == 1:
             await self.send_embed(message, f"{self.name} kisses {other.name}! That's their first kiss!", url)
-        else :
+        else:
             await self.send_embed(message, f"{self.name} kisses {other.name}! That's {num_kisses} kisses now!", url)
 
-    async def bite(self, other, message) :
+    async def bite(self, other, message):
         url = await self.get_random_gif("bite", message)
         if not url:
             return
         num_bites = self.add_interaction(other, "bite")
-        if num_bites == 1 :
+        if num_bites == 1:
             await self.send_embed(message, f"{self.name} bites {other.name}! That's their first bite!", url)
-        else :
+        else:
             await self.send_embed(message, f"{self.name} bites {other.name}! That's {num_bites} bites now!", url)
 
-    async def pat(self, other, message) :
+    async def pat(self, other, message):
         url = await self.get_random_gif("pat", message)
         if not url:
             return
         num_pats = self.add_interaction(other, "pat")
-        if num_pats == 1 :
+        if num_pats == 1:
             await self.send_embed(message, f"{self.name} pats {other.name}! That's their first pat!", url)
-        else :
+        else:
             await self.send_embed(message, f"{self.name} pats {other.name}! That's {num_pats} pats now!", url)
 
-    async def bonk(self, other, message) :
+    async def bonk(self, other, message):
         url = await self.get_random_gif("bonk", message)
         if not url:
             return
         num_bonks = self.add_interaction(other, "bonk")
-        if num_bonks == 1 :
+        if num_bonks == 1:
             await self.send_embed(message, f"{self.name} bonks {other.name}! That's their first bonk!", url)
-        else :
+        else:
             await self.send_embed(message, f"{self.name} bonks {other.name}! That's {num_bonks} bonks now!", url)
 
-    async def spank(self, other, message) :
+    async def spank(self, other, message):
         num_spanks = self.add_interaction(other, "spank")
-        if num_spanks == 1 :
+        if num_spanks == 1:
             await message.channel.send(f"{self.name} gave <@{other.id}> a spank! That's their first spank!")
-        else :
+        else:
             await message.channel.send(f"{self.name} gave <@{other.id}> a spank! That's {num_spanks} spanks now!")
 
-    async def lick(self,  message) :
+    async def lick(self,  message):
         url = await self.get_random_gif("lick", message)
         if not url:
             return
         await self.send_embed(message, None, url)
 
-    async def send_embed(self, message, title, url) :
+    async def send_embed(self, message, title, url):
         embed = discord.Embed(
             title=title,
             color =0xE8D1EA,
@@ -228,7 +231,7 @@ class User() :
         )
         await message.channel.send(embed = embed)
 
-    async def playlist_create(self, name):
+    def playlist_create(self, name):
         name = name.replace(',', ' ').replace('  ', ' ') #get rid of commas and double whitespaces if any - 
         #getting rid of commas may create double whitespaces, so this is necessary
         playlists = self.playlists
@@ -238,7 +241,7 @@ class User() :
         self.data_update('playlists', playlists)
         return True
 
-    async def playlist_delete(self, name):
+    def playlist_delete(self, name):
         playlists = self.playlists
         if name not in playlists:
             return False
@@ -246,13 +249,13 @@ class User() :
         self.data_update('playlists', playlists)
         return True
 
-    async def add_to_playlist(self, playlist, song):
+    def add_to_playlist(self, playlist, song):
         playlists = self.playlists
         playlists[playlist][song["webpage_url"]] = song["title"]
         self.data_update('playlists', playlists)
         return
 
-    async def remove_from_playlist(self, playlist, index):
+    def remove_from_playlist(self, playlist, index):
         playlists = self.playlists
         song_url = list(playlists[playlist])[index-1]
         title = playlists[playlist][song_url]
@@ -260,5 +263,16 @@ class User() :
         self.data_update('playlists', playlists)
         return title
 
-    async def set_playlists_visibility(self, value):
+    def set_playlists_visibility(self, value):
         self.data_update("playlists_visibility", value)
+
+    def create_full_command_alias(self, key, value):
+        alias = self.full_command_alias
+        alias[key]=value
+        self.data_update("full_command_alias", alias)
+
+    def delete_full_command_alias(self, key):
+        alias = self.full_command_alias
+        del alias[key]
+        self.data_update("full_command_alias", alias)
+        

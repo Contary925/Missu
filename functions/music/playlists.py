@@ -56,7 +56,7 @@ async def playlist_default(client, message, content):
 
 async def playlist_create(client, message, args, pushing=False, pinning=False):
     user = User(message.author.id)
-    match await user.playlist_create(args):
+    match user.playlist_create(args):
         case True:
             await message.channel.send(f'✅ Successfully created the playlist "{args.replace(',', ' ').replace('  ', ' ')}"!')
         case False:
@@ -64,7 +64,7 @@ async def playlist_create(client, message, args, pushing=False, pinning=False):
 
 async def playlist_delete(client, message, args, pushing=False, pinning=False):
     user = User(message.author.id)
-    match await user.playlist_delete(args):
+    match user.playlist_delete(args):
         case True:
             await message.channel.send(f'✅ Successfully deleted the playlist "{args}"!')
         case False:
@@ -93,7 +93,7 @@ async def add_to_playlist(client, message, args, pushing=False, pinning=False):
     count = 0
     for song in songs:
         count += 1
-        await user.add_to_playlist(playlist, song)
+        user.add_to_playlist(playlist, song)
     match count:
         case 0:
             return await message.channel.send("❌ Couldn't find your song...")
@@ -120,7 +120,7 @@ async def remove_from_playlist(client, message, args, pushing=False, pinning=Fal
         or int(index) > len(user.playlists[playlist])
     ):
         return await message.channel.send("❌ Invalid index!")
-    song_title = await user.remove_from_playlist(playlist, int(index))
+    song_title = user.remove_from_playlist(playlist, int(index))
     return await message.channel.send(f'✅ Removed the song "{song_title.replace('*', '\\*')}" from the playlist "{playlist}"!')
     
 
@@ -261,10 +261,10 @@ async def set_playlists_visibility(clitne, message, args, pushing=False, pinning
     user = User(message.author.id)
     match args.casefold():
         case "on":
-            await user.set_playlists_visibility(True)
+            user.set_playlists_visibility(True)
             return await message.channel.send("Done! Now other users can view your playlists.")
         case "off":
-            await user.set_playlists_visibility(False)
+            user.set_playlists_visibility(False)
             return await message.channel.send("Done! Now other users cannot view your playlists.")
         case _:
             return await message.channel.send("Invalid syntax! Usage: uwu playlist visibility on/off.")

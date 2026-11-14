@@ -94,18 +94,18 @@ async def react_listall(message, content):
  
 
 
-async def check_reaction(message, reaction) :
-    try :
+async def check_reaction(message, reaction):
+    try:
         await message.add_reaction(reaction)
         return 1
-    except Exception :
+    except Exception:
         return 0
     
-async def check_for_reactions(message) :
+async def check_for_reactions(message):
     with open('shared/reactions.json', 'r+') as f:
         common_reactions = json.load(f)
     content = message.content.casefold()
-    for text in common_reactions :
+    for text in common_reactions:
         if text in content:
             await message.add_reaction(common_reactions[text])
     with open('shared/user_data.json', 'r+') as f:
@@ -114,7 +114,7 @@ async def check_for_reactions(message) :
         return #no point in checking for reactions if the user never even used the bot
     user = User(message.author.id, None) #the name is unimportant at the moment
     reactions = user.reactions #a dict of text:reaction pairs
-    for text in reactions :
+    for text in reactions:
         if text in content:
             await message.add_reaction(reactions[text])    
     return

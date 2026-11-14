@@ -25,6 +25,7 @@ from functions.music.get_link import get_link
 from functions.ai_mode import ai_mode, ai_mode_deep
 from functions.reboot import reboot
 from functions.gamba import choose
+from functions.full_command_alias import full_command_alias
 
 
 function_map: dict[str, Callable] = {
@@ -133,6 +134,9 @@ function_map: dict[str, Callable] = {
     "help_ru_alias": help_ru_alias,
     "help_ru_interactions": help_ru_interactions,
     "help_ru_gifs": help_ru_gifs,
+
+    #full command alias
+    "commandalias": full_command_alias,
 }
 
 
