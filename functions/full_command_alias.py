@@ -27,10 +27,14 @@ async def full_command_alias(message, content):
     await message.channel.send("Invalid syntax!")
 
 async def fca_create(message, args):
-    res = args.casefold().split("=", maxsplit=1)
+    res = args.split("=", maxsplit=1)
     if len(res) != 2:
         return await message.channel.send("Invalid syntax! Example: uwu commandalias add play music = uwu play favlist -s")
     [key, value] = res
+    key = key.strip().casefold()
+    value = value.strip()
+    if key == "" or value == "":
+        return await message.channel.send("Invalid syntax!")
     user = User(message.author.id)
     if key in user.full_command_alias:
         return await message.channel.send(f"The alias \"{key}\" already exists!")

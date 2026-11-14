@@ -275,7 +275,10 @@
                 "assassin 80%"
             ]
         },
-        "playlists_visibility": true
+        "playlists_visibility": true,
+        "full_command_alias": {
+            "uwu play electronics": "uwu pl play melodic electronic, melodic electronic, ds, ds, celldweller"
+        }
     },
     "994552068138336276": {
         "alias": {}
