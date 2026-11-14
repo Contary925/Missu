@@ -1,5 +1,5 @@
 import asyncio
-from functions.get_youtube_info import search_youtube_multiple, get_youtube_info
+from functions.music.get_youtube_info import search_youtube_multiple, get_youtube_info
 
 NUMBER_EMOJIS = ["1️⃣", "2️⃣", "3️⃣", "4️⃣", "5️⃣", "6️⃣", "7️⃣", "8️⃣", "9️⃣", "🔟"]
 

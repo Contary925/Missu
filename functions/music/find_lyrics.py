@@ -6,7 +6,7 @@ import re
 import html as html_lib
 import json
 from classes.queue import Queue
-from functions.music import music_queues #for the np argument to work
+from functions.music.music import music_queues #for the np argument to work
 import asyncio
 
 NUMBER_EMOJIS = ["1️⃣", "2️⃣", "3️⃣", "4️⃣", "5️⃣"]

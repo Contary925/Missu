@@ -3,8 +3,8 @@ import asyncio
 from classes.queue import Queue
 from classes.user import User
 from functions.cutword import cutword
-from functions.get_youtube_info import get_youtube_info
-from functions.select_youtube_song import select_youtube_song
+from functions.music.get_youtube_info import get_youtube_info
+from functions.music.select_youtube_song import select_youtube_song
 from functions.check_confirmation import check_confirmation
 import random
 

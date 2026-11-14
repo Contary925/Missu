@@ -1,6 +1,6 @@
-from functions.music import music_queues
+from functions.music.music import music_queues
 from classes.queue import Queue
-from functions.get_youtube_info import get_youtube_info
+from functions.music.get_youtube_info import get_youtube_info
 
 async def get_link(client, message, content):
     if content != "":

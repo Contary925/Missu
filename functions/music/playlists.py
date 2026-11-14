@@ -1,9 +1,9 @@
 from classes.user import User
-from functions.get_youtube_info import get_youtube_info
+from functions.music.get_youtube_info import get_youtube_info
 from classes.queue import Queue
-from functions.music import add_and_play
+from functions.music.music import add_and_play
 import asyncio
-from functions.music import music_queues #warning: this is a global variable!
+from functions.music.music import music_queues #warning: this is a global variable!
 #it is, however, only being accessed and changed through guild_id keys.
 #be careful when mutating it!
 
