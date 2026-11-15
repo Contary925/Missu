@@ -8,7 +8,7 @@ from login import log_in
 [client, api_key] = log_in()
 from functions.on_msg import on_msg
 
-from functions.music.music import start_voice_watchdog
+from functions.music.watchdog import start_voice_watchdog
 
 @client.event
 async def on_ready() :

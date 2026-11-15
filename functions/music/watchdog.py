@@ -126,14 +126,14 @@ async def voice_watchdog(client):
                 )
 
                 # Give discord.py time to reconnect on its own.
-                if now - disconnected_at < 30:
+                if now - disconnected_at < 3:
                     continue
 
                 if now < voice_retry_at.get(guild_id, 0):
                     continue
 
                 print(
-                    f"[VOICE] Connection lost for over 30 seconds "
+                    f"[VOICE] Connection lost for over 3 seconds "
                     f"in guild {guild_id}. Starting recovery."
                 )
 
