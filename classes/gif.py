@@ -92,18 +92,24 @@ class Gif:
                 break
 
     async def remove(self, index):
-        with open('shared/gifs.json', 'r+') as f:
-            self.gifs = json.load(f)
-            if not self.type in self.gifs:
-                return await self.message.channel.send("There are no gifs of this type!")
-            if index > len(self.gifs[self.type]):
-                return await self.message.channel.send(f"There is no gif with such index. Double check with gif list {self.type}!")
-            self.url = self.gifs[self.type][index-1]
-            bot_message = await self.send("Is this the gif you want to remove?")
-            check_result = await check_confirmation(self.message, self.client, bot_message)
-            if check_result == 1:
-                del self.gifs[self.type][index-1]
+        with GIF_LOCK:
+            with open('shared/gifs.json', 'r+') as f:
+                self.gifs = json.load(f)
+        if not self.type in self.gifs:
+            return await self.message.channel.send("There are no gifs of this type!")
+        if index < 1 or index > len(self.gifs[self.type]):
+            return await self.message.channel.send(f"There is no gif with such index. Double check with gif list {self.type}!")
+        self.url = self.gifs[self.type][index-1]
+        bot_message = await self.send("Is this the gif you want to remove?")
+        check_result = await check_confirmation(self.message, self.client, bot_message)
+        if check_result == 1:
+            with GIF_LOCK:
+                with open('shared/gifs.json', 'r+') as f:
+                    self.gifs = json.load(f)
+                if self.type not in self.gifs or self.url not in self.gifs[self.type]:
+                    return await self.message.channel.send("This gif has already been removed!")
+                self.gifs[self.type].remove(self.url)
                 with open('shared/gifs.json', 'w') as f:
                     json.dump(self.gifs, f)
-                return await self.message.channel.send("Gif successfully removed from the list!")
+            return await self.message.channel.send("Gif successfully removed from the list!")
         return await self.message.channel.send("Action declined by user.")
