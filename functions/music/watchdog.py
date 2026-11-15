@@ -1,5 +1,5 @@
 import asyncio
-from functions.music.music import music_queues, manual_skips, play_song
+import functions.music
 
 recovery_locks = {}
 recovering_guilds = set()
@@ -42,7 +42,7 @@ async def recover_voice_connection(guild):
         if voice_client is not None and voice_client.is_connected():
             return True
 
-        queue = music_queues.get(guild_id)
+        queue = functions.music.music.music_queues.get(guild_id)
         current_song = queue.current_song if queue else None
         text_channel = playback_text_channels.get(guild_id)
 
@@ -53,17 +53,22 @@ async def recover_voice_connection(guild):
         voice_recovery_channels[guild_id] = channel
 
         generation = next_playback_generation(guild_id)
-        manual_skips.discard(guild_id)
+        functions.music.music.manual_skips.discard(guild_id)
         recovering_guilds.add(guild_id)
 
         try:
             print(f"[VOICE] Recovering connection for guild {guild_id}")
-
             if voice_client is not None:
+                connection = voice_client._connection
+                for task_name in ("_connector", "_runner"):
+                    task = getattr(connection, task_name, None)
+                    if task is not None and not task.done():
+                        task.cancel()
+                        await asyncio.gather(task, return_exceptions=True)
                 await voice_client.disconnect(force=True)
 
             new_voice_client = await channel.connect(
-                timeout=20,
+                timeout=3,
                 reconnect=True
             )
 
@@ -72,7 +77,7 @@ async def recover_voice_connection(guild):
                 return False
 
             if current_song is not None and queue is not None:
-                await play_song(
+                await functions.music.music.play_song(
                     new_voice_client,
                     current_song,
                     queue,
@@ -114,7 +119,7 @@ async def voice_watchdog(client):
                     voice_recovery_attempts.pop(guild_id, None)
                     continue
 
-                queue = music_queues.get(guild_id)
+                queue = functions.music.music.music_queues.get(guild_id)
 
                 # No current song means there is nothing to recover.
                 if queue is None or queue.current_song is None:
