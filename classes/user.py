@@ -1,6 +1,7 @@
 import discord
 import json
 from classes.gif import Gif
+import threading #these methods repeatedly access one file, so it makes sense to secure work with them
 
 class User():
 
@@ -11,12 +12,13 @@ class User():
         self.load()
 
     def read_data(self) -> dict:
-        with open('shared/user_data.json', 'r+') as f:
-            data = json.load(f)
-        if not self.id in data: #that's a new user! need to initialize data here
-            data[self.id] = {}
-            with open('shared/user_data.json', 'w') as f:
-                json.dump(data, f, indent=4)
+        with threading.Lock():
+            with open('shared/user_data.json', 'r+') as f:
+                data = json.load(f)
+            if not self.id in data: #that's a new user! need to initialize data here
+                data[self.id] = {}
+                with open('shared/user_data.json', 'w') as f:
+                    json.dump(data, f, indent=4)
         return data[self.id]
 
     def load(self):
@@ -33,11 +35,12 @@ class User():
         self.full_command_alias = self.data.get('full_command_alias', {})
 
     def data_update(self, key, value): 
-        with open('shared/user_data.json', 'r+') as f:
-            data = json.load(f)
-        data[self.id][key] = value
-        with open('shared/user_data.json', 'w') as f:
-            json.dump(data, f, indent=4)
+        with threading.Lock():
+            with open('shared/user_data.json', 'r+') as f:
+                data = json.load(f)
+            data[self.id][key] = value
+            with open('shared/user_data.json', 'w') as f:
+                json.dump(data, f, indent=4)
         self.data[key] = value #make sure all of the data fields are up to date - data_update is responsible for this
         self.load() #ensures every data field is up to date
 

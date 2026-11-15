@@ -2,6 +2,7 @@ import json
 import discord
 import asyncio
 import random
+import threading
 from functions.check_confirmation import check_confirmation
 
 class Gif:
@@ -13,8 +14,9 @@ class Gif:
         self.client = client
 
     def read_gifs(self) :
-        with open('shared/gifs.json', 'r+') as f:
-            gifs = json.load(f)
+        with threading.Lock():
+            with open('shared/gifs.json', 'r+') as f:
+                gifs = json.load(f)
         return gifs
 
     async def send(self, title) :
@@ -41,8 +43,9 @@ class Gif:
         if self.url in self.gifs[self.type] :
             return "The gif is already in the list!"
         self.gifs[self.type].append(self.url)
-        with open('shared/gifs.json', 'w') as f:
-            json.dump(self.gifs, f)
+        with threading.Lock():
+            with open('shared/gifs.json', 'w') as f:
+                json.dump(self.gifs, f)
         return "Added successfully!"
 
     def select_random(self) :
@@ -95,7 +98,8 @@ class Gif:
         check_result = await check_confirmation(self.message, self.client, bot_message)
         if check_result == 1:
             del self.gifs[self.type][index-1]
-            with open('shared/gifs.json', 'w') as f:
-                json.dump(self.gifs, f)
+            with threading.Lock():
+                with open('shared/gifs.json', 'w') as f:
+                    json.dump(self.gifs, f)
             return await self.message.channel.send("Gif successfully removed from the list!")
         return await self.message.channel.send("Action declined by user.")

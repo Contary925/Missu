@@ -73,7 +73,7 @@ async def add_to_playlist(client, message, args, pushing=False, pinning=False):
     user = User(message.author.id)
     song_name = None
     playlists = user.playlists
-    for playlist in  sorted(playlists, key=len, reverse=True):
+    for playlist in sorted(playlists, key=len, reverse=True):
         if args.startswith(playlist):
             song_name = args.split(playlist, maxsplit=1)[1]
             break
