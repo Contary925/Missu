@@ -18,7 +18,7 @@ async def play(client, message, content, pushing=False, pinning=False):
         content = content[:-2].strip()
     select = '-select' in content.casefold()
     if select:
-        content, select_limit = content.casefold.split('-select', maxsplit=1)
+        content, select_limit = content.casefold().split('-select', maxsplit=1)
         content = content.strip()
         select_limit = select_limit.strip()
         match select_limit.isdigit():

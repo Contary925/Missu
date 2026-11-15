@@ -9,7 +9,6 @@ from functions.music.music import music_queues #warning: this is a global variab
 
 async def playlist(client, message, content):
     HANDLERS = {
-            "play many": playlist_create,
             "create": playlist_create,
             "add": add_to_playlist,
             "+": add_to_playlist,
@@ -373,7 +372,7 @@ async def copy_users_playlist(client, message, args, pushing=False, pinning=Fals
             pl_name = pl_name_and_alias.strip()
             pl_alias = pl_name
     else:
-        await message.channel.send("Invalid syntax! Usage: uwu playlist copy mention = playlist name.")
+        return await message.channel.send("Invalid syntax! Usage: uwu playlist copy mention = playlist name.")
     if mention in self.alias :
         mention = self.alias[mention]
     try:
@@ -398,7 +397,7 @@ async def copy_users_playlist(client, message, args, pushing=False, pinning=Fals
             return await message.channel.send(
                 f'❌ The playlist "{pl_name}" is empty!'
             )
-        await self.playlist_create(pl_alias)
+        self.playlist_create(pl_alias)
         counter = 0
         for song_url in playlist:
             song = {
@@ -406,5 +405,5 @@ async def copy_users_playlist(client, message, args, pushing=False, pinning=Fals
                 "webpage_url": song_url
             }
             counter += 1
-            await self.add_to_playlist(pl_alias, song)
+            self.add_to_playlist(pl_alias, song)
         await message.channel.send(f"Created a playlist **{pl_alias.replace(',', ' ').replace('  ', ' ')}** and added {counter} songs!")

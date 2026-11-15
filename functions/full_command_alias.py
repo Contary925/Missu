@@ -2,7 +2,7 @@ from classes.user import User
 
 async def check_for_alias(id, content) -> str:
     user = User(id)
-    if content in user.full_command_alias:
+    if content.casefold() in user.full_command_alias:
         return user.full_command_alias[content]
     else:
         return content
