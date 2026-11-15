@@ -380,6 +380,8 @@ async def copy_users_playlist(client, message, args, pushing=False, pinning=Fals
     except Exception as e:
         await message.channel.send("Could not find this user! Correctly mention a user or use alias.")
         return 0
+    pl_alias = pl_alias.replace(',', ' ').replace('  ', ' ') #get rid of commas and double whitespaces if any - 
+    #getting rid of commas may create double whitespaces, so this is necessary
     if pl_alias in self.playlists:
         return await message.channel.send(f"You already have a playlist **{pl_alias}**! Delete it or alias it as something else!")
     other_info = await client.fetch_user(other_id)

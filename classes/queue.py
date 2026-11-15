@@ -30,7 +30,16 @@ class Queue():
             return '❌ The queue is empty!'
         return result
     def shuffle(self):
-        random.shuffle(self.songs)
+        shuffled = []
+        pinned = []
+        for song in self.songs:
+            match song.get("pinned", False):
+                case True:
+                    pinned.append(song)
+                case False:
+                    shuffled.append(song)
+        random.shuffle(shuffled)
+        self.songs = pinned + shuffled
     def push(self, index):
         song = self.songs.pop(index-2)
         self.insert(0, song)

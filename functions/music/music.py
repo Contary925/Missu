@@ -13,17 +13,27 @@ music_queues = {} #warning: this is a global variable!
 #be careful when mutating it!
 
 async def play(client, message, content, pushing=False, pinning=False):
+    if message.author.voice is None:
+        await message.channel.send(
+            "❌ You must be in a voice channel to use this command!"
+        )
+        return
     shuffle = content.casefold().endswith('-s')
     if shuffle:
         content = content[:-2].strip()
     select = '-select' in content.casefold()
     if select:
-        content, select_limit = content.casefold().split('-select', maxsplit=1)
+        query_lower, select_limit = content.casefold().split('-select', maxsplit=1)
+        content = content[0:len(query_lower)]
         content = content.strip()
         select_limit = select_limit.strip()
         match select_limit.isdigit():
             case True:
                 select_limit = int(select_limit)
+                if select_limit < 1:
+                    select_limit = 1
+                if select_limit > 10:
+                    select_limit = 10
             case False:
                 select_limit = 5
     if content == "favlist":
@@ -32,11 +42,6 @@ async def play(client, message, content, pushing=False, pinning=False):
         excluded = (content.strip()+" ").split(" ", maxsplit=1)[1] #only cuts off an "everything" or an "all"
         #the extra space is to ensure splitting works. It's harmless because all excluded items will be further stripped
         return await play_all_saved_songs(client, message, excluded, shuffle, pushing, pinning)    
-    if message.author.voice is None:
-        await message.channel.send(
-            "❌ You must be in a voice channel to use this command!"
-        )
-        return
     process_message = None
     if select:
         process_message, songs = await select_youtube_song(
@@ -45,6 +50,9 @@ async def play(client, message, content, pushing=False, pinning=False):
         content,
         select_limit
         )   
+        if not songs:
+            await message.channel.send("Action declined by user.")
+            return
     else:
         match content.strip():
             case 'np':
@@ -208,7 +216,7 @@ async def push(client, message, content, auto=False):
         await message.channel.send(
             "❌ You must be in a voice channel to use this command!"
         )
-        return
+        return False
     channel = message.author.voice.channel
     voice_client = message.guild.voice_client
     if voice_client is not None:
@@ -220,13 +228,17 @@ async def push(client, message, content, auto=False):
     if index == 'last':
         index = len(queue.songs)+1
     if index < 1:
-        return await message.channel.send(f"❌ Incorrect index!")
+        await message.channel.send(f"❌ Incorrect index!")
+        return False
     if len(queue.songs)+1 < index:
-        return await message.channel.send(f"❌ No song number **{index}** in the queue!")
-    if index == 2:
-        return await message.channel.send(f"❌ Song number **{index}** is already playing next!")
+        await message.channel.send(f"❌ No song number **{index}** in the queue!")
+        return False
+    if index == 2 and not auto:
+        await message.channel.send(f"❌ Song number **{index}** is already playing next!")
+        return False
     if index == 1:
-        return await message.channel.send(f"❌ This song is already playing!")
+        await message.channel.send(f"❌ This song is already playing!")
+        return False
     queue.push(index)
     if not auto:
         return await message.channel.send(f"✅ Pushed song number {index} to play next!")
@@ -446,7 +458,7 @@ async def get_all_songs(user_id, excluded=[]):
             'webpage_url': song_url
         }
         songs.append(song)
-    for playlist in user.playlists:
+    for playlist in sorted(user.playlists, key=len, reverse=True):
         if playlist in excluded:
             continue
         for song_url in user.playlists[playlist]:

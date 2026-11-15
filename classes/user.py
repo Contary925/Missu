@@ -8,19 +8,7 @@ class User():
         self.id = str(id)
         self.name = name
         self.data = self.read_data()
-        self.alias = self.data.get('alias', {})
-        self.full_command_alias = self.data.get('full_command_alias', {})
-        self.interactions = self.data.get('interactions', {})
-        self.perms = self.data.get('perms', 'default')
-        self.reactions = self.data.get('reactions', {})
-        self.responses = self.data.get('responses', {})
-        self.favlist = self.data.get('favlist', {})
-        self.playlists = self.data.get('playlists', {})
-        self.playlists_visibility = self.data.get("playlists_visibility", False)
-        self.default_playlist = self.data.get('default_playlist', None)
-        self.gamble_lists = self.data.get('gamble_lists', {})
-        #all of this could be accessed via data.get(), but I've created separate data fields instead for an even easier access
-        #data_update() makes sure these are ALWAYS up to date with self.data
+        self.load()
 
     def read_data(self) -> dict:
         with open('shared/user_data.json', 'r+') as f:
@@ -30,14 +18,8 @@ class User():
         with open('shared/user_data.json', 'w') as f:
             json.dump(data, f, indent=4)
         return data[self.id]
-    
-    def data_update(self, key, value): 
-        with open('shared/user_data.json', 'r+') as f:
-            data = json.load(f)
-        data[self.id][key] = value
-        with open('shared/user_data.json', 'w') as f:
-            json.dump(data, f, indent=4)
-        self.data[key] = value #make sure all of the data fields are up to date - data_update is responsible for this
+
+    def load(self):
         self.alias = self.data.get('alias', {})
         self.interactions = self.data.get('interactions', {})
         self.perms = self.data.get('perms', 'default')
@@ -48,6 +30,16 @@ class User():
         self.playlists_visibility = self.data.get("playlists_visibility", False)
         self.default_playlist = self.data.get('default_playlist', None)
         self.gamble_lists = self.data.get('gamble_lists', {})
+        self.full_command_alias = self.data.get('full_command_alias', {})
+
+    def data_update(self, key, value): 
+        with open('shared/user_data.json', 'r+') as f:
+            data = json.load(f)
+        data[self.id][key] = value
+        with open('shared/user_data.json', 'w') as f:
+            json.dump(data, f, indent=4)
+        self.data[key] = value #make sure all of the data fields are up to date - data_update is responsible for this
+        self.load() #ensures every data field is up to date
 
 
     def set_perms(self, access_level):

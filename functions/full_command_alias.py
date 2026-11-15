@@ -3,7 +3,7 @@ from classes.user import User
 async def check_for_alias(id, content) -> str:
     user = User(id)
     if content.casefold() in user.full_command_alias:
-        return user.full_command_alias[content]
+        return user.full_command_alias[content.casefold()]
     else:
         return content
 
@@ -44,7 +44,7 @@ async def fca_create(message, args):
     await message.channel.send(f"Done! __{key}__ now means **{value}** for me in your messages! Run \"uwu commandalias remove {key}\" to remove it!")
     
 async def fca_delete(message, args):
-    key = args
+    key = args.casefold()
     user = User(message.author.id)
     if not key in user.full_command_alias:
         return await message.channel.send(f"Couldn't find any alias for \"{key}\"!")
