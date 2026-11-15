@@ -15,6 +15,8 @@ music_queues = {} #warning: this is a global variable!
 manual_skips = set()
 recovery_locks = {}
 stopped_guilds = set()
+recovering_guilds = set()
+playback_generations = {}
 
 async def play(client, message, content, pushing=False, pinning=False):
     if message.author.voice is None:
@@ -103,7 +105,10 @@ async def stop(client, message, content):
     voice_client = message.guild.voice_client
     if voice_client is not None:
         await message.channel.send("Stopping...")
-        await voice_client.disconnect()
+        guild_id = message.guild.id
+        next_playback_generation(guild_id)
+        manual_skips.discard(guild_id)
+        await voice_client.disconnect(force=True)
         if message.guild.id in music_queues:
             del music_queues[message.guild.id]
     else:
@@ -414,6 +419,8 @@ async def play_song(voice_client, song, queue, text_channel, refresh_attempted=F
             loop
         )
         return
+    guild_id = voice_client.guild.id
+    generation = next_playback_generation(guild_id)
     user_agent = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36"
     FFMPEG_OPTIONS = {
         'before_options': (
@@ -447,7 +454,12 @@ async def play_song(voice_client, song, queue, text_channel, refresh_attempted=F
 
         loop = asyncio.get_running_loop()
         asyncio.run_coroutine_threadsafe(
-            handle_song_finished(voice_client, queue, text_channel),
+            handle_song_finished(
+                voice_client,
+                queue,
+                text_channel,
+                generation=generation
+            ),
             loop
         )
         return
@@ -467,7 +479,8 @@ async def play_song(voice_client, song, queue, text_channel, refresh_attempted=F
                 text_channel,
                 song,
                 ffmpeg_output,
-                refresh_attempted
+                refresh_attempted,
+                generation
             ),
             loop
         )
@@ -484,9 +497,13 @@ async def handle_song_finished(
     text_channel,
     song=None,
     ffmpeg_output="",
-    refresh_attempted=False
+    refresh_attempted=False,
+    generation=None
 ):
     guild_id = voice_client.guild.id
+    if generation is not None and not is_current_generation(guild_id, generation):
+        print(f"[MUSIC] Ignoring stale playback callback for guild {guild_id}")
+        return
     # A user explicitly requested a skip.
     if guild_id in manual_skips:
         manual_skips.discard(guild_id)
@@ -496,6 +513,9 @@ async def handle_song_finished(
             print(f"HTTP 403 detected for: {song.get('title')}")
             try:
                 refreshed = await get_youtube_info(song["webpage_url"])
+                if generation is not None and not is_current_generation(guild_id, generation):
+                    print(f"[MUSIC] Playback generation changed during URL refresh")
+                    return
             except Exception as e:
                 print(f"Failed to refresh YouTube URL: {e}")
                 refreshed = []
@@ -515,6 +535,8 @@ async def handle_song_finished(
         await text_channel.send(
             "❌ Couldn't refresh the audio stream. Skipping this song."
         )
+    if generation is not None and not is_current_generation(guild_id, generation):
+        return
     # Continue with the next song.
     next_song = queue.next()
     if next_song is None:
@@ -755,6 +777,16 @@ async def add_and_play(message, songs, process_message=None, shuffle=False, push
         message.channel,
     )
 
+#reconnection helpers
+
+def next_playback_generation(guild_id):
+    generation = playback_generations.get(guild_id, 0) + 1
+    playback_generations[guild_id] = generation
+    return generation
+
+
+def is_current_generation(guild_id, generation):
+    return playback_generations.get(guild_id) == generation
 
 #debug helper
 def log_voice_state(label, voice_client):
