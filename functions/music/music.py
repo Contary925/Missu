@@ -13,6 +13,8 @@ music_queues = {} #warning: this is a global variable!
 #it is, however, only being accessed and changed through guild_id keys.
 #be careful when mutating it!
 manual_skips = set()
+recovery_locks = {}
+stopped_guilds = set()
 
 async def play(client, message, content, pushing=False, pinning=False):
     if message.author.voice is None:
@@ -76,6 +78,7 @@ async def play(client, message, content, pushing=False, pinning=False):
 
 
 async def skip(client, message, auto=False):
+    log_voice_state("before command", message.guild.voice_client)
     if message.author.voice is None:
         await message.channel.send(
             "❌ You must be in a voice channel to use this command!"
@@ -84,7 +87,8 @@ async def skip(client, message, auto=False):
     channel = message.author.voice.channel
     voice_client = message.guild.voice_client
     if voice_client is not None:
-        await voice_client.move_to(channel)
+        if voice_client.channel != channel:
+            await voice_client.move_to(channel)
     else:
         voice_client = await channel.connect()
     if not auto:
@@ -95,6 +99,7 @@ async def skip(client, message, auto=False):
     voice_client.stop()
 
 async def stop(client, message, content):
+    log_voice_state("before command", message.guild.voice_client)
     voice_client = message.guild.voice_client
     if voice_client is not None:
         await message.channel.send("Stopping...")
@@ -175,6 +180,7 @@ async def queue(client, message, content):
         )
 
 async def pause(client, message):
+    log_voice_state("before command", message.guild.voice_client)
     voice_client = message.guild.voice_client
     if voice_client is None or not voice_client.is_playing():
         await message.channel.send("❌ Nothing is currently playing!")
@@ -183,6 +189,7 @@ async def pause(client, message):
     await message.channel.send("✅ Paused.")
 
 async def resume(client, message):
+    log_voice_state("before command", message.guild.voice_client)
     voice_client = message.guild.voice_client
     if voice_client is None or not voice_client.is_paused():
         await message.channel.send("❌ Nothing is currently paused!")
@@ -199,7 +206,8 @@ async def shuffle(client, message):
     channel = message.author.voice.channel
     voice_client = message.guild.voice_client
     if voice_client is not None:
-        await voice_client.move_to(channel)
+        if voice_client.channel != channel:
+            await voice_client.move_to(channel)
     else:
         voice_client = await channel.connect()
     guild_id = message.guild.id
@@ -227,7 +235,8 @@ async def push(client, message, content, auto=False):
     channel = message.author.voice.channel
     voice_client = message.guild.voice_client
     if voice_client is not None:
-        await voice_client.move_to(channel)
+        if voice_client.channel != channel:
+            await voice_client.move_to(channel)
     else:
         voice_client = await channel.connect()
     guild_id = message.guild.id
@@ -623,7 +632,8 @@ async def pin(client, message, content):
     channel = message.author.voice.channel
     voice_client = message.guild.voice_client
     if voice_client is not None:
-        await voice_client.move_to(channel)
+        if voice_client.channel != channel:
+            await voice_client.move_to(channel)
     else:
         voice_client = await channel.connect()
     guild_id = message.guild.id
@@ -657,7 +667,8 @@ async def unpin(client, message, content):
     channel = message.author.voice.channel
     voice_client = message.guild.voice_client
     if voice_client is not None:
-        await voice_client.move_to(channel)
+        if voice_client.channel != channel:
+            await voice_client.move_to(channel)
     else:
         voice_client = await channel.connect()
     guild_id = message.guild.id
@@ -743,3 +754,22 @@ async def add_and_play(message, songs, process_message=None, shuffle=False, push
         queue,
         message.channel,
     )
+
+
+#debug helper
+def log_voice_state(label, voice_client):
+    if voice_client is None:
+        print(f"[VOICE] {label}: VoiceClient is None")
+        return
+    try:
+        print(
+            f"[VOICE] {label}: "
+            f"connected={voice_client.is_connected()}, "
+            f"playing={voice_client.is_playing()}, "
+            f"paused={voice_client.is_paused()}, "
+            f"latency={voice_client.latency}, "
+            f"average_latency={voice_client.average_latency}, "
+            f"channel={voice_client.channel}"
+        )
+    except Exception as e:
+        print(f"[VOICE] {label}: diagnostic error: {e}")
