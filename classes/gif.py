@@ -2,24 +2,25 @@ import json
 import discord
 import asyncio
 import random
-import threading
 from functions.check_confirmation import check_confirmation
+import threading
+GIF_LOCK = threading.Lock()
 
 class Gif:
-    def __init__(self, client, message, type, url) :
+    def __init__(self, client, message, type, url):
         self.url = url
         self.type = type
         self.gifs = self.read_gifs()
         self.message = message
         self.client = client
 
-    def read_gifs(self) :
-        with threading.Lock():
+    def read_gifs(self):
+        with GIF_LOCK:
             with open('shared/gifs.json', 'r+') as f:
                 gifs = json.load(f)
         return gifs
 
-    async def send(self, title) :
+    async def send(self, title):
         embed = discord.Embed(
             title=title,
             color =0xE8D1EA,
@@ -37,36 +38,37 @@ class Gif:
             return await self.message.channel.send(result)
         return await self.message.channel.send("Action declined by user.")
 
-    def add(self) :
-        if not self.type in self.gifs :
+    def add(self):
+        self.gifs = self.read_gifs()
+        if not self.type in self.gifs:
             self.gifs[self.type] = [] #finally, a list instead of a dict
-        if self.url in self.gifs[self.type] :
+        if self.url in self.gifs[self.type]:
             return "The gif is already in the list!"
         self.gifs[self.type].append(self.url)
-        with threading.Lock():
+        with GIF_LOCK:
             with open('shared/gifs.json', 'w') as f:
                 json.dump(self.gifs, f)
         return "Added successfully!"
 
-    def select_random(self) :
+    def select_random(self):
         if not self.type in self.gifs:
             return None
         gifs_list = self.gifs[self.type]
-        if gifs_list == [] :
+        if gifs_list == []:
             return None
         selected_gif_url = random.choice(gifs_list)
         return selected_gif_url
 
-    async def list(self) :
+    async def list(self):
         if not self.type in self.gifs:
             return await self.message.channel.send("No gifs of this type yet!")
-        if self.gifs[self.type] == [] :
+        if self.gifs[self.type] == []:
             return await self.message.channel.send("No gifs of this type yet!")
         gifs_list = self.gifs[self.type]
         content = f"Gifs of the {self.type} type:\n"
-        for i in range(0, min(len(gifs_list), 20)) :
+        for i in range(0, min(len(gifs_list), 20)):
             content += f"{i+1}. {gifs_list[i]}\n"
-            if i==19 :
+            if i==19:
                 content += "Cannot list even more..."
         index = 0
         bot_message = await self.message.channel.send(content, embed=discord.Embed(title=f"Gif {index + 1} of {len(gifs_list)}").set_image(url=gifs_list[index]))
@@ -88,17 +90,18 @@ class Gif:
                 await bot_message.edit(content = f"{content}\nButtons are now unavailable since 60 seconds have past.")
                 break
 
-    async def remove(self, index) :
-        if not self.type in self.gifs :
+    async def remove(self, index):
+        self.gifs = self.read_gifs()
+        if not self.type in self.gifs:
             return await self.message.channel.send("There are no gifs of this type!")
-        if index > len(self.gifs[self.type]) :
+        if index > len(self.gifs[self.type]):
             return await self.message.channel.send(f"There is no gif with such index. Double check with gif list {self.type}!")
         self.url = self.gifs[self.type][index-1]
         bot_message = await self.send("Is this the gif you want to remove?")
         check_result = await check_confirmation(self.message, self.client, bot_message)
         if check_result == 1:
             del self.gifs[self.type][index-1]
-            with threading.Lock():
+            with GIF_LOCK:
                 with open('shared/gifs.json', 'w') as f:
                     json.dump(self.gifs, f)
             return await self.message.channel.send("Gif successfully removed from the list!")

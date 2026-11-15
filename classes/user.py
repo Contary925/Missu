@@ -2,6 +2,7 @@ import discord
 import json
 from classes.gif import Gif
 import threading #these methods repeatedly access one file, so it makes sense to secure work with them
+USER_DATA_LOCK = threading.Lock()
 
 class User():
 
@@ -12,7 +13,7 @@ class User():
         self.load()
 
     def read_data(self) -> dict:
-        with threading.Lock():
+        with USER_DATA_LOCK:
             with open('shared/user_data.json', 'r+') as f:
                 data = json.load(f)
             if not self.id in data: #that's a new user! need to initialize data here
@@ -35,7 +36,7 @@ class User():
         self.full_command_alias = self.data.get('full_command_alias', {})
 
     def data_update(self, key, value): 
-        with threading.Lock():
+        with USER_DATA_LOCK:
             with open('shared/user_data.json', 'r+') as f:
                 data = json.load(f)
             data[self.id][key] = value
@@ -227,7 +228,7 @@ class User():
         await message.channel.send(embed = embed)
 
     def playlist_create(self, name):
-        name = ' '.join(name.replace(', ', '').split()) #get rid of commas and double whitespaces if any - 
+        name = ' '.join(name.replace(',', ' ').split()) #get rid of commas and double whitespaces if any - 
         #getting rid of commas may create double whitespaces, so this is necessary
         playlists = self.playlists
         if name in playlists:
