@@ -8,15 +8,14 @@ from functions.music.select_youtube_song import select_youtube_song
 from functions.check_confirmation import check_confirmation
 import random
 import tempfile
-
+from functions.music.watchdog import (
+    start_voice_watchdog, playback_text_channels, voice_recovery_channels, voice_disconnect_since, voice_retry_at, 
+    voice_recovery_attempts, next_playback_generation, recovering_guilds, is_current_generation
+)
 music_queues = {} #warning: this is a global variable!
 #it is, however, only being accessed and changed through guild_id keys.
 #be careful when mutating it!
 manual_skips = set()
-recovery_locks = {}
-stopped_guilds = set()
-recovering_guilds = set()
-playback_generations = {}
 
 async def play(client, message, content, pushing=False, pinning=False):
     if message.author.voice is None:
@@ -102,17 +101,37 @@ async def skip(client, message, auto=False):
 
 async def stop(client, message, content):
     log_voice_state("before command", message.guild.voice_client)
+
+    guild_id = message.guild.id
+    voice_client = message.guild.voice_client
+    queue = music_queues.get(guild_id)
+
+    session_exists = (
+        voice_client is not None
+        or queue is not None
+        or guild_id in recovering_guilds
+        or guild_id in voice_recovery_channels
+    )
+
+    if not session_exists:
+        await message.channel.send("❌ Currently not playing anything!")
+        return
+
+    # Invalidate all pending playback and recovery operations.
+    next_playback_generation(guild_id)
+    manual_skips.discard(guild_id)
+
+    await message.channel.send("Stopping...")
+
     voice_client = message.guild.voice_client
     if voice_client is not None:
-        await message.channel.send("Stopping...")
-        guild_id = message.guild.id
-        next_playback_generation(guild_id)
-        manual_skips.discard(guild_id)
         await voice_client.disconnect(force=True)
-        if message.guild.id in music_queues:
-            del music_queues[message.guild.id]
-    else:
-        await message.channel.send("❌ Currently not playing anything!")
+    playback_text_channels.pop(guild_id, None)
+    voice_recovery_channels.pop(guild_id, None)
+    voice_disconnect_since.pop(guild_id, None)
+    voice_retry_at.pop(guild_id, None)
+    voice_recovery_attempts.pop(guild_id, None)
+    music_queues.pop(guild_id, None)
 
 async def queue(client, message, content):
     if content.startswith('remove'):
@@ -420,6 +439,7 @@ async def play_song(voice_client, song, queue, text_channel, refresh_attempted=F
         )
         return
     guild_id = voice_client.guild.id
+    playback_text_channels[guild_id] = text_channel
     generation = next_playback_generation(guild_id)
     user_agent = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36"
     FFMPEG_OPTIONS = {
@@ -777,16 +797,7 @@ async def add_and_play(message, songs, process_message=None, shuffle=False, push
         message.channel,
     )
 
-#reconnection helpers
 
-def next_playback_generation(guild_id):
-    generation = playback_generations.get(guild_id, 0) + 1
-    playback_generations[guild_id] = generation
-    return generation
-
-
-def is_current_generation(guild_id, generation):
-    return playback_generations.get(guild_id) == generation
 
 #debug helper
 def log_voice_state(label, voice_client):

@@ -8,9 +8,13 @@ from login import log_in
 [client, api_key] = log_in()
 from functions.on_msg import on_msg
 
+from functions.music.music import start_voice_watchdog
+
 @client.event
 async def on_ready() :
     await client.change_presence(activity=discord.Game(name="uwu help"))
+    start_voice_watchdog(client) #watching voice connection and runs a reconnection attempt, because essentially discord is doind
+    #a pretty bad job at this
     print(f"Logged in as {client.user}")
     if os.environ.pop("REBOOT_NOTICE", None) != "1":
         return
