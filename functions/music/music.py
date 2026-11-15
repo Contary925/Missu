@@ -50,8 +50,7 @@ async def play(client, message, content, pushing=False, pinning=False):
         content,
         select_limit
         )   
-        if not songs:
-            await message.channel.send("Action declined by user.")
+        if not songs: #error message already handled by select_youtube_song
             return
     else:
         match content.strip():
@@ -244,8 +243,9 @@ async def push(client, message, content, auto=False):
         return await message.channel.send(f"✅ Pushed song number {index} to play next!")
 
 async def playnum(client, message, content):
-    await push(client, message, content, auto=True)
-    await skip(client, message, auto=True)
+    pushed = await push(client, message, content, auto=True)
+    if pushed:
+        await skip(client, message, auto=True)
 
 async def favlist(client, message, content):
     match content:

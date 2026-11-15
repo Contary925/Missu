@@ -15,8 +15,8 @@ class User():
             data = json.load(f)
         if not self.id in data: #that's a new user! need to initialize data here
             data[self.id] = {}
-        with open('shared/user_data.json', 'w') as f:
-            json.dump(data, f, indent=4)
+            with open('shared/user_data.json', 'w') as f:
+                json.dump(data, f, indent=4)
         return data[self.id]
 
     def load(self):
@@ -224,7 +224,7 @@ class User():
         await message.channel.send(embed = embed)
 
     def playlist_create(self, name):
-        name = name.replace(',', ' ').replace('  ', ' ') #get rid of commas and double whitespaces if any - 
+        name = ' '.join(name.replace(',', '').split()) #get rid of commas and double whitespaces if any - 
         #getting rid of commas may create double whitespaces, so this is necessary
         playlists = self.playlists
         if name in playlists:

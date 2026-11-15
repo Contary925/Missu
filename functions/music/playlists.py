@@ -73,7 +73,7 @@ async def add_to_playlist(client, message, args, pushing=False, pinning=False):
     user = User(message.author.id)
     song_name = None
     playlists = user.playlists
-    for playlist in playlists:
+    for playlist in  sorted(playlists, key=len, reverse=True):
         if args.startswith(playlist):
             song_name = args.split(playlist, maxsplit=1)[1]
             break
@@ -106,7 +106,7 @@ async def remove_from_playlist(client, message, args, pushing=False, pinning=Fal
     user = User(message.author.id)
     index = None
     playlists = user.playlists
-    for playlist in playlists:
+    for playlist in sorted(playlists, key=len, reverse=True):
         if args.startswith(playlist):
             index = args.split(playlist, maxsplit=1)[1]
             break
@@ -380,7 +380,7 @@ async def copy_users_playlist(client, message, args, pushing=False, pinning=Fals
     except Exception as e:
         await message.channel.send("Could not find this user! Correctly mention a user or use alias.")
         return 0
-    pl_alias = pl_alias.replace(',', ' ').replace('  ', ' ') #get rid of commas and double whitespaces if any - 
+    pl_alias = ' '.join(pl_alias.replace(',', '').split()) #get rid of commas and double whitespaces if any - 
     #getting rid of commas may create double whitespaces, so this is necessary
     if pl_alias in self.playlists:
         return await message.channel.send(f"You already have a playlist **{pl_alias}**! Delete it or alias it as something else!")
