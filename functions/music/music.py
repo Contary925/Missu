@@ -241,6 +241,7 @@ async def push(client, message, content, auto=False):
     queue.push(index)
     if not auto:
         return await message.channel.send(f"✅ Pushed song number {index} to play next!")
+    return True
 
 async def playnum(client, message, content):
     pushed = await push(client, message, content, auto=True)

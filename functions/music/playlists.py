@@ -57,9 +57,9 @@ async def playlist_create(client, message, args, pushing=False, pinning=False):
     user = User(message.author.id)
     match user.playlist_create(args):
         case True:
-            await message.channel.send(f'✅ Successfully created the playlist "{args.replace(',', ' ').replace('  ', ' ')}"!')
+            await message.channel.send(f'✅ Successfully created the playlist "{' '.join(args.replace(', ', '').split())}"!')
         case False:
-            await message.channel.send(f'❌ A playlist "{args.replace(',', ' ').replace('  ', ' ')}" already exists!')
+            await message.channel.send(f'❌ A playlist "{' '.join(args.replace(', ', '').split())}" already exists!')
 
 async def playlist_delete(client, message, args, pushing=False, pinning=False):
     user = User(message.author.id)
@@ -380,7 +380,7 @@ async def copy_users_playlist(client, message, args, pushing=False, pinning=Fals
     except Exception as e:
         await message.channel.send("Could not find this user! Correctly mention a user or use alias.")
         return 0
-    pl_alias = ' '.join(pl_alias.replace(',', '').split()) #get rid of commas and double whitespaces if any - 
+    pl_alias = ' '.join(pl_alias.replace(', ', '').split()) #get rid of commas and double whitespaces if any - 
     #getting rid of commas may create double whitespaces, so this is necessary
     if pl_alias in self.playlists:
         return await message.channel.send(f"You already have a playlist **{pl_alias}**! Delete it or alias it as something else!")
@@ -408,4 +408,4 @@ async def copy_users_playlist(client, message, args, pushing=False, pinning=Fals
             }
             counter += 1
             self.add_to_playlist(pl_alias, song)
-        await message.channel.send(f"Created a playlist **{pl_alias.replace(',', ' ').replace('  ', ' ')}** and added {counter} songs!")
+        await message.channel.send(f"Created a playlist **{' '.join(pl_alias.replace(', ', '').split())}** and added {counter} songs!")

@@ -224,7 +224,7 @@ class User():
         await message.channel.send(embed = embed)
 
     def playlist_create(self, name):
-        name = ' '.join(name.replace(',', '').split()) #get rid of commas and double whitespaces if any - 
+        name = ' '.join(name.replace(', ', '').split()) #get rid of commas and double whitespaces if any - 
         #getting rid of commas may create double whitespaces, so this is necessary
         playlists = self.playlists
         if name in playlists:
