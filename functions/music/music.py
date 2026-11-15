@@ -7,10 +7,12 @@ from functions.music.get_youtube_info import get_youtube_info
 from functions.music.select_youtube_song import select_youtube_song
 from functions.check_confirmation import check_confirmation
 import random
+import tempfile
 
 music_queues = {} #warning: this is a global variable!
 #it is, however, only being accessed and changed through guild_id keys.
 #be careful when mutating it!
+manual_skips = set()
 
 async def play(client, message, content, pushing=False, pinning=False):
     if message.author.voice is None:
@@ -87,6 +89,9 @@ async def skip(client, message, auto=False):
         voice_client = await channel.connect()
     if not auto:
         await message.channel.send("Skipping...")
+    guild_id = message.guild.id
+    if voice_client.is_playing() or voice_client.is_paused():
+        manual_skips.add(guild_id)
     voice_client.stop()
 
 async def stop(client, message, content):
@@ -391,11 +396,13 @@ async def repeat(message, content):
 
 #helper functions
 
-async def play_song(voice_client, song, queue, text_channel):
+
+async def play_song(voice_client, song, queue, text_channel, refresh_attempted=False):
     if not song:
         loop = asyncio.get_running_loop()
         asyncio.run_coroutine_threadsafe(
-            handle_song_finished(voice_client, queue, text_channel), loop
+            handle_song_finished(voice_client, queue, text_channel),
+            loop
         )
         return
     user_agent = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36"
@@ -410,39 +417,99 @@ async def play_song(voice_client, song, queue, text_channel):
             '-rtbufsize 15M'
         ),
         'options': (
-        '-vn '
-        '-b:a 192k '
+            '-vn '
+            '-b:a 192k '
         )
     }
+    stderr_file = tempfile.TemporaryFile(mode="w+t", encoding="utf-8")
     try:
         source = discord.PCMVolumeTransformer(
-            discord.FFmpegPCMAudio(song["url"], **FFMPEG_OPTIONS),
+            discord.FFmpegPCMAudio(
+                song["url"],
+                stderr=stderr_file,
+                **FFMPEG_OPTIONS
+            ),
             volume=0.5
         )
     except Exception as e:
+        stderr_file.close()
         print(f"Buffer initialization error: {e}")
         await text_channel.send(f"Error: {e}")
+
         loop = asyncio.get_running_loop()
         asyncio.run_coroutine_threadsafe(
-            handle_song_finished(voice_client, queue, text_channel), loop
+            handle_song_finished(voice_client, queue, text_channel),
+            loop
         )
         return
     loop = asyncio.get_running_loop()
     def playback_finished(error):
         if error:
             print(f"Playback error: {error}")
+        # Read FFmpeg diagnostics after the process has finished.
+        stderr_file.flush()
+        stderr_file.seek(0)
+        ffmpeg_output = stderr_file.read()
+        stderr_file.close()
         asyncio.run_coroutine_threadsafe(
-            handle_song_finished(voice_client, queue, text_channel), loop
+            handle_song_finished(
+                voice_client,
+                queue,
+                text_channel,
+                song,
+                ffmpeg_output,
+                refresh_attempted
+            ),
+            loop
         )
     voice_client.play(source, after=playback_finished)
-    await text_channel.send(f"Playing **{song.get('title', 'Unknown Title').replace('*', '\\*')}**")
+    await text_channel.send(
+        f"Playing **{song.get('title', 'Unknown Title').replace('*', '\\*')}**"
+    )
 
-async def handle_song_finished(voice_client, queue, text_channel):
+
+
+async def handle_song_finished(
+    voice_client,
+    queue,
+    text_channel,
+    song=None,
+    ffmpeg_output="",
+    refresh_attempted=False
+):
+    guild_id = voice_client.guild.id
+    # A user explicitly requested a skip.
+    if guild_id in manual_skips:
+        manual_skips.discard(guild_id)
+    # Detect an expired or otherwise rejected YouTube stream URL.
+    elif "403 Forbidden" in ffmpeg_output:
+        if not refresh_attempted and song and song.get("webpage_url"):
+            print(f"HTTP 403 detected for: {song.get('title')}")
+            try:
+                refreshed = await get_youtube_info(song["webpage_url"])
+            except Exception as e:
+                print(f"Failed to refresh YouTube URL: {e}")
+                refreshed = []
+            if refreshed and refreshed[0].get("url"):
+                song["url"] = refreshed[0]["url"]
+                print(f"Successfully refreshed URL for: {song.get('title')}")
+                await play_song(
+                    voice_client,
+                    song,
+                    queue,
+                    text_channel,
+                    refresh_attempted=True
+                )
+                return
+        # Refresh failed or the refreshed URL also returned 403.
+        print(f"Unable to recover playback for: {song.get('title') if song else 'Unknown'}")
+        await text_channel.send(
+            "❌ Couldn't refresh the audio stream. Skipping this song."
+        )
+    # Continue with the next song.
     next_song = queue.next()
     if next_song is None:
-        await text_channel.send(
-            "Leaving the voice channel."
-        )
+        await text_channel.send("Leaving the voice channel.")
         await voice_client.disconnect()
         return
     queue.set_current(next_song)
@@ -450,7 +517,7 @@ async def handle_song_finished(voice_client, queue, text_channel):
         voice_client,
         next_song,
         queue,
-        text_channel,
+        text_channel
     )
 
 async def get_all_songs(user_id, excluded=[]):
