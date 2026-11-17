@@ -505,9 +505,10 @@ async def play_song(voice_client, song, queue, text_channel, refresh_attempted=F
             loop
         )
     voice_client.play(source, after=playback_finished)
-    await text_channel.send(
-        f"Playing **{song.get('title', 'Unknown Title').replace('*', '\\*')}**"
-    )
+    if not refresh_attempted:
+        await text_channel.send(
+            f"Playing **{song.get('title', 'Unknown Title').replace('*', '\\*')}**"
+        )
 
 
 

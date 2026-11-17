@@ -19,7 +19,7 @@
         "interactions": {
             "hug": {
                 "825781461021360168": 95,
-                "658061917394436146": 30,
+                "658061917394436146": 31,
                 "928033455860772944": 3,
                 "1529029241566662746": 3,
                 "493688857452216321": 2,
@@ -34,7 +34,7 @@
             },
             "kiss": {
                 "825781461021360168": 12,
-                "658061917394436146": 4
+                "658061917394436146": 5
             },
             "pat": {
                 "825781461021360168": 4,
@@ -241,7 +241,12 @@
                 "https://www.youtube.com/watch?v=-zyeUFmaYVQ": "Asking Alexandria - Faded Out feat. Within Temptation (Official Music Video)"
             },
             "iruna": {
-                "https://www.youtube.com/watch?v=pFrNoJqmmJc": "Iruna online [ Oritius Battle BGM ] ost"
+                "https://www.youtube.com/watch?v=pFrNoJqmmJc": "Iruna online [ Oritius Battle BGM ] ost",
+                "https://www.youtube.com/watch?v=LF0cbyL0B0c": "Iruna Online BGM - Gatekeeper",
+                "https://www.youtube.com/watch?v=5ufBv5xtnro": "Iruna online [ Obligaus Battle BGM] ost",
+                "https://www.youtube.com/watch?v=e7T-GY-VgRs": "Iruna online [ Flammel Battle BGM ] ost",
+                "https://www.youtube.com/watch?v=IvElMXUWLPo": "Iruna online [ Dunkelis Battle BGM ]",
+                "https://www.youtube.com/watch?v=PSTy57JGExU": "Iruna Online [ Sturm Battle BGM] ost"
             },
             "unroyal": {
                 "https://www.youtube.com/watch?v=tXhy3Z-Z_Ac": "Unroyal - Glorious (Official Visualizer)",
@@ -263,9 +268,23 @@
             "metalcore": {
                 "https://www.youtube.com/watch?v=ZAL4IrsisVE": "Abyssal Requiem \ud83d\udc80 Dark Melodic Metalcore Instrumental Mix | Cinematic Heavy Atmospheric Metal",
                 "https://www.youtube.com/watch?v=40PmqAL0lJU": "Blood Harvest \u2620\ufe0f Heavy Cinematic Metalcore Instrumental Mix | Dark & Aggressive"
+            },
+            "gods of iruna": {
+                "https://www.youtube.com/watch?v=9zfmO4qegW4": "Iruna online [ Specia Battle BGM ] ost",
+                "https://www.youtube.com/watch?v=f71BqgzjEUQ": "Iruna online [ Vasaria Battle BGM] ost",
+                "https://www.youtube.com/watch?v=e7T-GY-VgRs": "Iruna online [ Flammel Battle BGM ] ost",
+                "https://www.youtube.com/watch?v=dBH64Bxb7E8": "Iruna online [ Eldas Battle BGM] ost",
+                "https://www.youtube.com/watch?v=1Zy0hcsfPsQ": "Iruna online [ Stormia Battle BGM] ost",
+                "https://www.youtube.com/watch?v=CBy1bK3LS4E": "Iruna online [ Freedos Battle BGM] ost",
+                "https://www.youtube.com/watch?v=5ufBv5xtnro": "Iruna online [ Obligaus Battle BGM] ost",
+                "https://www.youtube.com/watch?v=euYpS1vShMU": "Iruna online [ Sofys Battle BGM] ost",
+                "https://www.youtube.com/watch?v=KQtzeVCCjJo": "Iruna online [ Veltria Battle BGM ] ost",
+                "https://www.youtube.com/watch?v=IvElMXUWLPo": "Iruna online [ Dunkelis Battle BGM ]",
+                "https://www.youtube.com/watch?v=pFrNoJqmmJc": "Iruna online [ Oritius Battle BGM ] ost",
+                "https://www.youtube.com/watch?v=WLMXgMdlSKs": "Iruna online [ Almas Battle BGM] ost"
             }
         },
-        "default_playlist": "three days grace",
+        "default_playlist": "iruna",
         "gamble_lists": {
             "iruna classes": [
                 "paladin",
@@ -330,7 +349,7 @@
             },
             "pat": {
                 "744522229718581259": 1,
-                "583647391111053323": 4,
+                "583647391111053323": 5,
                 "645174656067960834": 1
             },
             "bonk": {
