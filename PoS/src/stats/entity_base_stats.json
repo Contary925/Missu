@@ -1,0 +1,37 @@
+{
+    "Player": {
+        "MAXHP": 200,
+        "ATK": 15,
+        "DEF": 5,
+        "RESISTANCES": {}
+    },
+    "Goblin": {
+        "MAXHP": 50,
+        "ATK": 10,
+        "DEF": 5,
+        "RESISTANCES": {},
+        "min_lvl": 1,
+        "max_lvl": 10,
+        "spawn_rate_weight": 20
+    },
+    "Ork": {
+        "MAXHP": 100,
+        "ATK": 10,
+        "DEF": 5,
+        "RESISTANCES": {},
+        "min_lvl": 3,
+        "max_lvl": 100,
+        "spawn_rate_weight": 10
+    },
+    "Ogre": {
+        "MAXHP": 200,
+        "ATK": 50,
+        "DEF": 20,
+        "RESISTANCES": {
+            "STUN": 50
+        },
+        "min_level": 10,
+        "max_level": 999,
+        "spawn_rate_weight": 1
+    }
+}

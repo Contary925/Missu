@@ -1,0 +1,78 @@
+{
+    "Goblin": {
+        "cloth_piece": {
+            "chance": 100,
+            "min_qty": 1,
+            "max_qty": 3
+        },
+        "goblin_ear": {
+            "chance": 60,
+            "min_qty": 1,
+            "max_qty": 1
+        },
+        "dull_dagger": {
+            "chance": 10,
+            "min_qty": 1,
+            "max_qty": 1
+        },
+        "small_healing_potion": {
+            "chance": 20,
+            "min_qty": 1,
+            "max_qty": 1
+        },
+        "gold_coin": {
+            "chance": 50,
+            "min_qty": 1,
+            "max_qty": 5
+        }
+    },
+    "Ork": {
+        "rusty_sword_piece": {
+            "chance": 50,
+            "min_qty": 1,
+            "max_qty": 2
+        },
+        "cloth_piece": {
+            "chance": 50,
+            "min_qty": 1,
+            "max_qty": 3
+        },
+        "gold_coin": {
+            "chance": 50,
+            "min_qty": 1,
+            "max_qty": 5
+        },
+        "small_healing_potion": {
+            "chance": 20,
+            "min_qty": 1,
+            "max_qty": 1
+        }
+    },
+    "Ogre": {
+        "gold_coin": {
+            "chance": 100,
+            "min_qty": 5,
+            "max_qty": 10
+        },
+        "steel_sword": {
+            "chance": 5,
+            "min_qty": 1,
+            "max_qty": 1
+        },
+        "plate_armor": {
+            "chance": 2,
+            "min_qty": 1,
+            "max_qty": 1
+        },
+        "ogre_meat": {
+            "chance": 20,
+            "min_qty": 1,
+            "max_qty": 2
+        },
+        "medium_healing_potion": {
+            "chance": 20,
+            "min_qty": 1,
+            "max_qty": 2
+        }
+    }
+}

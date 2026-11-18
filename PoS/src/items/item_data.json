@@ -1,0 +1,120 @@
+{
+    "cloth_piece": {
+        "name": "Cloth piece",
+        "type": "Material",
+        "description": "A piece of cloth.",
+        "consumable_effects": {},
+        "equipment_info": {},
+        "merchant_price": 1
+    },
+    "goblin_ear": {
+        "name": "Goblin ear",
+        "type": "Material",
+        "description": "Goblin ear",
+        "consumable_effects": {},
+        "equipment_info": {},
+        "merchant_price": 2
+    },
+    "dull_dagger": {
+        "name": "Dull dagger",
+        "type": "Equipment",
+        "description": "A dull dagger. Can be used as a weapon.",
+        "consumable_effects": {},
+        "equipment_info": {
+            "type": "weapon",
+            "atk": 5
+        },
+        "merchant_price": 10
+    },
+    "small_healing_potion": {
+        "name": "Small healing potion",
+        "type": "Consumable",
+        "description": "A healing potion. Recovers 50 HP.",
+        "consumable_effects": {
+            "hp": 50
+        },
+        "equipment_info": {},
+        "merchant_price": 5
+    },
+    "medium_healing_potion": {
+        "name": "Medium healing potion",
+        "type": "Consumable",
+        "description": "A stonger healing potion. Recovers 200 HP.",
+        "consumable_effects": {
+            "hp": 200
+        },
+        "equipment_info": {},
+        "merchant_price": 25
+    },
+    "gold_coin": {
+        "name": "Gold coin",
+        "type": "Material",
+        "description": "Gold coins - currency.",
+        "consumable_effects": {},
+        "equipment_info": {}
+    },
+    "rusty_sword_piece": {
+        "name": "Rusty sword piece",
+        "type": "Material",
+        "description": "A rusty sword piece. May be used for crafting.",
+        "consumable_effects": {},
+        "equipment_info": {},
+        "merchant_price": 5
+    },
+    "cloth_armor": {
+        "name": "Cloth armor",
+        "type": "Equipment",
+        "description": "A cloth armor. You can equip it as armor.",
+        "consumable_effects": {},
+        "equipment_info": {
+            "type": "armor",
+            "maxhp": 50,
+            "def": 2
+        },
+        "merchant_price": 20
+    },
+    "rusty_sword": {
+        "name": "Rusty sword",
+        "type": "Equipment",
+        "description": "A rusty sword. Dull, but heavy.",
+        "consumable_effects": {},
+        "equipment_info": {
+            "type": "weapon",
+            "atk": 10
+        },
+        "merchant_price": 35
+    },
+    "steel_sword": {
+        "name": "Steel sword",
+        "type": "Equipment",
+        "description": "A heavy sword made of steel.",
+        "consumable_effects": {},
+        "equipment_info": {
+            "type": "weapon",
+            "atk": 20
+        },
+        "merchant_price": 1
+    },
+    "plate_armor": {
+        "name": "Plate armor",
+        "type": "Equipment",
+        "description": "A heavy plate armor, provides high DEF and increases resistance to STUN.",
+        "consumable_effects": {},
+        "equipment_info": {
+            "type": "armor",
+            "def": 10,
+            "resistance": {
+                "STUN": 25
+            }
+        },
+        "merchant_price": 1
+    },
+    "ogre_meat": {
+        "name": "Ogre meat",
+        "type": "Raw meat you got from an Ogre. Very valuable, given how rare it is.",
+        "description": {},
+        "consumable_effects": {},
+        "equipment_info": 100,
+        "merchant_price": 1
+    }
+}

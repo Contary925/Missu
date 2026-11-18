@@ -1,0 +1,15 @@
+{
+    "cloth_armor": {
+        "materials": {
+            "cloth_piece": 20
+        },
+        "output_quantity": 1
+    },
+    "rusty_sword": {
+        "materials": {
+            "dull_dagger": 1,
+            "rusty_sword_piece": 5
+        },
+        "output_quantity": 1
+    }
+}

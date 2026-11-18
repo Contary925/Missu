@@ -1,0 +1,12 @@
+{
+    "Character": {
+        "MAXHP": 10,
+        "ATK": 3,
+        "DEF": 1
+    },
+    "Enemy": {
+        "MAXHP": 5,
+        "ATK": 2,
+        "DEF": 1
+    }
+}

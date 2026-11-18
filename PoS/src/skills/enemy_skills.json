@@ -1,0 +1,15 @@
+{
+    "Goblin": {
+        "Defend": 20,
+        "Attack": 80
+    },
+    "Ork": {
+        "Stun attack": 10,
+        "Attack": 90
+    },
+    "Ogre": {
+        "Stun attack": 25,
+        "Defend": 50,
+        "Attack": 25
+    }
+}
