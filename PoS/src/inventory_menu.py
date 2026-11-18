@@ -1,5 +1,5 @@
 import json
-with open('src/items/item_data.json') as f:
+with open('PoS/src/items/item_data.json') as f:
     item_data = json.load(f)
 
 def inventory_menu(player):
@@ -37,14 +37,14 @@ def consumable_menu(player):
     print(f"{player.kind}'s consumable items:")
     counter = 0
     for item in items:
-        if item_data[item]["type"] == "Consumable":
+        if item_data[item]["type"] == "consumable":
             counter += 1
             consumable_items[item] = player.inventory[item]
             print(f'[{counter}]: {item_data[item]["name"]} ({items[item]})')
     if consumable_items == {}:
         print("You don't have consumable items!")
         return
-    print(f"[0]. Go back")
+    print(f"[0] Go back")
     while True:
         choice = input("Choose an item you want to use > ").strip()
         if not choice.isdigit():
@@ -78,14 +78,14 @@ def equipment_menu(player):
     print(f"{player.kind}'s equipment:")
     counter = 0
     for item in items:
-        if item_data[item]["type"] == "Equipment":
+        if item_data[item]["type"] == "equipment":
             counter += 1
             equipment[item] = player.inventory[item]
             print(f'[{counter}]: {item_data[item]["name"]} ({items[item]})')
     if equipment == {}:
         print("You don't have any equipment!")
         return
-    print(f"[0]. Go back")
+    print(f"[0] Go back")
     while True:
         choice = input("Choose a piece of equipment you want to equip > ").strip()
         if not choice.isdigit():

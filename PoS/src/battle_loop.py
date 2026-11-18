@@ -1,5 +1,5 @@
-from src.skills_menu import skills_menu
-from src.combat_items_menu import combat_items_menu
+from PoS.src.skills_menu import skills_menu
+from PoS.src.combat_items_menu import combat_items_menu
 
 def battle_loop(player, enemy):
     print(f"\n--- Starting a fight between **{player.kind}** and **{enemy.kind}**! ---")

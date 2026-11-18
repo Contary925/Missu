@@ -1,7 +1,7 @@
 import json
-with open('src/items/item_data.json') as f:
+with open('PoS/src/items/item_data.json') as f:
     item_data = json.load(f)
-with open('src/skills/skill_data.json') as f:
+with open('PoS/src/skills/skill_data.json') as f:
     skill_data = json.load(f)
 
 def show_character_sheet(player):
@@ -22,12 +22,12 @@ def show_character_sheet(player):
     print("-" * 45)
     
     # Section 2: Vitals & Core Stats
-    print(f" HP (Health)   : {player.hp} / {player.stats['MAXHP']}")
+    print(f" HP (Health)   : {player.hp} / {player.stats['maxhp']}")
     print(f" MP (Mana)     : {player.mp} / {player.maxmp()}")
-    print(f" Attack (ATK)  : {player.stats['ATK']}")
-    print(f" Defense (DEF) : {player.stats['DEF']}")
-    if player.stats.get("RESISTANCES"):
-        res_str = ", ".join(f"{k}: {v}%" for k, v in player.stats["RESISTANCES"].items())
+    print(f" Attack (ATK)  : {player.stats['atk']}")
+    print(f" Defense (DEF) : {player.stats['def']}")
+    if player.stats.get("resistances"):
+        res_str = ", ".join(f"{k}: {v}%" for k, v in player.stats["resistances"].items())
         print(f" Resistances   : {res_str}")
     print("-" * 45)
     
@@ -47,8 +47,8 @@ def show_character_sheet(player):
     print(" LEARNED SKILLS:")
     for skill_name in player.skills:
         info = skill_data[skill_name]
-        cost = info.get("COST", 0)
-        desc = info.get("DESCRIPTION", "")
+        cost = info.get("cost", 0)
+        desc = info.get("description", "")
         print(f"   - {skill_name:<14} (Cost: {cost:>2} MP) -> {desc}")
 
     print("=" * 45)

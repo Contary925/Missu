@@ -1,7 +1,7 @@
 import json
-with open('src/recipes/recipes.json') as f:
+with open('PoS/src/recipes/recipes.json') as f:
     recipes = json.load(f)
-with open('src/items/item_data.json') as f:
+with open('PoS/src/items/item_data.json') as f:
     item_data = json.load(f)
 
 def crafting_menu(player):
@@ -15,7 +15,7 @@ def crafting_menu(player):
         for material in recipes[recipe]["materials"]:
             print(f'- {recipes[recipe]["materials"][material]}x {item_data[material]["name"]}')
     print(f"-----------------------------------")
-    print(f"[0]: Go back")
+    print(f"[0] Go back")
     while True:
         choice = input("Choose an item you want to craft > ").strip()
         if not choice.isdigit():

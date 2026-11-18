@@ -1,7 +1,7 @@
 import json
 
 def add_enemy_drops(enemy: str, item_id: str, chance: int, min_qty: int, max_qty: int):
-    with open('src/stats/loot_tables.json', 'r') as f:
+    with open('PoS/src/stats/loot_tables.json', 'r') as f:
         loot_tables = json.load(f)
     if not enemy in loot_tables:
         loot_tables[enemy] = {}
@@ -10,6 +10,6 @@ def add_enemy_drops(enemy: str, item_id: str, chance: int, min_qty: int, max_qty
         'min_qty': min_qty,
         'max_qty': max_qty
     }
-    with open('src/stats/loot_tables.json', 'w') as f:
+    with open('PoS/src/stats/loot_tables.json', 'w') as f:
         json.dump(loot_tables, f, indent=4)
     

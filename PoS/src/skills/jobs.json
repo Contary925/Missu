@@ -1,5 +1,5 @@
 {
-    "Adventurer": {
-        "Skills": ["Defend", "Heal"]
+    "adventurer": {
+        "skills": ["defend", "heal"]
     }
 }

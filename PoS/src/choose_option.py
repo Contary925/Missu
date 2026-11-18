@@ -2,7 +2,7 @@ import asyncio
 
 NUM_EMOJIS  = ["0️⃣", "1️⃣", "2️⃣", "3️⃣", "4️⃣", "5️⃣", "6️⃣", "7️⃣", "8️⃣", "9️⃣", "🔟"]
 
-async def choice(player, client, game_msg, num, start_with_zero = True):
+async def choose_option(player, client, game_msg, num, start_with_zero = True):
     match start_with_zero:
         case True:
             emojis = NUM_EMOJIS[0:num]
@@ -23,7 +23,7 @@ async def choice(player, client, game_msg, num, start_with_zero = True):
         )
     except asyncio.TimeoutError:
         await game_msg.edit(
-            content="Song selection timed out."
+            content="Selection timed out."
         )
         return -1
     index = NUM_EMOJIS.index(str(reaction.emoji))

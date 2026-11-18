@@ -1,12 +1,12 @@
 import json
-with open('src/items/item_data.json') as f:
+with open('PoS/src/items/item_data.json') as f:
     item_data = json.load(f)
 
 def combat_items_menu(player) -> bool:
     items = player.inventory
     consumable_items = {}
     for item in items:
-        if item_data[item]["type"] == "Consumable":
+        if item_data[item]["type"] == "consumable":
             consumable_items[item] = player.inventory[item]
     if consumable_items == {}:
         print("You don't have any consumable items!")
@@ -17,7 +17,7 @@ def combat_items_menu(player) -> bool:
     for item in consumable_items:
         counter += 1 
         print(f"[{counter}]: {item_data[item]["name"]} ({consumable_items[item]})") 
-    print(f"[0]: Go back")
+    print(f"[0] Go back")
     while True:
         choice = input("Choose an item you want to use > ").strip()
         if not choice.isdigit():

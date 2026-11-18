@@ -1,5 +1,5 @@
 import json
-with open('src/skills/skill_data.json') as f:
+with open('PoS/src/skills/skill_data.json') as f:
     skills_info = json.load(f)
 
 def skills_menu(player, enemy):
@@ -9,8 +9,8 @@ def skills_menu(player, enemy):
     counter = 0
     for skill in skills:
         counter += 1 
-        print(f"[{counter}]: {skill} ({skills_info[skill]["COST"]})") 
-    print(f"[0]: Go back")
+        print(f"[{counter}]: {skill} ({skills_info[skill]["cost"]})") 
+    print(f"[0] Go back")
     while True:
         choice = input("Choose a skill you want to use > ").strip()
         if not choice.isdigit():

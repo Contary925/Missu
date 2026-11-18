@@ -1,5 +1,5 @@
 {
-    "Goblin": 10,
-    "Ork": 20,
-    "Ogre": 200
+    "goblin": 10,
+    "ork": 20,
+    "ogre": 200
 }

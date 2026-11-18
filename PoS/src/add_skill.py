@@ -7,15 +7,15 @@ def add_skill(
         effects: dict,
         description: str = 'No description'
     ):
-    with open('src/skills/skill_data.json', 'r') as f:
+    with open('PoS/src/skills/skill_data.json', 'r') as f:
         skills = json.load(f)
     #if a skill is already here, we overwrite the data
     skills[name] = {
-        "TYPE": type,
-        "COST": cost,
-        "EFFECTS": effects,
-        "DESCRIPTION": description
+        "type": type,
+        "cost": cost,
+        "effects": effects,
+        "description": description
     }
-    with open('src/skills/skill_data.json', 'w') as f:
+    with open('PoS/src/skills/skill_data.json', 'w') as f:
         json.dump(skills, f, indent=4)
     return

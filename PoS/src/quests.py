@@ -1,9 +1,9 @@
 import json
-with open('src/quests/quests.json') as f:
+with open('PoS/src/quests/quests.json') as f:
     quests_data = json.load(f)
-with open('src/items/item_data.json') as f:
+with open('PoS/src/items/item_data.json') as f:
     item_data = json.load(f)
-with open('src/skills/jobs.json') as f:
+with open('PoS/src/skills/jobs.json') as f:
     jobs_data = json.load(f)
 jobs = list(jobs_data)
 

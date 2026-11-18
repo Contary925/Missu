@@ -140,7 +140,7 @@ function_map: dict[str, Callable] = {
     "commandalias": full_command_alias,
 
     #path of steel RPG
-    "pos": pos,
+    #"pos": pos,
 }
 
 

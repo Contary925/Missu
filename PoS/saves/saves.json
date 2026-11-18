@@ -1,1 +1,23 @@
-{}
+{
+    "583647391111053323": {
+        "id": "583647391111053323",
+        "name": "Kissu",
+        "level": 1,
+        "equipment": {
+            "weapon": null,
+            "armor": null,
+            "special": null
+        },
+        "job": "adventurer",
+        "exp": 0,
+        "inventory": {},
+        "skills": [
+            "defend",
+            "heal"
+        ],
+        "hp": 200,
+        "mp": 100,
+        "quests": {},
+        "completed_quests": []
+    }
+}

@@ -1,5 +1,5 @@
 {
-    "Goblin": {
+    "goblin": {
         "cloth_piece": {
             "chance": 100,
             "min_qty": 1,
@@ -26,7 +26,7 @@
             "max_qty": 5
         }
     },
-    "Ork": {
+    "ork": {
         "rusty_sword_piece": {
             "chance": 50,
             "min_qty": 1,
@@ -48,7 +48,7 @@
             "max_qty": 1
         }
     },
-    "Ogre": {
+    "ogre": {
         "gold_coin": {
             "chance": 100,
             "min_qty": 5,

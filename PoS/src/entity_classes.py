@@ -2,51 +2,49 @@ import json
 import math
 import random
 import copy
-with open('src/skills/jobs.json') as f:
+with open('PoS/src/skills/jobs.json') as f:
     jobs_info = json.load(f)
 
 #data from files. This is IMMUTABLE by agreement
-with open('src/stats/entity_base_stats.json', 'r') as f:
+with open('PoS/src/stats/entity_base_stats.json', 'r') as f:
     base_stats = json.load(f)
-with open('src/stats/level_scaling.json', 'r') as f:
+with open('PoS/src/stats/level_scaling.json', 'r') as f:
     level_scaling = json.load(f)
-with open('src/stats/exp.json', 'r') as f:
+with open('PoS/src/stats/exp.json', 'r') as f:
     enemy_exp = json.load(f)
-with open('src/skills/skill_data.json', 'r') as f:
+with open('PoS/src/skills/skill_data.json', 'r') as f:
     skills = json.load(f)
-with open('src/skills/enemy_skills.json', 'r') as f:
+with open('PoS/src/skills/enemy_skills.json', 'r') as f:
     enemy_skills = json.load(f)
-with open('src/stats/loot_tables.json', 'r') as f:
+with open('PoS/src/stats/loot_tables.json', 'r') as f:
     loot_tables = json.load(f)
-with open('src/items/item_data.json', 'r') as f:
+with open('PoS/src/items/item_data.json', 'r') as f:
     item_data = json.load(f)
-with open('src/recipes/recipes.json', 'r') as f:
+with open('PoS/src/recipes/recipes.json', 'r') as f:
     crafting_recipes = json.load(f)
 
 class Entity:
     def __init__(self, kind: str, level: int):
         self.kind = kind
         self.level = level
-        # print(f"Created an entity of kind {self.kind} with level {self.level}!")
         self.buffs = {}
         self.debuffs = {}
         self.stats = self.set_stats()
-        # print(f"{self.kind}'s stats:\n{self.stats}")
-        self.hp = self.stats["MAXHP"]
+        self.hp = self.stats["maxhp"]
         self.alive = True
     def tick(self):
         expired = []
         for name in self.buffs:
-            self.buffs[name]["Duration_left"] -= 1
-            if self.buffs[name]["Duration_left"] == 0:
-                print(f'The effect "{name}" on {self.kind} has expired!')
+            self.buffs[name]["duration_left"] -= 1
+            if self.buffs[name]["duration_left"] == 0:
+                print(f'the effect "{name}" on {self.kind} has expired!')
                 expired.append(name)
         for buff in expired:
             del self.buffs[buff]
         expired = []
         for debuff in self.debuffs:
-            self.debuffs[debuff]["Duration_left"] -= 1
-            if self.debuffs[debuff]["Duration_left"] == 0:
+            self.debuffs[debuff]["duration_left"] -= 1
+            if self.debuffs[debuff]["duration_left"] == 0:
                 print(f'{debuff} on {self.kind} has expired!')
                 expired.append(debuff)
         for debuff in expired:
@@ -56,34 +54,34 @@ class Entity:
         if not self.kind in base_stats:
             return dict()
         match self.kind:
-            case "Player":
-                etype = "Character"
-            case "Companion":
-                etype = "Character"
+            case "player":
+                etype = "character"
+            case "companion":
+                etype = "character"
             case _:
-                etype = "Enemy"
+                etype = "enemy"
         total_stats = {
-            "MAXHP": base_stats[self.kind]["MAXHP"] + (self.level-1) * level_scaling[etype]["MAXHP"],
-            "ATK": base_stats[self.kind]["ATK"] + (self.level-1) * level_scaling[etype]["ATK"],
-            "DEF": base_stats[self.kind]["DEF"] + (self.level-1) * level_scaling[etype]["DEF"],
-            "RESISTANCES": base_stats[self.kind]["RESISTANCES"].copy()
+            "maxhp": base_stats[self.kind]["maxhp"] + (self.level-1) * level_scaling[etype]["maxhp"],
+            "atk": base_stats[self.kind]["atk"] + (self.level-1) * level_scaling[etype]["atk"],
+            "def": base_stats[self.kind]["def"] + (self.level-1) * level_scaling[etype]["def"],
+            "resistances": base_stats[self.kind]["resistances"].copy()
         }
         for buff_name in self.buffs:
-            if "Stat" in self.buffs[buff_name]:
-                total_stats[self.buffs[buff_name]["Stat"]] += self.buffs[buff_name]["Effect"]
-            if "Resistance" in self.buffs[buff_name]:
-                for debuff in self.buffs[buff_name]["Resistance"]:
-                    total_stats["RESISTANCES"][debuff] = self.buffs[buff_name]["Resistance"][debuff]
+            if "stat" in self.buffs[buff_name]:
+                total_stats[self.buffs[buff_name]["stat"]] += self.buffs[buff_name]["effect"]
+            if "resistance" in self.buffs[buff_name]:
+                for debuff in self.buffs[buff_name]["resistance"]:
+                    total_stats["resistances"][debuff] = self.buffs[buff_name]["resistance"][debuff]
         return total_stats
     def take_damage(self, damage: int):
         print(f"{self.kind} takes {damage} damage...")
         self.hp = max(0, self.hp - damage)
-        print(f"{self.kind}'s HP: {self.hp}")
+        print(f"{self.kind}'s hp: {self.hp}")
         if self.hp <= 0:
             self.alive = False
         return
     def deal_damage(self, target, multiplier = 100):
-        damage = max(1, math.ceil(self.stats["ATK"] * multiplier/100) - target.stats["DEF"])
+        damage = max(1, math.ceil(self.stats["atk"] * multiplier/100) - target.stats["def"])
         print(f"{self.kind} deals {damage} damage to {target.kind}...")
         target.take_damage(damage)
     def use_skill(self, name: str, target=None):
@@ -91,28 +89,28 @@ class Entity:
             return
         print(f'{self.kind} uses a skill "{name}"!')
         skill = skills[name]
-        match skill["TYPE"]:
-            case "Buff":
-                if "Duration" in skill["EFFECTS"]:
-                    duration = skill["EFFECTS"]["Duration"]
-                    for stat in skill["EFFECTS"]["Stat_buffs"]:
-                        effect = skill["EFFECTS"]["Stat_buffs"][stat]
+        match skill["type"]:
+            case "buff":
+                if "duration" in skill["effects"]:
+                    duration = skill["effects"]["duration"]
+                    for stat in skill["effects"]["stat_buffs"]:
+                        effect = skill["effects"]["stat_buffs"][stat]
                         self.buff(name, duration, stat, effect)
-                if "Healing" in skill["EFFECTS"]:
+                if "healing" in skill["effects"]:
                     old_hp = self.hp
-                    self.hp = min(self.stats["MAXHP"], self.hp + math.ceil(self.stats["MAXHP"] * skill["EFFECTS"]["Healing"]/100))
+                    self.hp = min(self.stats["maxhp"], self.hp + math.ceil(self.stats["maxhp"] * skill["effects"]["healing"]/100))
                     if self.hp > old_hp:
-                        print(f'{self.kind} has recovered {self.hp - old_hp} HP!')
-            case "Attack":
-                multiplier = skill["EFFECTS"]["Multiplier"]
+                        print(f'{self.kind} has recovered {self.hp - old_hp} hp!')
+            case "attack":
+                multiplier = skill["effects"]["multiplier"]
                 self.deal_damage(target, multiplier)
                 if not target.alive:
                     return
-                if "Debuffs" in skill["EFFECTS"]:
-                    for debuff in skill["EFFECTS"]["Debuffs"]:
-                        duration = skill["EFFECTS"]["Debuffs"][debuff]["Duration"]
-                        debuff_res = target.stats["RESISTANCES"].get(debuff, 0)
-                        chance = math.ceil(skill["EFFECTS"]["Debuffs"][debuff]["Chance"] * (100 - debuff_res)/100)
+                if "debuffs" in skill["effects"]:
+                    for debuff in skill["effects"]["debuffs"]:
+                        duration = skill["effects"]["debuffs"][debuff]["duration"]
+                        debuff_res = target.stats["resistances"].get(debuff, 0)
+                        chance = math.ceil(skill["effects"]["debuffs"][debuff]["chance"] * (100 - debuff_res)/100)
                         target.debuff(debuff, duration, chance)
     def buff(self, name: str, duration: int, stat: str = None, effect: int = None, resistance_enhance: tuple = None):
         if stat is not None:
@@ -126,17 +124,17 @@ class Entity:
                 case _:
                     print(f'Applied effect "{name}" on {self.kind}! Resistance to {debuff} will increase for {duration} turns!')
         if name in self.buffs:
-            self.buffs[name]["Duration_left"] = duration
+            self.buffs[name]["duration_left"] = duration
             return
         self.buffs[name] = {
             "Duration_left": duration + 1, #the buffs are applied just before self.tick(), so this +1 is necessary for the buff to effectively work for {duration} turns rather than {duration-1}
         }
         if stat:
-            self.buffs[name]["Stat"] = stat
-            self.buffs[name]["Effect"] = math.ceil(self.stats[stat]*effect/100) #flat amount that will be added
+            self.buffs[name]["stat"] = stat
+            self.buffs[name]["effect"] = math.ceil(self.stats[stat]*effect/100) #flat amount that will be added
         if resistance_enhance is not None:
-            self.buffs[name]["Resistance"] = {}
-            self.buffs[name]["Resistance"][debuff] = value
+            self.buffs[name]["resistance"] = {}
+            self.buffs[name]["resistance"][debuff] = value
         self.stats = self.set_stats()
         
     def debuff(self, debuff: str, duration: int, chance: int):
@@ -147,31 +145,32 @@ class Entity:
                 case _:
                     print(f'Applied effect "{debuff}" to {self.kind} for {duration} turns!')
             self.debuffs[debuff] = {
-                "Duration_left": duration
+                "duration_left": duration
             }
             self.buff(f'{debuff} resistance', 1, None, None, (f'{debuff}', 100))
 
 class Player(Entity):
     def __init__(self, player_data: dict = {}):
-        self.kind = 'Player'
-        self.level = player_data.get("Level", 1)
-        self.equipment = player_data.get("Equipment", {
+        self.kind = 'player'
+        self.level = player_data.get("level", 1)
+        self.equipment = player_data.get("equipment", {
             'weapon': None,
             'armor': None,
             'special': None
         })
         super().__init__(self.kind, self.level)
-        self.name = player_data.get("Name", "Guest")
-        self.job = player_data.get("Job", "Adventurer")
+        self.id = player_data.get("id", 0)
+        self.name = player_data.get("name", "guest")
+        self.job = player_data.get("job", "adventurer")
         self.player_data = player_data
-        self.exp = player_data.get("Exp", 0)
+        self.exp = player_data.get("exp", 0)
         self.level_exp = self.new_level_exp()
-        self.hp = player_data.get("HP", self.stats["MAXHP"])
-        self.mp = player_data.get("MP", self.maxmp())
-        self.inventory = player_data.get("Inventory", {})
-        self.skills = player_data.get("Skills", jobs_info[self.job]["Skills"])
-        self.quests = player_data.get("Quests", {})
-        self.completed_quests = player_data.get("Completed_quests", [])
+        self.hp = player_data.get("hp", self.stats["maxhp"])
+        self.mp = player_data.get("mp", self.maxmp())
+        self.inventory = player_data.get("inventory", {})
+        self.skills = player_data.get("skills", jobs_info[self.job]["skills"])
+        self.quests = player_data.get("quests", {})
+        self.completed_quests = player_data.get("completed_quests", [])
         
     def set_stats(self):
         stats = super().set_stats()
@@ -181,16 +180,16 @@ class Player(Entity):
                 for stat in item_data[item_id]["equipment_info"]:
                     match stat:
                         case 'maxhp':
-                            stats["MAXHP"] += item_data[item_id]["equipment_info"]['maxhp']
+                            stats["maxhp"] += item_data[item_id]["equipment_info"]['maxhp']
                         case 'atk':
-                            stats["ATK"] += item_data[item_id]["equipment_info"]['atk']
+                            stats["atk"] += item_data[item_id]["equipment_info"]['atk']
                         case 'def':
-                            stats["DEF"] += item_data[item_id]["equipment_info"]['def']
+                            stats["def"] += item_data[item_id]["equipment_info"]['def']
                         case 'resistance':
                             for debuff in item_data[item_id]["equipment_info"]["resistance"]:
-                                if not debuff in stats['RESISTANCES']:
-                                    stats['RESISTANCES'][debuff] = 0
-                                stats['RESISTANCES'][debuff] += item_data[item_id]["equipment_info"]["resistance"][debuff]
+                                if not debuff in stats['resistances']:
+                                    stats['resistances'][debuff] = 0
+                                stats['resistances'][debuff] += item_data[item_id]["equipment_info"]["resistance"][debuff]
         return stats
 
     def new_level_exp(self):
@@ -203,7 +202,7 @@ class Player(Entity):
             print("You died! You will return to town.")
             self.respawn()
     def respawn(self):
-        self.hp = self.stats["MAXHP"]
+        self.hp = self.stats["maxhp"]
         self.mp = self.maxmp()
     def deal_damage(self, target, multiplier=100):
         super().deal_damage(target, multiplier)
@@ -245,7 +244,7 @@ class Player(Entity):
         self.exp -= self.level_exp
         self.level += 1
         self.stats = self.set_stats()
-        self.hp = self.stats["MAXHP"]
+        self.hp = self.stats["maxhp"]
         self.mp = self.maxmp()
         self.level_exp = self.new_level_exp()
     def use_skill(self, name: str, target = None) -> bool:
@@ -254,17 +253,17 @@ class Player(Entity):
             return False
         if not name in skills:
             return False
-        if self.mp < skills[name]["COST"]:
+        if self.mp < skills[name]["cost"]:
             print("You don't have enough MP to use this skill!")
             return False
         super().use_skill(name, target)
-        self.mp -= int(skills[name]["COST"])
+        self.mp -= int(skills[name]["cost"])
         self.stats = self.set_stats()
         return True
     def use_item(self, id: str) -> bool:
         if not id in self.inventory:
             return False
-        if item_data[id]['type'] != 'Consumable':
+        if item_data[id]['type'] != 'consumable':
             return False
         print(f'You used a {item_data[id]["name"]}!')
         self.inventory[id] -= 1
@@ -274,7 +273,7 @@ class Player(Entity):
             match effect:
                 case 'hp':
                     old_hp = self.hp
-                    self.hp = min(self.hp + item_data[id]['consumable_effects']['hp'], self.stats['MAXHP'])
+                    self.hp = min(self.hp + item_data[id]['consumable_effects']['hp'], self.stats['maxhp'])
                     if self.hp > old_hp:
                         print(f'Recovered {self.hp - old_hp} HP!')
                 case 'mp':
@@ -308,7 +307,7 @@ class Player(Entity):
             return print("Unknown item!")
         if not item_id in self.inventory:
             return print(f"You don't have a {item_data[item_id]["name"]}!")
-        if item_data[item_id]["type"] != "Equipment":
+        if item_data[item_id]["type"] != "equipment":
             return print(f"{item_data[item_id]["name"]} is not equippable!")
         item_kind = item_data[item_id]["equipment_info"]["type"]
         old_item = self.equipment[item_kind]
@@ -320,29 +319,30 @@ class Player(Entity):
             self.add_to_inventory(old_item)
         print(f"Equipped {item_data[item_id]["name"]}.")
         self.stats = self.set_stats()
-        self.hp = min(self.hp, self.stats["MAXHP"])
+        self.hp = min(self.hp, self.stats["maxhp"])
         self.mp = min(self.mp, self.maxmp())
     def tick(self):
         super().tick()
         self.mp = min(self.mp+10, self.maxmp())
     def save_data(self):
         self.player_data = {
-            "Name": self.name,
-            "Level": self.level,
-            "Equipment": self.equipment,
-            "Job": self.job,
-            "Exp": self.exp,
-            "Inventory": self.inventory,
-            "Skills": self.skills,
-            "HP": self.hp,
-            "MP": self.mp,
-            "Quests": self.quests,
-            "Completed_quests": self.completed_quests
+            "id": self.id,
+            "name": self.name,
+            "level": self.level,
+            "equipment": self.equipment,
+            "job": self.job,
+            "exp": self.exp,
+            "inventory": self.inventory,
+            "skills": self.skills,
+            "hp": self.hp,
+            "mp": self.mp,
+            "quests": self.quests,
+            "completed_quests": self.completed_quests
         }
-        with open('saves/saves.json') as f:
+        with open('PoS/saves/saves.json') as f:
             saves_data = json.load(f)
-        saves_data[self.name] = self.player_data
-        with open('saves/saves.json', 'w') as f:
+        saves_data[self.id] = self.player_data
+        with open('PoS/saves/saves.json', 'w') as f:
             json.dump(saves_data, f, indent=4)
     def remove_from_inventory(self, item, quantity=1):
         if not item in self.inventory:
@@ -376,7 +376,7 @@ class Enemy(Entity):
     def __init__(self, kind: str, level: int):
         super().__init__(kind, level)
     def use_random_skill(self, target):
-        if "STUN" in self.debuffs:
+        if "stun" in self.debuffs:
             print(f"{self.kind} is stunned and cannot act!")
             return
         skill_list = enemy_skills[self.kind]

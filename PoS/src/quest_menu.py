@@ -1,5 +1,5 @@
 import json
-with open('src/items/item_data.json') as f:
+with open('PoS/src/items/item_data.json') as f:
     item_data = json.load(f)
 
 def quest_menu(player):

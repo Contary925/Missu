@@ -1,43 +1,43 @@
 {
-    "Defend": {
-        "TYPE": "Buff",
-        "COST": 10,
-        "EFFECTS": {
-            "Duration": 2,
-            "Stat_buffs": {
-                "DEF": 30
+    "defend": {
+        "type": "buff",
+        "cost": 10,
+        "effects": {
+            "duration": 2,
+            "stat_buffs": {
+                "def": 30
             }
         },
-        "DESCRIPTION": "Increases DEF for 2 turns"
+        "description": "increases def for 2 turns"
     },
-    "Stun attack": {
-        "TYPE": "Attack",
-        "COST": 100,
-        "EFFECTS": {
-            "Multiplier": 150,
-            "Debuffs": {
-                "STUN": {
-                    "Chance": 50,
-                    "Duration": 1
+    "stun attack": {
+        "type": "attack",
+        "cost": 100,
+        "effects": {
+            "multiplier": 150,
+            "debuffs": {
+                "stun": {
+                    "chance": 50,
+                    "duration": 1
                 }
             }
         },
-        "DESCRIPTION": "Deals more damage to the target. Can apply STUN at a chance."
+        "description": "deals more damage to the target. can apply stun at a chance."
     },
-    "Attack": {
-        "TYPE": "Attack",
-        "COST": 0,
-        "EFFECTS": {
-            "Multiplier": 100
+    "attack": {
+        "type": "attack",
+        "cost": 0,
+        "effects": {
+            "multiplier": 100
         },
-        "DESCRIPTION": "Basic attack. Deals damage to the target."
+        "description": "basic attack. deals damage to the target."
     },
-    "Heal": {
-        "TYPE": "Buff",
-        "COST": 25,
-        "EFFECTS": {
-            "Healing": 20
+    "heal": {
+        "type": "buff",
+        "cost": 25,
+        "effects": {
+            "healing": 20
         },
-        "DESCRIPTION": "A healing spell. Recovers 20% HP to self."
+        "description": "a healing spell. recovers 20% hp to self."
     }
 }

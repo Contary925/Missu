@@ -1,15 +1,15 @@
 {
-    "Goblin": {
-        "Defend": 20,
-        "Attack": 80
+    "goblin": {
+        "defend": 20,
+        "attack": 80
     },
-    "Ork": {
-        "Stun attack": 10,
-        "Attack": 90
+    "ork": {
+        "stun attack": 10,
+        "attack": 90
     },
-    "Ogre": {
-        "Stun attack": 25,
-        "Defend": 50,
-        "Attack": 25
+    "ogre": {
+        "stun attack": 25,
+        "defend": 50,
+        "attack": 25
     }
 }
