@@ -26,6 +26,7 @@ from functions.ai_mode import ai_mode, ai_mode_deep
 from functions.reboot import reboot
 from functions.gamba import choose
 from functions.full_command_alias import full_command_alias
+from PoS.pos import pos
 
 
 function_map: dict[str, Callable] = {
@@ -137,6 +138,9 @@ function_map: dict[str, Callable] = {
 
     #full command alias
     "commandalias": full_command_alias,
+
+    #path of steel RPG
+    "pos": pos,
 }
 
 
