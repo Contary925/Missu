@@ -7,40 +7,41 @@ from PoS.src.merchant_menu import merchant_menu
 from PoS.src.quest_menu import quest_menu
 from PoS.src.construct_options import construct_options
 from PoS.src.choose_option import choose_option
-from PoS.src.send_embed import send_embed
+from PoS.src.embed import construct_embed
+from PoS.src.embed import send_embed_with_buttons
 
-async def town_loop(client, message, player):
+async def town_loop(client, message, player, game_msg):
     while True:
         text = ""
-        title = "# TOWN"
+        title = "TOWN"
         text += f"Hero: {player.name} | Level: {player.level} | HP: {player.hp}/{player.stats['maxhp']} | MP: {player.mp}/{player.maxmp()}\n"
         options = construct_options(["Hunt Monsters (Enter Dungeon)", "Inventory & Equipment",
             "Blacksmith (Crafting Forge)", "Rest at the Inn (Restore HP & MP)", "Visit merchant", 
             "View quests", "Character Sheet (View Full Stats)"], zero="Quit Game")
         text += options + "\n\n"
         text += "What would you like to do?"
-        game_msg = await send_embed(message, title, text)
-        choice = await choose_option(message.author, client, game_msg, 8)
+        game_msg, choice = await send_embed_with_buttons(game_msg, message, title, text, 8)
         match choice:
             case 1:
                 enemy = spawn_random_enemy(player.level)
-                battle_loop(player, enemy)
+                await battle_loop(game_msg, message, player, enemy)
             case 2:
-                inventory_menu(player)
+                await inventory_menu(game_msg, player, message)
             case 3:
-                crafting_menu(player)
+                await crafting_menu(game_msg, player, message)
             case 4:
                 player.hp = player.stats["maxhp"]
                 player.mp = player.maxmp()
-                print("\nYou rest at the inn. HP and MP are fully restored!")
+                await message.channel.send("You rest at the inn. HP and MP are fully restored!", delete_after=10.0)
             case 5:
                 merchant_menu(player, 'Frank the merchant')
             case 6:
                 quest_menu(player)
             case 7:
-                show_character_sheet(player)
+                await show_character_sheet(game_msg, player, message)
             case 0:
-                print('Goodbye!')
+                await message.channel.send('Goodbye!', delete_after = 10.0)
+                await game_msg.delete()
                 player.save_data()
                 break
 

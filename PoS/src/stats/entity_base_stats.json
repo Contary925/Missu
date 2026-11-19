@@ -30,8 +30,8 @@
         "resistances": {
             "stun": 50
         },
-        "min_level": 10,
-        "max_level": 999,
+        "min_lvl": 10,
+        "max_lvl": 999,
         "spawn_rate_weight": 1
     }
 }

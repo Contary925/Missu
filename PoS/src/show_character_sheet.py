@@ -1,55 +1,52 @@
 import json
+from PoS.src.embed import send_embed_with_custom_buttons
 with open('PoS/src/items/item_data.json') as f:
     item_data = json.load(f)
 with open('PoS/src/skills/skill_data.json') as f:
     skill_data = json.load(f)
 
-def show_character_sheet(player):
+async def show_character_sheet(game_msg, player, message):
+    text = ""
     # Calculate XP progress percentage and bar
     xp_pct = min(1.0, player.exp / player.level_exp) if player.level_exp > 0 else 1.0
     bar_length = 20
     filled_length = int(bar_length * xp_pct)
     xp_bar = "█" * filled_length + "░" * (bar_length - filled_length)
 
-    print("\n" + "=" * 45)
-    print(f"         CHARACTER SHEET: {player.name}")
-    print("=" * 45)
+    title = f"**CHARACTER SHEET: {player.name}**"
     
     # Section 1: Overview & Progression
-    print(f" Class / Job   : {player.job}")
-    print(f" Level         : {player.level}")
-    print(f" Experience    : {player.exp} / {player.level_exp} [{xp_bar}] {int(xp_pct * 100)}%")
-    print("-" * 45)
+    text += f"\n Class / Job: {player.job.capitalize()}"
+    text += f"\n Level: {player.level}"
+    text += f"\n Experience: {player.exp} / {player.level_exp} [{xp_bar}] {int(xp_pct * 100)}%"
     
     # Section 2: Vitals & Core Stats
-    print(f" HP (Health)   : {player.hp} / {player.stats['maxhp']}")
-    print(f" MP (Mana)     : {player.mp} / {player.maxmp()}")
-    print(f" Attack (ATK)  : {player.stats['atk']}")
-    print(f" Defense (DEF) : {player.stats['def']}")
+    text += f"\n HP (Health): {player.hp} / {player.stats['maxhp']}"
+    text += f"\n MP (Mana): {player.mp} / {player.maxmp()}"
+    text += f"\n Attack (ATK): {player.stats['atk']}"
+    text += f"\n Defense (DEF): {player.stats['def']}"
     if player.stats.get("resistances"):
         res_str = ", ".join(f"{k}: {v}%" for k, v in player.stats["resistances"].items())
-        print(f" Resistances   : {res_str}")
-    print("-" * 45)
+        text += f"\n Resistances: {res_str}"
     
     # Section 3: Equipment Loadout
-    print(" EQUIPMENT:")
+    text += "\n\n EQUIPMENT:"
     for slot, item_id in player.equipment.items():
         if item_id and item_id in item_data:
             item_name = item_data[item_id]["name"]
             bonuses = item_data[item_id].get("stat_bonuses", {})
             bonus_str = " (" + ", ".join(f"+{v} {k}" for k, v in bonuses.items()) + ")" if bonuses else ""
-            print(f"   [{slot.capitalize():<9}] : {item_name}{bonus_str}")
+            text += f"\n[{slot.capitalize()}]: {item_name}{bonus_str}"
         else:
-            print(f"   [{slot.capitalize():<9}] : <Empty>")
-    print("-" * 45)
+            text += f"\n[{slot.capitalize()}]: <Empty>"
 
     # Section 4: Known Skills
-    print(" LEARNED SKILLS:")
+    text += "\n\n LEARNED SKILLS:"
     for skill_name in player.skills:
         info = skill_data[skill_name]
         cost = info.get("cost", 0)
         desc = info.get("description", "")
-        print(f"   - {skill_name:<14} (Cost: {cost:>2} MP) -> {desc}")
+        text += f"\n- {skill_name.capitalize()} (Cost: {cost} MP) -> {desc}"
 
-    print("=" * 45)
-    input("\nPress [Enter] to return to town...")
+    await send_embed_with_custom_buttons(game_msg, message, title, text, ["To Town"])
+    return

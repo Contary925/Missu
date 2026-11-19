@@ -1,27 +1,18 @@
 import json
+from PoS.src.embed import send_embed_with_buttons
 with open('PoS/src/skills/skill_data.json') as f:
     skills_info = json.load(f)
 
-def skills_menu(player, enemy):
+async def skills_menu(game_msg, player, enemy, message, title):
     skills = player.skills
-    print(f"-----------------------------------")
-    print(f"The MP cost is specified in ()")
+    text = "\nThe MP cost is specified in ()"
     counter = 0
     for skill in skills:
         counter += 1 
-        print(f"[{counter}]: {skill} ({skills_info[skill]["cost"]})") 
-    print(f"[0] Go back")
-    while True:
-        choice = input("Choose a skill you want to use > ").strip()
-        if not choice.isdigit():
-            print('Invalid skill! Choose from the menu.')
-            continue
-        choice = int(choice)
-        if choice > counter:
-            print('Invalid skill! Choose from the menu.')
-            continue
-        if choice == 0:
-            return False
-        break
+        text += f"\n[{counter}] {skill.capitalize()} ({skills_info[skill]["cost"]})"
+    text += f"\n[0] Go back"
+    _, choice = await send_embed_with_buttons(game_msg, message, title, text, len(skills)+1)
+    if choice == 0:
+        return "", False
     return player.use_skill(skills[choice-1], enemy)
 

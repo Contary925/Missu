@@ -32,12 +32,13 @@ class Entity:
         self.stats = self.set_stats()
         self.hp = self.stats["maxhp"]
         self.alive = True
-    def tick(self):
+    def tick(self) -> str:
+        text = ""
         expired = []
         for name in self.buffs:
             self.buffs[name]["duration_left"] -= 1
             if self.buffs[name]["duration_left"] == 0:
-                print(f'the effect "{name}" on {self.kind} has expired!')
+                text += f'\nThe effect "{name.capitalize()}" on {self.name} has expired!'
                 expired.append(name)
         for buff in expired:
             del self.buffs[buff]
@@ -45,11 +46,12 @@ class Entity:
         for debuff in self.debuffs:
             self.debuffs[debuff]["duration_left"] -= 1
             if self.debuffs[debuff]["duration_left"] == 0:
-                print(f'{debuff} on {self.kind} has expired!')
+                text += f'\n{debuff.capitalize()} on {self.name} has expired!'
                 expired.append(debuff)
         for debuff in expired:
             del self.debuffs[debuff]
         self.stats = self.set_stats()
+        return text
     def set_stats(self) -> dict:
         if not self.kind in base_stats:
             return dict()
@@ -73,21 +75,25 @@ class Entity:
                 for debuff in self.buffs[buff_name]["resistance"]:
                     total_stats["resistances"][debuff] = self.buffs[buff_name]["resistance"][debuff]
         return total_stats
-    def take_damage(self, damage: int):
-        print(f"{self.kind} takes {damage} damage...")
+    def take_damage(self, damage: int) -> str:
+        text = ""
+        text += f"\n{self.name} takes {damage} damage..."
         self.hp = max(0, self.hp - damage)
-        print(f"{self.kind}'s hp: {self.hp}")
+        text += f"\n{self.name}'s hp: {self.hp}"
         if self.hp <= 0:
             self.alive = False
-        return
-    def deal_damage(self, target, multiplier = 100):
+        return text
+    def deal_damage(self, target, multiplier = 100) -> str:
+        text = ""
         damage = max(1, math.ceil(self.stats["atk"] * multiplier/100) - target.stats["def"])
-        print(f"{self.kind} deals {damage} damage to {target.kind}...")
-        target.take_damage(damage)
-    def use_skill(self, name: str, target=None):
+        text += f"\n{self.name} deals {damage} damage to {target.name}..."
+        text += target.take_damage(damage)
+        return text
+    def use_skill(self, name: str, target=None) -> str:
+        text = ""
         if not name in skills:
-            return
-        print(f'{self.kind} uses a skill "{name}"!')
+            return text
+        text += f'\n{self.name} uses a skill "{name}"!'
         skill = skills[name]
         match skill["type"]:
             case "buff":
@@ -95,39 +101,41 @@ class Entity:
                     duration = skill["effects"]["duration"]
                     for stat in skill["effects"]["stat_buffs"]:
                         effect = skill["effects"]["stat_buffs"][stat]
-                        self.buff(name, duration, stat, effect)
+                        text += self.buff(name, duration, stat, effect)
                 if "healing" in skill["effects"]:
                     old_hp = self.hp
                     self.hp = min(self.stats["maxhp"], self.hp + math.ceil(self.stats["maxhp"] * skill["effects"]["healing"]/100))
                     if self.hp > old_hp:
-                        print(f'{self.kind} has recovered {self.hp - old_hp} hp!')
+                        text += f'\n{self.name} has recovered {self.hp - old_hp} hp!'
             case "attack":
                 multiplier = skill["effects"]["multiplier"]
-                self.deal_damage(target, multiplier)
+                text += self.deal_damage(target, multiplier)
                 if not target.alive:
-                    return
+                    return text
                 if "debuffs" in skill["effects"]:
                     for debuff in skill["effects"]["debuffs"]:
                         duration = skill["effects"]["debuffs"][debuff]["duration"]
                         debuff_res = target.stats["resistances"].get(debuff, 0)
                         chance = math.ceil(skill["effects"]["debuffs"][debuff]["chance"] * (100 - debuff_res)/100)
-                        target.debuff(debuff, duration, chance)
-    def buff(self, name: str, duration: int, stat: str = None, effect: int = None, resistance_enhance: tuple = None):
+                        text += target.debuff(debuff, duration, chance)
+        return text
+    def buff(self, name: str, duration: int, stat: str = None, effect: int = None, resistance_enhance: tuple = None) -> str:
+        text = ""
         if stat is not None:
-            print(f'Applied effect "{name}" on {self.kind}! {stat} will increase for {duration} turns!')
+            text += f'\nApplied effect "{name.capitalize()}" on {self.name}! {stat} will increase for {duration} turns!'
         if resistance_enhance is not None:
             debuff = resistance_enhance[0]
             value = resistance_enhance[1]
             match duration:
                 case 1:
-                    print(f'Applied effect "{name}" on {self.kind}! Resistance to {debuff} will increase for one turn!')
+                    text += f'\nApplied effect "{name.capitalize()}" on {self.name}! Resistance to {debuff.capitalize()} will increase for one turn!'
                 case _:
-                    print(f'Applied effect "{name}" on {self.kind}! Resistance to {debuff} will increase for {duration} turns!')
+                    text += f'\nApplied effect "{name.capitalize()}" on {self.name}! Resistance to {debuff}.capitalize() will increase for {duration} turns!'
         if name in self.buffs:
             self.buffs[name]["duration_left"] = duration
-            return
+            return text
         self.buffs[name] = {
-            "Duration_left": duration + 1, #the buffs are applied just before self.tick(), so this +1 is necessary for the buff to effectively work for {duration} turns rather than {duration-1}
+            "duration_left": duration + 1, #the buffs are applied just before self.tick(), so this +1 is necessary for the buff to effectively work for {duration} turns rather than {duration-1}
         }
         if stat:
             self.buffs[name]["stat"] = stat
@@ -136,18 +144,21 @@ class Entity:
             self.buffs[name]["resistance"] = {}
             self.buffs[name]["resistance"][debuff] = value
         self.stats = self.set_stats()
+        return text
         
-    def debuff(self, debuff: str, duration: int, chance: int):
+    def debuff(self, debuff: str, duration: int, chance: int) -> str:
+        text = ""
         if random.randint(1, 100) <= chance:
             match duration:
                 case 1:
-                    print(f'Applied effect "{debuff}" to {self.kind} for {duration} turn!')
+                    text += f'\nApplied effect "{debuff.capitalize()}" to {self.name} for {duration} turn!'
                 case _:
-                    print(f'Applied effect "{debuff}" to {self.kind} for {duration} turns!')
+                    text += f'\nApplied effect "{debuff.capitalize()}" to {self.name} for {duration} turns!'
             self.debuffs[debuff] = {
                 "duration_left": duration
             }
             self.buff(f'{debuff} resistance', 1, None, None, (f'{debuff}', 100))
+        return text
 
 class Player(Entity):
     def __init__(self, player_data: dict = {}):
@@ -196,50 +207,60 @@ class Player(Entity):
         return 10 * self.level ** 2
     def maxmp(self):
         return 100 + (self.level - 1) * 10
-    def take_damage(self, damage: int):
-        super().take_damage(damage)
+    def take_damage(self, damage: int) -> str:
+        text = ""
+        text += super().take_damage(damage)
         if self.alive == False:
-            print("You died! You will return to town.")
+            text += "You died! You will return to town."
             self.respawn()
+        return text
     def respawn(self):
         self.hp = self.stats["maxhp"]
         self.mp = self.maxmp()
-    def deal_damage(self, target, multiplier=100):
-        super().deal_damage(target, multiplier)
+    def deal_damage(self, target, multiplier=100) -> str:
+        text = ""
+        text += super().deal_damage(target, multiplier)
         if target.alive == False:
-            print(f"Congratulations! You killed a level {target.level} {target.kind}!")
-            self.get_kill_reward(target)
-            self.count_quest_progress(target)
-    def count_quest_progress(self, target):
+            text += f"\nCongratulations! You killed a level {target.level} {target.name}!"
+            text += self.get_kill_reward(target)
+            text += self.count_quest_progress(target)
+        return text
+    def count_quest_progress(self, target) -> str:
+        text = ""
         for quest in self.quests:
             if "kill" in self.quests[quest]["objectives"]:
                 if target.kind in self.quests[quest]["objectives"]["kill"]:
-                    self.quests[quest]["progress"]["kill"][target.kind] = min(self.quests[quest]["progress"]["kill"][target.kind]+1, self.quests[quest]["objectives"]["kill"][target.kind])
-                    print(f'{quest}: Kill {target.kind} {self.quests[quest]["progress"]["kill"][target.kind]}/{self.quests[quest]["objectives"]["kill"][target.kind]}')
-    def get_kill_reward(self, target):
-        self.get_exp(target=target)
+                    self.quests[quest]["progress"]["kill"][target.kind] = min(self.quests[quest]["progress"]["kill"][target.name]+1, self.quests[quest]["objectives"]["kill"][target.name])
+                    text += f'{quest.capitalize()}: Kill {target.name} {self.quests[quest]["progress"]["kill"][target.name]}/{self.quests[quest]["objectives"]["kill"][target.name]}'
+        return text
+    def get_kill_reward(self, target) -> str:
+        text = ""
+        text += self.get_exp(target=target)
         drops = target.roll_drops()
         for item, quantity in drops.items():
             self.inventory[item] = self.inventory.get(item, 0) + quantity
             item_name = item_data[item]["name"]
-            print(f"Obtained {quantity}x {item_name}!")
-    def get_exp(self, target=None, amount=0):
+            text += f"\nObtained {quantity}x {item_name.capitalize()}!"
+        return text
+    def get_exp(self, target=None, amount=0) -> str:
+        text = ""
         exp = 0
         if amount != 0:
             exp += amount
         if target is not None:
             if self.level - target.level > 10:
-                print(f"Your level is too high to obtain any experience from {target.kind}.")
-                return
+                text += f"\nYour level is too high to obtain any experience from {target.name}."
+                return text
             exp += math.floor(enemy_exp[target.kind] * (1 + 0.1 * target.level))
         self.exp += exp
         if exp:
-            print(f"You got {exp} experience.")
+            text += f"\nYou got {exp} experience."
         old_level = self.level
         while self.exp >= self.level_exp :
             self.level_up()
         if self.level > old_level:
-            print(f"Congratulations! You leveled up to {self.level}!")
+            text += f"\nCongratulations! You leveled up to level {self.level}!"
+        return text
     def level_up(self):
         self.exp -= self.level_exp
         self.level += 1
@@ -247,25 +268,27 @@ class Player(Entity):
         self.hp = self.stats["maxhp"]
         self.mp = self.maxmp()
         self.level_exp = self.new_level_exp()
-    def use_skill(self, name: str, target = None) -> bool:
-        if "STUN" in self.debuffs:
-            print('You are stunned! You cannot act!')
-            return False
+    def use_skill(self, name: str, target = None):
+        text = ""
+        if "stun" in self.debuffs:
+            text += '\nYou are stunned! You cannot act!'
+            return text, False
         if not name in skills:
-            return False
+            return text, False
         if self.mp < skills[name]["cost"]:
-            print("You don't have enough MP to use this skill!")
-            return False
-        super().use_skill(name, target)
+            text += "\nYou don't have enough MP to use this skill!"
+            return text, False
+        text += super().use_skill(name, target)
         self.mp -= int(skills[name]["cost"])
         self.stats = self.set_stats()
-        return True
-    def use_item(self, id: str) -> bool:
+        return text, True
+    def use_item(self, id: str):
+        text = ""
         if not id in self.inventory:
-            return False
+            return text, False
         if item_data[id]['type'] != 'consumable':
-            return False
-        print(f'You used a {item_data[id]["name"]}!')
+            return text, False
+        text += f'\nYou used a {item_data[id]["name"].capitalize()}!'
         self.inventory[id] -= 1
         if self.inventory[id] == 0:
             del self.inventory[id]
@@ -275,40 +298,46 @@ class Player(Entity):
                     old_hp = self.hp
                     self.hp = min(self.hp + item_data[id]['consumable_effects']['hp'], self.stats['maxhp'])
                     if self.hp > old_hp:
-                        print(f'Recovered {self.hp - old_hp} HP!')
+                        text += f'\nRecovered {self.hp - old_hp} HP!'
                 case 'mp':
                     old_mp = self.mp
                     self.mp = min(self.mp + item_data[id]['consumable_effects']['mp'], self.maxmp())
                     if self.mp > old_mp:
-                        print(f'Recovered {self.mp - old_mp} MP!')
+                        text += f'\nRecovered {self.mp - old_mp} MP!'
         self.stats = self.set_stats()
-        return True
+        return text, True
     def add_to_inventory(self, item, quantity=1):
         self.inventory[item] = self.inventory.get(item, 0) + quantity   
     def craft(self, item_id):
+        text = ""
         if not item_id in crafting_recipes:
-            print("Unknown crafting recipe!")
-            return
+            text += "\nUnknown crafting recipe!"
+            return text
         recipe = crafting_recipes[item_id]
         for material in recipe["materials"]:
             req_qty = recipe["materials"][material]
             if req_qty > self.inventory.get(material, 0):
-                print(f"You don't have enough materials to craft {item_data[item_id]["name"]}!")
-                return
+                text += f"\nYou don't have enough materials to craft {item_data[item_id]["name"].capitalize()}!"
+                return text
         for material in recipe["materials"]:
             req_qty = recipe["materials"][material]
             self.inventory[material] -= req_qty
             if self.inventory[material] == 0:
                 del self.inventory[material]
         self.inventory[item_id] = self.inventory.get(item_id, 0) + recipe["output_quantity"]
-        print(f"Successfully crafted x{recipe["output_quantity"]} {item_data[item_id]["name"]}!")
+        text += f"\nSuccessfully crafted x{recipe["output_quantity"]} {item_data[item_id]["name"].capitalize()}!"
+        return text
     def equip(self, item_id):
+        text = ""
         if not item_id in item_data:
-            return print("Unknown item!")
+            text += "\nUnknown item!"
+            return text
         if not item_id in self.inventory:
-            return print(f"You don't have a {item_data[item_id]["name"]}!")
+            text += f"\nYou don't have a {item_data[item_id]["name"].capitalize()}!"
+            return text
         if item_data[item_id]["type"] != "equipment":
-            return print(f"{item_data[item_id]["name"]} is not equippable!")
+            text += f"\n{item_data[item_id]["name"].capitalize()} is not equippable!"
+            return text
         item_kind = item_data[item_id]["equipment_info"]["type"]
         old_item = self.equipment[item_kind]
         self.equipment[item_kind] = item_id
@@ -317,13 +346,16 @@ class Player(Entity):
             del self.inventory[item_id]
         if old_item:
             self.add_to_inventory(old_item)
-        print(f"Equipped {item_data[item_id]["name"]}.")
+        text += f"\nEquipped {item_data[item_id]["name"].capitalize()}."
         self.stats = self.set_stats()
         self.hp = min(self.hp, self.stats["maxhp"])
         self.mp = min(self.mp, self.maxmp())
-    def tick(self):
-        super().tick()
+        return text
+    def tick(self) -> str:
+        text = ""
+        text += super().tick()
         self.mp = min(self.mp+10, self.maxmp())
+        return text
     def save_data(self):
         self.player_data = {
             "id": self.id,
@@ -352,39 +384,43 @@ class Player(Entity):
         self.inventory[item] -= quantity
         if self.inventory[item] == 0:
             del self.inventory[item]
-    def sell_item(self, item) -> bool:
+    def sell_item(self, item):
+        text = ""
         if item not in self.inventory:
-            print("You don't have this item!")
-            return False
+            text += "\nYou don't have this item!"
+            return text, False
         price = round(item_data[item]["merchant_price"])
         self.remove_from_inventory(item)
         self.add_to_inventory('gold_coin', price)
-        print(f"Successfully sold {item_data[item]["name"]}")
-        return True
+        text += f"\nSuccessfully sold {item_data[item]["name"].capitalize()}"
+        return text, True
     def buy_item(self, item) -> bool:
+        text = ""
         price = round(2*item_data[item]["merchant_price"])
         money_held = self.inventory.get('gold_coin', 0)
         if money_held < price:
-            print("You don't have enough money!")
-            return False
+            text += "\nYou don't have enough money!"
+            return text, False
         self.inventory['gold_coin'] -= price
         self.add_to_inventory(item)
-        print(f'Successfully purchased {item_data[item]["name"]}!')
-        return True
+        text += f'\nSuccessfully purchased {item_data[item]["name"]}!'
+        return text, True
 
 class Enemy(Entity):
     def __init__(self, kind: str, level: int):
         super().__init__(kind, level)
-    def use_random_skill(self, target):
+        self.name = self.kind.capitalize()
+    def use_random_skill(self, target) -> str:
+        text = ""
         if "stun" in self.debuffs:
-            print(f"{self.kind} is stunned and cannot act!")
-            return
+            text += f"\n{self.name} is stunned and cannot act!"
+            return text
         skill_list = enemy_skills[self.kind]
         skill_det = random.randint(1, 100)
         for skill in skill_list:
             if skill_det <= skill_list[skill]:
-                self.use_skill(skill, target)
-                return
+                text += self.use_skill(skill, target)
+                return text
             skill_det -= skill_list[skill]
     def roll_drops(self):
         possible_loot = loot_tables.get(self.kind, {})

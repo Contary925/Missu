@@ -1,102 +1,81 @@
 import json
+from PoS.src.embed import send_embed_with_buttons, send_embed_with_custom_buttons
 with open('PoS/src/items/item_data.json') as f:
     item_data = json.load(f)
 
-def inventory_menu(player):
+def header(player):
     items = player.inventory
-    print(f"-----------------------------------")
-    print(f"{player.kind}'s inventory:")
+    text = ""
     for item in items:
-        print(f'{item_data[item]["name"]}: {items[item]}')
+        text += f'\n{item_data[item]["name"].capitalize()}: {items[item]}'
+    text += "\n\n[0] Go back"
+    text += "\n[1] Use a consumable item"
+    text += "\n[2] Equip an item"
+    return text
+
+async def inventory_menu(game_msg, player, message):
+    title = f"**{player.name}'s inventory:**"
     while True:
-        print(f"-----------------------------------")
-        print("[0] Go back")
-        print("[1] Use a consumable item")
-        print("[2] Equip an item")
-        choice = input("What do you want to do next? > ").strip()
-        if not choice.isdigit():
-            print('Invalid option! Choose from the menu.')
-            continue
-        choice = int(choice)
+        text = header(player)
+        _, choice = await send_embed_with_buttons(game_msg, message, title, text, 3)
         match choice:
             case 0:
                 return
             case 1:
-                consumable_menu(player)
+                await consumable_menu(game_msg, player, message)
             case 2:
-                equipment_menu(player)
-            case _:
-                print('Invalid option! Choose from the menu.')
-                continue
+                await equipment_menu(game_msg, player, message)
         continue
 
-def consumable_menu(player):
+async def consumable_menu(game_msg, player, message):
     consumable_items = {}
-    print(f"-----------------------------------")
     items = player.inventory
-    print(f"{player.kind}'s consumable items:")
+    title = f"**{player.name}'s consumable items:**"
+    text = ""
     counter = 0
     for item in items:
         if item_data[item]["type"] == "consumable":
             counter += 1
             consumable_items[item] = player.inventory[item]
-            print(f'[{counter}]: {item_data[item]["name"]} ({items[item]})')
+            text += f'\n[{counter}] {item_data[item]["name"]} ({items[item]})'
     if consumable_items == {}:
-        print("You don't have consumable items!")
+        text += "\nYou don't have consumable items!"
+        await send_embed_with_custom_buttons(game_msg, message, title, text, ["To Town"])
         return
-    print(f"[0] Go back")
-    while True:
-        choice = input("Choose an item you want to use > ").strip()
-        if not choice.isdigit():
-            print('Invalid item! Choose from the menu.')
-            continue
-        choice = int(choice)
-        if choice > counter:
-            print('Invalid item Choose from the menu.')
-            continue
-        if choice == 0:
-            return False
-        break
+    text += f"\n[0] Go back"
+    _, choice = await send_embed_with_buttons(game_msg, message, title, text, len(consumable_items)+1)
     consumable_items = list(consumable_items)
-    player.use_item(consumable_items[choice-1])
-    
+    res_text = player.use_item(consumable_items[choice-1])
+    await message.channel.send(res_text, delete_after = 10.0)
+    return
 
-def equipment_menu(player):
+async def equipment_menu(game_msg, player, message):
     equipment = {}
-    print(f"-----------------------------------")
-    print(f"{player.kind}'s equipped items:")
+    title = f"**{player.name}'s equipped items:**"
+    text = ""
     for slot, item_id in player.equipment.items():
         if item_id and item_id in item_data:
             item_name = item_data[item_id]["name"]
             bonuses = item_data[item_id].get("stat_bonuses", {})
             bonus_str = " (" + ", ".join(f"+{v} {k}" for k, v in bonuses.items()) + ")" if bonuses else ""
-            print(f"   [{slot.capitalize():<9}] : {item_name}{bonus_str}")
+            text += f"\n[{slot.capitalize()}]: {item_name}{bonus_str}"
         else:
-            print(f"   [{slot.capitalize():<9}] : <Empty>")
-    print(f"-----------------------------------")
+            text += f"\n[{slot.capitalize()}]: <Empty>"
     items = player.inventory
-    print(f"{player.kind}'s equipment:")
+    text += f"\n\n**{player.name}'s equipment:**"
     counter = 0
     for item in items:
         if item_data[item]["type"] == "equipment":
             counter += 1
             equipment[item] = player.inventory[item]
-            print(f'[{counter}]: {item_data[item]["name"]} ({items[item]})')
+            text += f'\n[{counter}] {item_data[item]["name"]} ({items[item]})'
     if equipment == {}:
-        print("You don't have any equipment!")
+        text += "You don't have any equipment!"
+        await send_embed_with_custom_buttons(game_msg, message, title, text, ["To Town"])
         return
-    print(f"[0] Go back")
-    while True:
-        choice = input("Choose a piece of equipment you want to equip > ").strip()
-        if not choice.isdigit():
-            print('Invalid item! Choose from the menu.')
-            continue
-        choice = int(choice)
-        if choice > counter:
-            print('Invalid item Choose from the menu.')
-            continue
-        if choice == 0:
-            return False
-        break
+    text += f"\n[0] Go back"
+    _, choice = await send_embed_with_buttons(game_msg, message, title, text, len(equipment)+1)
     equipment = list(equipment)
-    player.equip(equipment[choice-1])
+    res_text = player.equip(equipment[choice-1])
+    await message.channel.send(res_text, delete_after = 10.0)
+    return

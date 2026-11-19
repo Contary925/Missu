@@ -2,21 +2,26 @@
     "583647391111053323": {
         "id": "583647391111053323",
         "name": "Kissu",
-        "level": 1,
+        "level": 4,
         "equipment": {
             "weapon": null,
-            "armor": null,
+            "armor": "cloth_armor",
             "special": null
         },
         "job": "adventurer",
-        "exp": 0,
-        "inventory": {},
+        "exp": 10,
+        "inventory": {
+            "cloth_piece": 4,
+            "goblin_ear": 6,
+            "small_healing_potion": 3,
+            "gold_coin": 15
+        },
         "skills": [
             "defend",
             "heal"
         ],
-        "hp": 200,
-        "mp": 100,
+        "hp": 230,
+        "mp": 130,
         "quests": {},
         "completed_quests": []
     }
