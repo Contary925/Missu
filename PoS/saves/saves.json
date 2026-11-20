@@ -4,15 +4,15 @@
         "name": "Kissu",
         "level": 4,
         "equipment": {
-            "weapon": null,
+            "weapon": "dull_dagger",
             "armor": "cloth_armor",
             "special": null
         },
         "job": "adventurer",
-        "exp": 10,
+        "exp": 24,
         "inventory": {
-            "cloth_piece": 4,
-            "goblin_ear": 6,
+            "cloth_piece": 6,
+            "goblin_ear": 7,
             "small_healing_potion": 3,
             "gold_coin": 15
         },
@@ -20,7 +20,7 @@
             "defend",
             "heal"
         ],
-        "hp": 230,
+        "hp": 212,
         "mp": 130,
         "quests": {},
         "completed_quests": []
