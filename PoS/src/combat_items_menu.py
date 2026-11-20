@@ -3,7 +3,7 @@ from PoS.src.embed import send_embed_with_buttons
 with open('PoS/src/items/item_data.json') as f:
     item_data = json.load(f)
 
-async def combat_items_menu(game_msg, player, message, title):
+async def combat_items_menu(game_msg, message, player, title):
     text = ""
     items = player.inventory
     consumable_items = {}

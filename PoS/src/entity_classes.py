@@ -230,8 +230,8 @@ class Player(Entity):
         for quest in self.quests:
             if "kill" in self.quests[quest]["objectives"]:
                 if target.kind in self.quests[quest]["objectives"]["kill"]:
-                    self.quests[quest]["progress"]["kill"][target.kind] = min(self.quests[quest]["progress"]["kill"][target.name]+1, self.quests[quest]["objectives"]["kill"][target.name])
-                    text += f'{quest.capitalize()}: Kill {target.name} {self.quests[quest]["progress"]["kill"][target.name]}/{self.quests[quest]["objectives"]["kill"][target.name]}'
+                    self.quests[quest]["progress"]["kill"][target.kind] = min(self.quests[quest]["progress"]["kill"][target.kind]+1, self.quests[quest]["objectives"]["kill"][target.kind])
+                    text += f'\n{quest.capitalize()}: Kill {target.name} {self.quests[quest]["progress"]["kill"][target.kind]}/{self.quests[quest]["objectives"]["kill"][target.kind]}'
         return text
     def get_kill_reward(self, target) -> str:
         text = ""
@@ -394,7 +394,7 @@ class Player(Entity):
         self.add_to_inventory('gold_coin', price)
         text += f"\nSuccessfully sold {item_data[item]["name"].capitalize()}"
         return text, True
-    def buy_item(self, item) -> bool:
+    def buy_item(self, item):
         text = ""
         price = round(2*item_data[item]["merchant_price"])
         money_held = self.inventory.get('gold_coin', 0)

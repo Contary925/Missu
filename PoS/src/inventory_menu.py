@@ -13,7 +13,7 @@ def header(player):
     text += "\n[2] Equip an item"
     return text
 
-async def inventory_menu(game_msg, player, message):
+async def inventory_menu(game_msg, message, player):
     title = f"**{player.name}'s inventory:**"
     while True:
         text = header(player)
@@ -22,12 +22,12 @@ async def inventory_menu(game_msg, player, message):
             case 0:
                 return
             case 1:
-                await consumable_menu(game_msg, player, message)
+                await consumable_menu(game_msg, message, player)
             case 2:
-                await equipment_menu(game_msg, player, message)
+                await equipment_menu(game_msg, message, player)
         continue
 
-async def consumable_menu(game_msg, player, message):
+async def consumable_menu(game_msg, message, player):
     consumable_items = {}
     items = player.inventory
     title = f"**{player.name}'s consumable items:**"
@@ -49,7 +49,7 @@ async def consumable_menu(game_msg, player, message):
     await message.channel.send(res_text, delete_after = 10.0)
     return
 
-async def equipment_menu(game_msg, player, message):
+async def equipment_menu(game_msg, message, player):
     equipment = {}
     title = f"**{player.name}'s equipped items:**"
     text = ""

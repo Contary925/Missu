@@ -32,6 +32,6 @@
         },
         "min_lvl": 10,
         "max_lvl": 999,
-        "spawn_rate_weight": 1
+        "spawn_rate_weight": 2
     }
 }

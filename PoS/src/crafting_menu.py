@@ -5,7 +5,7 @@ with open('PoS/src/recipes/recipes.json') as f:
 with open('PoS/src/items/item_data.json') as f:
     item_data = json.load(f)
 
-async def crafting_menu(game_msg, player, message):
+async def crafting_menu(game_msg, message, player):
     title = f"Available items for crafting:"
     text = ""
     counter = 0
@@ -16,6 +16,8 @@ async def crafting_menu(game_msg, player, message):
             text += f'\n- {recipes[recipe]["materials"][material]}x {item_data[material]["name"]}'
     text += f"\n[0] Go back"
     _, choice = await send_embed_with_buttons(game_msg, message, title, text, len(recipes)+1)
+    if choice == 0:
+        return
     res_text = player.craft(list(recipes)[choice-1])
     await message.channel.send(res_text, delete_after=10.0)
     return

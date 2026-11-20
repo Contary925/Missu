@@ -5,7 +5,7 @@ with open('PoS/src/items/item_data.json') as f:
 with open('PoS/src/skills/skill_data.json') as f:
     skill_data = json.load(f)
 
-async def show_character_sheet(game_msg, player, message):
+async def show_character_sheet(game_msg, message, player):
     text = ""
     # Calculate XP progress percentage and bar
     xp_pct = min(1.0, player.exp / player.level_exp) if player.level_exp > 0 else 1.0

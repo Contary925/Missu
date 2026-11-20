@@ -26,19 +26,19 @@ async def town_loop(client, message, player, game_msg):
                 enemy = spawn_random_enemy(player.level)
                 await battle_loop(game_msg, message, player, enemy)
             case 2:
-                await inventory_menu(game_msg, player, message)
+                await inventory_menu(game_msg, message, player)
             case 3:
-                await crafting_menu(game_msg, player, message)
+                await crafting_menu(game_msg, message, player)
             case 4:
                 player.hp = player.stats["maxhp"]
                 player.mp = player.maxmp()
                 await message.channel.send("You rest at the inn. HP and MP are fully restored!", delete_after=10.0)
             case 5:
-                merchant_menu(player, 'Frank the merchant')
+                await merchant_menu(game_msg, message, player, 'frank the merchant')
             case 6:
-                quest_menu(player)
+                await quest_menu(game_msg, message, player)
             case 7:
-                await show_character_sheet(game_msg, player, message)
+                await show_character_sheet(game_msg, message, player)
             case 0:
                 await message.channel.send('Goodbye!', delete_after = 10.0)
                 await game_msg.delete()

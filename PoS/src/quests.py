@@ -1,4 +1,5 @@
 import json
+from PoS.src.embed import send_embed_with_buttons, send_embed_with_custom_buttons
 with open('PoS/src/quests/quests.json') as f:
     quests_data = json.load(f)
 with open('PoS/src/items/item_data.json') as f:
@@ -7,8 +8,9 @@ with open('PoS/src/skills/jobs.json') as f:
     jobs_data = json.load(f)
 jobs = list(jobs_data)
 
-def quests_menu(player, NPC):
-    print(f"-----------------------------------")
+async def quests_menu(game_msg, message, player, NPC):
+    title = f"**{NPC.capitalize()}'s quests:**"
+    text = ""
     quests = quests_data[NPC]
     counter = 0
     available_quests = []
@@ -17,31 +19,26 @@ def quests_menu(player, NPC):
             continue
         available_quests.append({quest: quests[quest]})
         counter += 1
-        print(f'[{counter}] {quest}')
+        text += f'\n[{counter}] {quest.capitalize()}'
     if available_quests == []:
-        print(f"{NPC} doesn't have any available quests for you.")
+        text += f"{NPC} doesn't have any available quests for you."
+        msg, choice = send_embed_with_custom_buttons(game_msg, message, title, text, ["Go back"])
+        await msg.delete()
         return
-    print('[0] Go back')
-    while True:
-        choice = input('Choose a quest > ')
-        try:
-            choice = int(choice)
-        except Exception:
-            print("Invalid index! Please choose from the menu.")
-            continue
-        if choice == 0:
-            return
-        quest = available_quests[choice-1]
-        break
+    text += '\n[0] Go back'
+    _, choice = await send_embed_with_buttons(game_msg, message, title, text, len(available_quests)+1)
+    if choice == 0:
+        return
+    quest = available_quests[choice-1]
     quest_name = list(quest)[0]
     if not quest_name in player.quests:
-        quest_accept(player, quest)
+        await quest_accept(game_msg, message, player, quest)
         return
     match quest_check_completion(player, quest):
         case True:
-            quest_report(player, quest)
+            await quest_report(game_msg, message, player, quest)
         case False:
-            print("You don't meet the conditions to report this quest!")
+            await message.channel.send("You don't meet the conditions to report this quest!", delete_after = 10.0)
             return
     return
 
@@ -55,16 +52,15 @@ def quest_available(player, NPC, quest):
         return False
     return True
 
-def quest_accept(player, quest):
+async def quest_accept(game_msg, message, player, quest):
     quest_name = list(quest)[0]
-    print(quest[quest_name]["accept_text"])
-    print('[1] Accept')
-    print('[0] Go back')
-    choice = input('Accept this quest? > ')
+    title = f"**{quest_name.capitalize()}**"
+    text = quest[quest_name]["accept_text"]
+    _, choice = await send_embed_with_custom_buttons(game_msg, message, title, text, ["Accept", "Decline"])
     match choice:
-        case '0':
+        case "Decline":
             return
-        case '1':
+        case "Accept":
             objectives = quest[quest_name]["objectives"]
             new_quest =  {
                 "objectives": objectives,
@@ -75,7 +71,7 @@ def quest_accept(player, quest):
                 for target in objectives["kill"]:
                     new_quest["progress"]["kill"][target] = 0
             player.quests[quest_name] = new_quest
-            print(f'Accepted the quest "{quest_name}"!')
+            await message.channel.send(f'Accepted the quest "{quest_name.capitalize()}"!', delete_after = 10.0)
     return
 
 def quest_check_completion(player, quest):
@@ -88,22 +84,24 @@ def quest_check_completion(player, quest):
             return False
     return True
 
-def quest_report(player, quest):
+async def quest_report(game_msg, message, player, quest):
     quest_name = list(quest)[0]
-    print(f"-----------------------------------")
-    print(quest[quest_name]["report_text"])
+    title = f"**{quest_name.capitalize()}**"
+    text = quest[quest_name]["report_text"]
     exp = quest[quest_name]["rewards"].get("EXP", 0)
-    player.get_exp(None, exp)
+    text += player.get_exp(None, exp)
     for target in quest[quest_name]["objectives"].get("collect", {}):
         player.remove_from_inventory(target, quest[quest_name]["objectives"]["collect"][target])
     if "items" in quest[quest_name]["rewards"]:
         for item_reward in quest[quest_name]["rewards"]["items"]:
             player.add_to_inventory(item_reward, quest[quest_name]["rewards"]["items"][item_reward])
-            print(f'You got {quest[quest_name]["rewards"]["items"][item_reward]}x {item_data[item_reward]["name"]}.')
+            text += f'\nYou got {quest[quest_name]["rewards"]["items"][item_reward]}x {item_data[item_reward]["name"]}.'
     if "skills" in quest[quest_name]["rewards"]:
         for skill in quest[quest_name]["rewards"]["skills"]:
+            text += f'\nLearned a new skill: {skill.capitalize()}!'
             player.skills.append(skill)
     del player.quests[quest_name]
     player.completed_quests.append(quest_name)
-    print(f'Reported the quest {quest_name}!')
+    text += f'\nReported the quest {quest_name.capitalize()}!'
+    await send_embed_with_custom_buttons(game_msg, message, title, text, ["Go back"])
     return

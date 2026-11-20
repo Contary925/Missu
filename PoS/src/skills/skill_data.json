@@ -5,10 +5,10 @@
         "effects": {
             "duration": 2,
             "stat_buffs": {
-                "def": 30
+                "def": 50
             }
         },
-        "description": "increases def for 2 turns"
+        "description": "Cncreases def for 2 turns"
     },
     "stun attack": {
         "type": "attack",
@@ -22,7 +22,7 @@
                 }
             }
         },
-        "description": "deals more damage to the target. can apply stun at a chance."
+        "description": "Deals more damage to the target. Can apply stun at a chance."
     },
     "attack": {
         "type": "attack",
@@ -30,14 +30,14 @@
         "effects": {
             "multiplier": 100
         },
-        "description": "basic attack. deals damage to the target."
+        "description": "Basic attack. Deals damage to the target."
     },
     "heal": {
         "type": "buff",
         "cost": 25,
         "effects": {
-            "healing": 20
+            "healing": 25
         },
-        "description": "a healing spell. recovers 20% hp to self."
+        "description": "A healing spell. Recovers 25% hp to self."
     }
 }

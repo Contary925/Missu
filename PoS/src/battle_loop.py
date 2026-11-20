@@ -42,6 +42,7 @@ async def player_turn(game_msg, enemy, player, message, round_count, title="", t
         if "stun" in player.debuffs:
             text += "\nYou are stunned! You cannot act!"
             text += player.tick()
+            res_text = text
             break
         game_msg, choice = await send_embed_with_buttons(game_msg, message, title, text, 4, False)
         match choice:
@@ -55,7 +56,7 @@ async def player_turn(game_msg, enemy, player, message, round_count, title="", t
                         text = header(player, enemy, round_count) + res_text
                         continue
             case 3:
-                res_text, used = await combat_items_menu(game_msg, player, message, title)
+                res_text, used = await combat_items_menu(game_msg, message, player, title)
                 match used:
                     case False:
                         text = header(player, enemy, round_count) + res_text

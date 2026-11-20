@@ -1,13 +1,13 @@
 {
-    "Frank the merchant": {
-        "Goblin hunter": {
+    "frank the merchant": {
+        "goblin hunter": {
             "conditions": {
                 "min_level": 1,
                 "max_level": 10
             },
             "objectives": {
                 "kill": {
-                    "Goblin": 10
+                    "goblin": 10
                 }
             },
             "rewards": {
@@ -20,7 +20,7 @@
             "accept_text": "These goblins are really annoying - they keep robbing shops\nin nearby cities and there's just no end to them.\nCare to lend me a hand? I'll reward you if you slay ten of them.",
             "report_text": "Oh, you managed to slay them? Good job! Here's your reward, as I promised."
         },
-        "Ogre hunter": {
+        "ogre hunter": {
             "conditions": {
                 "min_level": 10,
                 "max_level": 50
@@ -33,7 +33,7 @@
             "rewards": {
                 "EXP": 1000,
                 "skills": [
-                    "Stun attack"
+                    "stun attack"
                 ]
             },
             "repeatable": 0,
