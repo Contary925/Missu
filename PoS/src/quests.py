@@ -101,7 +101,8 @@ async def quest_report(game_msg, message, player, quest):
             text += f'\nLearned a new skill: {skill.capitalize()}!'
             player.skills.append(skill)
     del player.quests[quest_name]
-    player.completed_quests.append(quest_name)
+    if not quest_name in player.completed_quests:
+        player.completed_quests.append(quest_name)
     text += f'\nReported the quest {quest_name.capitalize()}!'
     await send_embed_with_custom_buttons(game_msg, message, title, text, ["Go back"])
     return

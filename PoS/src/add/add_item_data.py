@@ -1,9 +1,13 @@
 import json
 
-def add_item_data(item_id: str, name: str, type: str, description: str,
-                  consumable_effects = {},
-                  equipment_info = {},
-                  price = 1):
+def add_item_data(
+        item_id: str, 
+        name: str, type: str, 
+        description: str,
+        consumable_effects = {},
+        equipment_info = {},
+        price = 1
+        ):
     with open('PoS/src/items/item_data.json', 'r') as f:
         items = json.load(f)
     items[item_id] = {

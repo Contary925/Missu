@@ -1,4 +1,5 @@
 import discord
+import asyncio
 
 class NumberButton(discord.ui.Button):
     def __init__(self, number: int):
@@ -71,4 +72,18 @@ async def send_embed_with_custom_buttons(game_msg, message, title, text, buttons
     await view.wait()
     return result_msg, view.selected
 
-    
+async def change_name(game_msg, message, client):
+    embed = construct_embed("Changing character name", "Type your character's name in chat below:")
+    await game_msg.edit(embed=embed)
+    def check(m: discord.Message):
+        return m.author.id == message.author.id and m.channel.id == message.channel.id
+    try:
+        reply = await client.wait_for("message", check=check, timeout=60.0)
+        new_name = reply.content.strip()
+        try:
+            await reply.delete()
+        except discord.Forbidden:
+            pass    
+        return new_name
+    except asyncio.TimeoutError:
+        return None

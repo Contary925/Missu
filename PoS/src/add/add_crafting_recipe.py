@@ -1,6 +1,10 @@
 import json
 
-def add_crafting_recipe(item_id: str, materials: dict, output_quantity = 1):
+def add_crafting_recipe(
+        item_id: str, 
+        materials: dict, 
+        output_quantity = 1
+        ):
     with open('PoS/src/recipes/recipes.json', 'r') as f:
         recipes = json.load(f)
     recipes[item_id] = {

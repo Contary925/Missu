@@ -1,6 +1,12 @@
 import json
 
-def add_enemy_drops(enemy: str, item_id: str, chance: int, min_qty: int, max_qty: int):
+def add_enemy_drops(
+        enemy: str, 
+        item_id: str, 
+        chance: int, 
+        min_qty: int,
+        max_qty: int
+        ):
     with open('PoS/src/stats/loot_tables.json', 'r') as f:
         loot_tables = json.load(f)
     if not enemy in loot_tables:
