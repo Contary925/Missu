@@ -9,21 +9,21 @@
             "special": null
         },
         "job": "adventurer",
-        "exp": 278,
+        "exp": 416,
         "inventory": {
-            "cloth_piece": 107,
+            "cloth_piece": 109,
             "goblin_ear": 39,
-            "small_healing_potion": 21,
-            "gold_coin": 152,
-            "rusty_sword_piece": 1
+            "small_healing_potion": 23,
+            "gold_coin": 160,
+            "rusty_sword_piece": 4
         },
         "skills": [
             "defend",
             "heal",
             "stun attack"
         ],
-        "hp": 355,
-        "mp": 50,
+        "hp": 308,
+        "mp": 220,
         "quests": {},
         "completed_quests": [
             "goblin hunter",
