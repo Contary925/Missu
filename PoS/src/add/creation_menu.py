@@ -1,6 +1,9 @@
 import discord
 
 from PoS.src.add.entity_creator import start_entity_creator
+from PoS.src.add.item_creator import start_item_creator
+from PoS.src.add.enemy_drops_creator import start_enemy_drops_creator
+from PoS.src.add.enemy_skills_creator import start_enemy_skills_creator
 
 class CreationMenu(discord.ui.View):
     def __init__(self, author_id: int, timeout: float = 120):
@@ -22,10 +25,29 @@ class CreationMenu(discord.ui.View):
 
     @discord.ui.button(label="Item", style=discord.ButtonStyle.primary)
     async def item_button(self, interaction, button):
-        await interaction.response.send_message(
-            "Item creation will be implemented here.",
-            ephemeral=True
-        )
+        await start_item_creator(interaction)
+
+    @discord.ui.button(
+        label="Enemy Drops",
+        style=discord.ButtonStyle.primary
+    )
+    async def enemy_drops_button(
+        self,
+        interaction: discord.Interaction,
+        button: discord.ui.Button
+    ):
+        await start_enemy_drops_creator(interaction)
+
+    @discord.ui.button(
+        label="Enemy Skills",
+        style=discord.ButtonStyle.primary
+    )
+    async def enemy_skills_button(
+        self,
+        interaction: discord.Interaction,
+        button: discord.ui.Button
+    ):
+        await start_enemy_skills_creator(interaction)
 
     @discord.ui.button(label="Cancel", style=discord.ButtonStyle.danger)
     async def cancel_button(self, interaction, button):

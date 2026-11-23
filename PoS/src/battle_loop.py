@@ -34,16 +34,16 @@ async def battle_loop(game_msg, message, player, enemy):
 async def player_turn(game_msg, enemy, player, message, round_count, title="", text=""):
     res_text = ""
     while True:
-        text += f"\n{player.name}'s turn!\n"
-        text += "\n[1] Basic Attack"
-        text += "\n[2] Cast Skill"
-        text += "\n[3] Use Potion / Item"
-        text += "\n[4] Flee"
         if "stun" in player.debuffs:
             text += "\nYou are stunned! You cannot act!"
             text += player.tick()
             res_text = text
             break
+        text += f"\n{player.name}'s turn!\n"
+        text += "\n[1] Basic Attack"
+        text += "\n[2] Cast Skill"
+        text += "\n[3] Use Potion / Item"
+        text += "\n[4] Flee"
         game_msg, choice = await send_embed_with_buttons(game_msg, message, title, text, 4, False)
         match choice:
             case 1:

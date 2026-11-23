@@ -11,5 +11,13 @@
         "stun attack": 25,
         "defend": 50,
         "attack": 25
+    },
+    "goblin king": {
+        "stun attack": 10,
+        "heal": 30,
+        "attack": 60
+    },
+    "skeleton": {
+        "attack": 100
     }
 }

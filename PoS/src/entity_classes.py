@@ -10,12 +10,6 @@ with open('PoS/src/stats/entity_base_stats.json', 'r') as f:
     base_stats = json.load(f)
 with open('PoS/src/stats/level_scaling.json', 'r') as f:
     level_scaling = json.load(f)
-with open('PoS/src/stats/exp.json', 'r') as f:
-    enemy_exp = json.load(f)
-with open('PoS/src/skills/skill_data.json', 'r') as f:
-    skills = json.load(f)
-with open('PoS/src/skills/enemy_skills.json', 'r') as f:
-    enemy_skills = json.load(f)
 with open('PoS/src/stats/loot_tables.json', 'r') as f:
     loot_tables = json.load(f)
 with open('PoS/src/items/item_data.json', 'r') as f:
@@ -91,6 +85,8 @@ class Entity:
         return text
     def use_skill(self, name: str, target=None) -> str:
         text = ""
+        with open('PoS/src/skills/skill_data.json', 'r') as f:
+            skills = json.load(f)
         if not name in skills:
             return text
         text += f'\n{self.name} uses a skill "{name}"!'
@@ -251,7 +247,7 @@ class Player(Entity):
             if self.level - target.level > 10:
                 text += f"\nYour level is too high to obtain any experience from {target.name}."
                 return text
-            exp += math.floor(enemy_exp[target.kind] * (1 + 0.1 * target.level))
+            exp += math.floor(base_stats[target.kind]["exp"] * (1 + 0.1 * target.level))
         self.exp += exp
         if exp:
             text += f"\nYou got {exp} experience."
@@ -273,6 +269,8 @@ class Player(Entity):
         if "stun" in self.debuffs:
             text += '\nYou are stunned! You cannot act!'
             return text, False
+        with open('PoS/src/skills/skill_data.json', 'r') as f:
+            skills = json.load(f)
         if not name in skills:
             return text, False
         if self.mp < skills[name]["cost"]:
@@ -415,6 +413,8 @@ class Enemy(Entity):
         if "stun" in self.debuffs:
             text += f"\n{self.name} is stunned and cannot act!"
             return text
+        with open('PoS/src/skills/enemy_skills.json', 'r') as f:
+            enemy_skills = json.load(f)
         skill_list = enemy_skills[self.kind]
         skill_det = random.randint(1, 100)
         for skill in skill_list:

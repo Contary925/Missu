@@ -18,4 +18,10 @@ def add_enemy_drops(
     }
     with open('PoS/src/stats/loot_tables.json', 'w') as f:
         json.dump(loot_tables, f, indent=4)
-    
+
+def save_enemy_loot_table(enemy: str, drops: dict):
+    with open('PoS/src/stats/loot_tables.json', 'r') as f:
+        loot_tables = json.load(f)
+    loot_tables[enemy] = drops
+    with open('PoS/src/stats/loot_tables.json', 'w') as f:
+        json.dump(loot_tables, f, indent=4, ensure_ascii=False)

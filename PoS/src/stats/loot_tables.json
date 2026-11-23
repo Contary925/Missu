@@ -74,5 +74,39 @@
             "min_qty": 1,
             "max_qty": 2
         }
+    },
+    "skeleton": {
+        "gold_coin": {
+            "chance": 50,
+            "min_qty": 1,
+            "max_qty": 5
+        },
+        "cracked_bone": {
+            "chance": 100,
+            "min_qty": 1,
+            "max_qty": 2
+        },
+        "bone_sword": {
+            "chance": 1,
+            "min_qty": 1,
+            "max_qty": 1
+        }
+    },
+    "goblin king": {
+        "goblin_ear": {
+            "chance": 100,
+            "min_qty": 1,
+            "max_qty": 1
+        },
+        "gold_coin": {
+            "chance": 75,
+            "min_qty": 20,
+            "max_qty": 50
+        },
+        "goblin_ring": {
+            "chance": 2,
+            "min_qty": 1,
+            "max_qty": 1
+        }
     }
 }

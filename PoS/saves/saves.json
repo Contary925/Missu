@@ -2,28 +2,29 @@
     "583647391111053323": {
         "id": "583647391111053323",
         "name": "Kissu",
-        "level": 13,
+        "level": 14,
         "equipment": {
             "weapon": "rusty_sword",
             "armor": "cloth_armor",
-            "special": null
+            "special": "copper_ring"
         },
         "job": "adventurer",
-        "exp": 416,
+        "exp": 274,
         "inventory": {
-            "cloth_piece": 109,
-            "goblin_ear": 39,
+            "cloth_piece": 111,
+            "goblin_ear": 41,
             "small_healing_potion": 23,
-            "gold_coin": 160,
-            "rusty_sword_piece": 4
+            "gold_coin": 188,
+            "rusty_sword_piece": 5,
+            "cracked_bone": 9
         },
         "skills": [
             "defend",
             "heal",
             "stun attack"
         ],
-        "hp": 308,
-        "mp": 220,
+        "hp": 400,
+        "mp": 230,
         "quests": {},
         "completed_quests": [
             "goblin hunter",

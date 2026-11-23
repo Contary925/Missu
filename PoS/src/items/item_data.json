@@ -116,5 +116,54 @@
         "consumable_effects": {},
         "equipment_info": {},
         "merchant_price": 100
+    },
+    "cracked_bone": {
+        "name": "cracked bone",
+        "type": "material",
+        "description": "Easy to break",
+        "consumable_effects": {},
+        "equipment_info": {},
+        "merchant_price": 2
+    },
+    "bone_sword": {
+        "name": "Bone sword",
+        "type": "equipment",
+        "description": "A sword made of bones. Not sharp enough to cut through armor, but can work as a shield itself.",
+        "consumable_effects": {},
+        "equipment_info": {
+            "type": "weapon",
+            "atk": 10,
+            "def": 3,
+            "resistance": {
+                "stun": 5
+            }
+        },
+        "merchant_price": 30
+    },
+    "goblin_ring": {
+        "name": "Goblin ring",
+        "type": "equipment",
+        "description": "The ring is emitting a strange aura... Should you even wear something like this?",
+        "consumable_effects": {},
+        "equipment_info": {
+            "type": "special",
+            "maxhp": 50,
+            "atk": 5,
+            "resistance": {
+                "stun": -50
+            }
+        },
+        "merchant_price": 1
+    },
+    "copper_ring": {
+        "name": "Copper ring",
+        "type": "equipment",
+        "description": "A simple copper ring",
+        "consumable_effects": {},
+        "equipment_info": {
+            "type": "special",
+            "maxhp": 20
+        },
+        "merchant_price": 25
     }
 }

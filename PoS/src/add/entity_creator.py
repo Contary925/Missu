@@ -45,7 +45,14 @@ class BasicStatsModal(discord.ui.Modal):
             max_length=10
         )
 
-        for item in (self.kind, self.hp, self.attack, self.defense):
+        self.exp = discord.ui.TextInput(
+            label="Base EXP",
+            placeholder="10",
+            default=str(data["exp"]) if data["exp"] is not None else None,
+            max_length=10
+        )
+
+        for item in (self.kind, self.hp, self.attack, self.defense, self.exp):
             self.add_item(item)
 
     async def on_submit(self, interaction: discord.Interaction):
@@ -57,12 +64,16 @@ class BasicStatsModal(discord.ui.Modal):
             hp = parse_int(self.hp.value, "HP")
             attack = parse_int(self.attack.value, "Attack")
             defense = parse_int(self.defense.value, "Defense")
+            exp = parse_int(self.exp.value, "EXP")
 
             if hp <= 0:
                 raise ValueError("HP must be greater than zero.")
 
             if attack < 0 or defense < 0:
                 raise ValueError("ATK and DEF cannot be negative.")
+
+            if exp < 0:
+                raise ValueError("EXP cannot be negative.")
 
         except ValueError as e:
             return await interaction.response.send_message(
@@ -75,6 +86,7 @@ class BasicStatsModal(discord.ui.Modal):
         data["hp"] = hp
         data["attack"] = attack
         data["defense"] = defense
+        data["exp"] = exp
 
         await interaction.response.send_message(
             "Basic stats updated.",
@@ -91,17 +103,17 @@ class SpawnSettingsModal(discord.ui.Modal):
 
         data = view.entity_data
 
-        self.min_level = discord.ui.TextInput(
+        self.min_lvl = discord.ui.TextInput(
             label="Minimum level",
             placeholder="1",
-            default=str(data["min_level"]),
+            default=str(data["min_lvl"]),
             max_length=10
         )
 
-        self.max_level = discord.ui.TextInput(
+        self.max_lvl = discord.ui.TextInput(
             label="Maximum level",
             placeholder="999",
-            default=str(data["max_level"]),
+            default=str(data["max_lvl"]),
             max_length=10
         )
 
@@ -112,20 +124,20 @@ class SpawnSettingsModal(discord.ui.Modal):
             max_length=10
         )
 
-        self.add_item(self.min_level)
-        self.add_item(self.max_level)
+        self.add_item(self.min_lvl)
+        self.add_item(self.max_lvl)
         self.add_item(self.spawn_weight)
 
     async def on_submit(self, interaction: discord.Interaction):
         try:
-            min_level = parse_int(self.min_level.value, "Minimum level")
-            max_level = parse_int(self.max_level.value, "Maximum level")
+            min_lvl = parse_int(self.min_lvl.value, "Minimum level")
+            max_lvl = parse_int(self.max_lvl.value, "Maximum level")
             spawn_weight = parse_int(self.spawn_weight.value, "Spawn weight")
 
-            if min_level < 1:
+            if min_lvl < 1:
                 raise ValueError("Minimum level must be at least 1.")
 
-            if max_level < min_level:
+            if max_lvl < min_lvl:
                 raise ValueError("Maximum level cannot be lower than minimum level.")
 
             if spawn_weight < 0:
@@ -138,8 +150,8 @@ class SpawnSettingsModal(discord.ui.Modal):
             )
 
         data = self.creator_view.entity_data
-        data["min_level"] = min_level
-        data["max_level"] = max_level
+        data["min_lvl"] = min_lvl
+        data["max_lvl"] = max_lvl
         data["spawn_rate_weight"] = spawn_weight
 
         await interaction.response.send_message(
@@ -209,9 +221,10 @@ class EntityCreatorView(discord.ui.View):
             "hp": None,
             "attack": None,
             "defense": None,
+            "exp": None,
             "resistances": {},
-            "min_level": 1,
-            "max_level": 999,
+            "min_lvl": 1,
+            "max_lvl": 999,
             "spawn_rate_weight": 10
         }
 
@@ -242,7 +255,8 @@ class EntityCreatorView(discord.ui.View):
                 f"**ID:** `{data['kind']}`\n"
                 f"**HP:** {data['hp']}\n"
                 f"**ATK:** {data['attack']}\n"
-                f"**DEF:** {data['defense']}"
+                f"**DEF:** {data['defense']}\n"
+                f"**EXP:** {data['exp']}"
             )
 
         embed.add_field(
@@ -255,8 +269,8 @@ class EntityCreatorView(discord.ui.View):
         embed.add_field(
             name="Spawn Settings",
             value=(
-                f"**Min level:** {data['min_level']}\n"
-                f"**Max level:** {data['max_level']}\n"
+                f"**Min level:** {data['min_lvl']}\n"
+                f"**Max level:** {data['max_lvl']}\n"
                 f"**Spawn weight:** {data['spawn_rate_weight']}"
             ),
             inline=False
@@ -356,14 +370,15 @@ class EntityCreatorView(discord.ui.View):
 
         try:
             add_base_entity_stats(
-                data["kind"],
-                data["hp"],
-                data["attack"],
-                data["defense"],
-                data["resistances"],
-                data["min_level"],
-                data["max_level"],
-                data["spawn_rate_weight"]
+                kind=data["kind"],
+                hp=data["hp"],
+                attack=data["attack"],
+                defense=data["defense"],
+                exp=data["exp"],
+                resistances=data["resistances"],
+                min_lvl=data["min_lvl"],
+                max_lvl=data["max_lvl"],
+                spawn_rate_weight=data["spawn_rate_weight"]
             )
 
         except Exception as e:
@@ -374,18 +389,23 @@ class EntityCreatorView(discord.ui.View):
 
         self.stop()
 
-        for item in self.children:
-            item.disabled = True
-
         embed = discord.Embed(
             title="Entity successfully saved!",
-            description=f"Entity `{data['kind']}` has been added to game data.",
+            description=(
+                f"Entity `{data['kind']}` has been added to game data.\n\n"
+                "What would you like to do next?"
+            ),
             color=discord.Color.green()
+        )
+
+        view = EntitySavedView(
+            author_id=self.author_id,
+            entity_id=data["kind"]
         )
 
         await interaction.response.edit_message(
             embed=embed,
-            view=self
+            view=view
         )
 
     @discord.ui.button(
@@ -416,6 +436,72 @@ class EntityCreatorView(discord.ui.View):
             except discord.HTTPException:
                 pass
 
+class EntitySavedView(discord.ui.View):
+    def __init__(self, author_id: int, entity_id: str, timeout: float = 300):
+        super().__init__(timeout=timeout)
+
+        self.author_id = author_id
+        self.entity_id = entity_id
+
+    async def interaction_check(self, interaction):
+        if interaction.user.id != self.author_id:
+            await interaction.response.send_message(
+                "This menu isn't yours.",
+                ephemeral=True
+            )
+            return False
+        return True
+
+    @discord.ui.button(
+        label="Add Loot to Entity",
+        style=discord.ButtonStyle.success
+    )
+    async def add_loot_button(self, interaction, button):
+        from PoS.src.add.enemy_drops_creator import (
+            start_enemy_drops_creator
+        )
+
+        await start_enemy_drops_creator(
+            interaction,
+            enemy=self.entity_id
+        )
+
+    @discord.ui.button(
+        label="Create Another Entity",
+        style=discord.ButtonStyle.primary
+    )
+    async def create_another_button(self, interaction, button):
+        view = EntityCreatorView(self.author_id)
+
+        await interaction.response.edit_message(
+            embed=view.construct_embed(),
+            view=view
+        )
+
+        view.message = interaction.message
+
+    @discord.ui.button(
+        label="Add Skills to Entity",
+        style=discord.ButtonStyle.success
+    )
+    async def add_skills_button(self, interaction, button):
+        from PoS.src.add.enemy_skills_creator import (
+            start_enemy_skills_creator
+        )
+
+        await start_enemy_skills_creator(
+            interaction,
+            enemy=self.entity_id
+        )
+
+    @discord.ui.button(
+        label="Finish",
+        style=discord.ButtonStyle.secondary
+    )
+    async def finish_button(self, interaction, button):
+        self.stop()
+
+        await interaction.response.edit_message(view=None)
 
 async def start_entity_creator(interaction: discord.Interaction):
     view = EntityCreatorView(interaction.user.id)

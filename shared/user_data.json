@@ -34,7 +34,7 @@
             },
             "kiss": {
                 "825781461021360168": 12,
-                "658061917394436146": 6
+                "658061917394436146": 7
             },
             "pat": {
                 "825781461021360168": 4,
@@ -301,7 +301,8 @@
         "playlists_visibility": true,
         "full_command_alias": {
             "uwu play electronics": "uwu pl play many melodic electronic, melodic electronic, ds, ds, celldweller -s",
-            "\u0443\u0432\u0443 \u0438\u0433\u0440\u0430\u0439 \u0441\u043f\u0438\u0441\u043e\u043a": "uwu pl play many melodic electronic, toram, smash into pieces, ds, solence, celldweller, skillet, kamnox, black veil brides, motivation, the score, aura farming, ori, asking alexandria, unroyal, three days grace, metalcore -s"
+            "\u0443\u0432\u0443 \u0438\u0433\u0440\u0430\u0439 \u0441\u043f\u0438\u0441\u043e\u043a": "uwu pl play many melodic electronic, toram, smash into pieces, ds, solence, celldweller, skillet, kamnox, black veil brides, motivation, the score, aura farming, ori, asking alexandria, unroyal, three days grace, metalcore -s",
+            "uwu play tdg": "uwu playlist play three days grace -s"
         }
     },
     "994552068138336276": {
@@ -345,7 +346,7 @@
         },
         "interactions": {
             "bite": {
-                "583647391111053323": 13,
+                "583647391111053323": 14,
                 "1543566895360253992": 1,
                 "928033455860772944": 1,
                 "744792683796496485": 1

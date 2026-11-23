@@ -9,6 +9,7 @@
         "maxhp": 50,
         "atk": 10,
         "def": 5,
+        "exp": 10,
         "resistances": {},
         "min_lvl": 1,
         "max_lvl": 10,
@@ -18,6 +19,7 @@
         "maxhp": 100,
         "atk": 10,
         "def": 5,
+        "exp": 20,
         "resistances": {},
         "min_lvl": 3,
         "max_lvl": 100,
@@ -27,11 +29,34 @@
         "maxhp": 200,
         "atk": 50,
         "def": 20,
+        "exp": 200,
         "resistances": {
             "stun": 50
         },
         "min_lvl": 10,
         "max_lvl": 999,
-        "spawn_rate_weight": 2
+        "spawn_rate_weight": 1
+    },
+    "goblin king": {
+        "maxhp": 200,
+        "atk": 15,
+        "def": 5,
+        "exp": 100,
+        "resistances": {
+            "stun": 25
+        },
+        "min_lvl": 5,
+        "max_lvl": 50,
+        "spawn_rate_weight": 1
+    },
+    "skeleton": {
+        "maxhp": 250,
+        "atk": 15,
+        "def": 0,
+        "exp": 25,
+        "resistances": {},
+        "min_lvl": 10,
+        "max_lvl": 100,
+        "spawn_rate_weight": 10
     }
 }

@@ -2,6 +2,6 @@
     "frank the merchant": {
         "type": "merchant",
         "greeting": "Have a look at my items! You can buy stuff for gold coins or sell something to me instead.",
-        "items": ["small_healing_potion", "medium_healing_potion", "cloth_armor"]
+        "items": ["small_healing_potion", "medium_healing_potion", "cloth_armor", "copper_ring"]
     }
 }

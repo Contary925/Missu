@@ -8,7 +8,7 @@ from functions.check_owner import check_owner
 from PoS.src.add.creation_menu import creation_menu
 
 async def pos(client, message, content = ""):
-    match content.strip.casefold():
+    match content.strip().casefold():
         case "add":
             await add_to_game(client, message)
             return
@@ -65,6 +65,6 @@ async def run_game(client, message, content = ""):
     await town_loop(client, message, player, game_msg)
 
 async def add_to_game(client, message):
-    if not check_owner(message):
+    if not await check_owner(message):
         return await message.channel.send("Only the owner can modify game data.")
     await creation_menu(message)
