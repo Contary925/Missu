@@ -1,7 +1,16 @@
 {
     "frank the merchant": {
         "type": "merchant",
-        "greeting": "Have a look at my items! You can buy stuff for gold coins or sell something to me instead.",
-        "items": ["small_healing_potion", "medium_healing_potion", "cloth_armor", "copper_ring"]
+        "greeting": "\nHave a look at my items! You can buy stuff for gold coins or sell something to me instead.",
+        "items": [
+            "small_healing_potion",
+            "medium_healing_potion",
+            "cloth_armor",
+            "copper_ring"
+        ]
+    },
+    "robert the cleric": {
+        "type": "default",
+        "greeting": "\nWant me to heal your wounds, or do you just need a good rest? I can offer you a shelter - for a small fee, of course."
     }
 }

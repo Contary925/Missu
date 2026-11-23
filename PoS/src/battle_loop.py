@@ -25,6 +25,7 @@ async def battle_loop(game_msg, message, player, enemy):
         text += enemy_turn(enemy, player)
         round_count += 1
         text += "\n"
+    player.clear_effects()
     if not player.alive:
         player.alive = True
     if not enemy.alive:
@@ -65,7 +66,7 @@ async def player_turn(game_msg, enemy, player, message, round_count, title="", t
                 text += "\nYou fled from the battle."
                 await send_embed_with_custom_buttons(game_msg, message, title, text, ["To Town"])
                 return 'fled'
-        player.tick()
+        res_text += player.tick()
         break
     return res_text
 

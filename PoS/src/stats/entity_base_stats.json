@@ -30,6 +30,7 @@
         "atk": 50,
         "def": 20,
         "exp": 200,
+        "regeneration": 3,
         "resistances": {
             "stun": 50
         },
@@ -42,6 +43,7 @@
         "atk": 15,
         "def": 5,
         "exp": 100,
+        "regeneration": 5,
         "resistances": {
             "stun": 25
         },

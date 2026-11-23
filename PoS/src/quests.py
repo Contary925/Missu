@@ -22,7 +22,7 @@ async def quests_menu(game_msg, message, player, NPC):
         text += f'\n[{counter}] {quest.capitalize()}'
     if available_quests == []:
         text += f"{NPC} doesn't have any available quests for you."
-        msg, choice = send_embed_with_custom_buttons(game_msg, message, title, text, ["Go back"])
+        msg, choice = await send_embed_with_custom_buttons(game_msg, message, title, text, ["Go back"])
         await msg.delete()
         return
     text += '\n[0] Go back'

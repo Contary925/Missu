@@ -8,7 +8,7 @@
                 "def": 50
             }
         },
-        "description": "Cncreases def for 2 turns"
+        "description": "Increases def for 2 turns"
     },
     "stun attack": {
         "type": "attack",
@@ -39,5 +39,16 @@
             "healing": 25
         },
         "description": "A healing spell. Recovers 25% hp to self."
+    },
+    "restoration": {
+        "type": "buff",
+        "cost": 50,
+        "effects": {
+            "duration": 4,
+            "stat_buffs": {
+                "regeneration": 10
+            },
+            "flat": 1
+        }
     }
 }

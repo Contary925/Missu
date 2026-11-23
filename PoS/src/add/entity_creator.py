@@ -1,6 +1,11 @@
+
+import json
 import discord
 
 from PoS.src.add.add_base_entity_stats import add_base_entity_stats
+
+
+ENTITY_STATS_PATH = 'PoS/src/stats/entity_base_stats.json'
 
 
 def parse_int(value: str, field_name: str) -> int:
@@ -8,6 +13,29 @@ def parse_int(value: str, field_name: str) -> int:
         return int(value.strip())
     except ValueError:
         raise ValueError(f"{field_name} must be an integer.")
+
+
+def load_entity_stats(kind: str) -> dict:
+    with open(ENTITY_STATS_PATH, 'r') as f:
+        stats = json.load(f)
+
+    if kind not in stats:
+        raise ValueError(f"Entity `{kind}` was not found.")
+
+    entity = stats[kind]
+
+    return {
+        "kind": kind,
+        "hp": entity["maxhp"],
+        "attack": entity["atk"],
+        "defense": entity["def"],
+        "exp": entity.get("exp", 0),
+        "regeneration": entity.get("regeneration", 0),
+        "resistances": entity.get("resistances", {}).copy(),
+        "min_lvl": entity.get("min_lvl", 1),
+        "max_lvl": entity.get("max_lvl", 999),
+        "spawn_rate_weight": entity.get("spawn_rate_weight", 10)
+    }
 
 
 class BasicStatsModal(discord.ui.Modal):
@@ -58,8 +86,18 @@ class BasicStatsModal(discord.ui.Modal):
     async def on_submit(self, interaction: discord.Interaction):
         try:
             kind = self.kind.value.strip()
+
             if not kind:
                 raise ValueError("Entity ID cannot be empty.")
+
+            # Do not allow changing the ID of an existing entity.
+            if (
+                self.creator_view.original_kind is not None
+                and kind != self.creator_view.original_kind
+            ):
+                raise ValueError(
+                    "Entity ID cannot be changed while editing an existing entity."
+                )
 
             hp = parse_int(self.hp.value, "HP")
             attack = parse_int(self.attack.value, "Attack")
@@ -90,6 +128,66 @@ class BasicStatsModal(discord.ui.Modal):
 
         await interaction.response.send_message(
             "Basic stats updated.",
+            ephemeral=True
+        )
+
+        await self.creator_view.refresh_message()
+
+
+class LoadExistingEntityModal(discord.ui.Modal):
+    def __init__(self, view):
+        super().__init__(title="Load Existing Entity")
+        self.creator_view = view
+
+        self.kind = discord.ui.TextInput(
+            label="Entity ID",
+            placeholder="goblin",
+            max_length=100
+        )
+
+        self.add_item(self.kind)
+
+    async def on_submit(self, interaction: discord.Interaction):
+        kind = self.kind.value.strip()
+
+        if not kind:
+            return await interaction.response.send_message(
+                "Entity ID cannot be empty.",
+                ephemeral=True
+            )
+
+        try:
+            entity_data = load_entity_stats(kind)
+
+        except FileNotFoundError:
+            return await interaction.response.send_message(
+                "Entity stats file was not found.",
+                ephemeral=True
+            )
+
+        except json.JSONDecodeError:
+            return await interaction.response.send_message(
+                "Entity stats file contains invalid JSON.",
+                ephemeral=True
+            )
+
+        except KeyError as e:
+            return await interaction.response.send_message(
+                f"Entity data is missing required field: `{e}`",
+                ephemeral=True
+            )
+
+        except ValueError as e:
+            return await interaction.response.send_message(
+                str(e),
+                ephemeral=True
+            )
+
+        self.creator_view.entity_data = entity_data
+        self.creator_view.original_kind = kind
+
+        await interaction.response.send_message(
+            f"Entity `{kind}` loaded successfully. You can now edit its stats.",
             ephemeral=True
         )
 
@@ -138,7 +236,9 @@ class SpawnSettingsModal(discord.ui.Modal):
                 raise ValueError("Minimum level must be at least 1.")
 
             if max_lvl < min_lvl:
-                raise ValueError("Maximum level cannot be lower than minimum level.")
+                raise ValueError(
+                    "Maximum level cannot be lower than minimum level."
+                )
 
             if spawn_weight < 0:
                 raise ValueError("Spawn weight cannot be negative.")
@@ -185,6 +285,7 @@ class ResistanceModal(discord.ui.Modal):
     async def on_submit(self, interaction: discord.Interaction):
         try:
             name = self.name.value.strip()
+
             if not name:
                 raise ValueError("Resistance name cannot be empty.")
 
@@ -209,6 +310,46 @@ class ResistanceModal(discord.ui.Modal):
         await self.creator_view.refresh_message()
 
 
+class RegenerationModal(discord.ui.Modal):
+    def __init__(self, view):
+        super().__init__(title="Entity — Regeneration")
+        self.creator_view = view
+
+        self.regeneration = discord.ui.TextInput(
+            label="Regeneration (% of Max HP per tick)",
+            placeholder="0",
+            default=str(view.entity_data["regeneration"]),
+            max_length=10
+        )
+
+        self.add_item(self.regeneration)
+
+    async def on_submit(self, interaction: discord.Interaction):
+        try:
+            regeneration = parse_int(
+                self.regeneration.value,
+                "Regeneration"
+            )
+
+            if regeneration < 0:
+                raise ValueError("Regeneration cannot be negative.")
+
+        except ValueError as e:
+            return await interaction.response.send_message(
+                str(e),
+                ephemeral=True
+            )
+
+        self.creator_view.entity_data["regeneration"] = regeneration
+
+        await interaction.response.send_message(
+            "Regeneration updated.",
+            ephemeral=True
+        )
+
+        await self.creator_view.refresh_message()
+
+
 class EntityCreatorView(discord.ui.View):
     def __init__(self, author_id: int, timeout: float = 300):
         super().__init__(timeout=timeout)
@@ -216,12 +357,16 @@ class EntityCreatorView(discord.ui.View):
         self.author_id = author_id
         self.message = None
 
+        # Original ID is set only when loading an existing entity.
+        self.original_kind = None
+
         self.entity_data = {
             "kind": None,
             "hp": None,
             "attack": None,
             "defense": None,
             "exp": None,
+            "regeneration": 0,
             "resistances": {},
             "min_lvl": 1,
             "max_lvl": 999,
@@ -241,8 +386,13 @@ class EntityCreatorView(discord.ui.View):
     def construct_embed(self) -> discord.Embed:
         data = self.entity_data
 
+        title = "Path of Steel — Entity Creator"
+
+        if self.original_kind is not None:
+            title = "Path of Steel — Entity Editor"
+
         embed = discord.Embed(
-            title="Path of Steel — Entity Creator",
+            title=title,
             description="Configure your entity using the buttons below.",
             color=discord.Color.blurple()
         )
@@ -256,7 +406,8 @@ class EntityCreatorView(discord.ui.View):
                 f"**HP:** {data['hp']}\n"
                 f"**ATK:** {data['attack']}\n"
                 f"**DEF:** {data['defense']}\n"
-                f"**EXP:** {data['exp']}"
+                f"**EXP:** {data['exp']}\n"
+                f"**Regeneration:** {data['regeneration']}% Max HP/tick"
             )
 
         embed.add_field(
@@ -285,7 +436,6 @@ class EntityCreatorView(discord.ui.View):
 
             if len(resistance_text) > 1000:
                 resistance_text = resistance_text[:997] + "..."
-
         else:
             resistance_text = "None"
 
@@ -295,9 +445,14 @@ class EntityCreatorView(discord.ui.View):
             inline=False
         )
 
-        embed.set_footer(
-            text="Changes are not saved until you press Confirm."
-        )
+        if self.original_kind is not None:
+            embed.set_footer(
+                text=f"Editing existing entity: {self.original_kind}"
+            )
+        else:
+            embed.set_footer(
+                text="Changes are not saved until you press Confirm."
+            )
 
         return embed
 
@@ -337,6 +492,20 @@ class EntityCreatorView(discord.ui.View):
         )
 
     @discord.ui.button(
+        label="Load Existing Entity",
+        style=discord.ButtonStyle.secondary,
+        row=1
+    )
+    async def load_existing_button(
+        self,
+        interaction: discord.Interaction,
+        button: discord.ui.Button
+    ):
+        await interaction.response.send_modal(
+            LoadExistingEntityModal(self)
+        )
+
+    @discord.ui.button(
         label="Add Resistance",
         style=discord.ButtonStyle.primary,
         row=1
@@ -348,6 +517,20 @@ class EntityCreatorView(discord.ui.View):
     ):
         await interaction.response.send_modal(
             ResistanceModal(self)
+        )
+
+    @discord.ui.button(
+        label="Regeneration",
+        style=discord.ButtonStyle.primary,
+        row=1
+    )
+    async def regeneration_button(
+        self,
+        interaction: discord.Interaction,
+        button: discord.ui.Button
+    ):
+        await interaction.response.send_modal(
+            RegenerationModal(self)
         )
 
     @discord.ui.button(
@@ -378,7 +561,8 @@ class EntityCreatorView(discord.ui.View):
                 resistances=data["resistances"],
                 min_lvl=data["min_lvl"],
                 max_lvl=data["max_lvl"],
-                spawn_rate_weight=data["spawn_rate_weight"]
+                spawn_rate_weight=data["spawn_rate_weight"],
+                regeneration=data["regeneration"]
             )
 
         except Exception as e:
@@ -389,10 +573,12 @@ class EntityCreatorView(discord.ui.View):
 
         self.stop()
 
+        action = "updated" if self.original_kind is not None else "added"
+
         embed = discord.Embed(
             title="Entity successfully saved!",
             description=(
-                f"Entity `{data['kind']}` has been added to game data.\n\n"
+                f"Entity `{data['kind']}` has been {action} in game data.\n\n"
                 "What would you like to do next?"
             ),
             color=discord.Color.green()
@@ -421,7 +607,7 @@ class EntityCreatorView(discord.ui.View):
         self.stop()
 
         await interaction.response.edit_message(
-            content="Entity creation cancelled.",
+            content="Entity editing cancelled.",
             embed=None,
             view=None
         )
@@ -435,6 +621,7 @@ class EntityCreatorView(discord.ui.View):
                 await self.message.edit(view=self)
             except discord.HTTPException:
                 pass
+
 
 class EntitySavedView(discord.ui.View):
     def __init__(self, author_id: int, entity_id: str, timeout: float = 300):
@@ -450,6 +637,7 @@ class EntitySavedView(discord.ui.View):
                 ephemeral=True
             )
             return False
+
         return True
 
     @discord.ui.button(
@@ -502,6 +690,7 @@ class EntitySavedView(discord.ui.View):
         self.stop()
 
         await interaction.response.edit_message(view=None)
+
 
 async def start_entity_creator(interaction: discord.Interaction):
     view = EntityCreatorView(interaction.user.id)

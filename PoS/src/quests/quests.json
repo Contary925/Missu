@@ -39,6 +39,50 @@
             "repeatable": 0,
             "accept_text": "Hey, I heard you've truly been a nightmare for these Orks. However, there's something stronger than them... Yeah, Ogres! There's a rumor that there is one in our lands. If you manage to defeat it... Well, I'll reward you with a new skill! What would you say?",
             "report_text": "Wow, you really managed to defeat him! That's great! Here's your new skill - it deals increased damage and may stun the target if you land a good hit... Put it to a good use!"
+        },
+        "skeleton hunter": {
+            "conditions": {
+                "min_level": 10,
+                "max_level": 50
+            },
+            "objectives": {
+                "kill": {
+                    "skeleton": 50
+                },
+                "collect": {
+                    "cracked_bone": 20
+                }
+            },
+            "rewards": {
+                "EXP": 300,
+                "items": {
+                    "bone_sword": 1
+                }
+            },
+            "repeatable": 1,
+            "accept_text": "Hey, adventurer! Seen any skeletons around? They don't seem to be much intelligent, so they shouldn't be much of an issue for you to kill...\nBut most importantly, you could collect some bones from them! Just bring me a few and I might reward you. What do you say?",
+            "report_text": "Hey, you made it back! Here's your reward, as I promised.\nThis sword doesn't look that strong, but I'm pretty sure you'll find a use for it."
+        }
+    },
+    "robert the cleric": {
+        "The Goblin King": {
+            "conditions": {
+                "min_level": 5,
+                "max_level": 50
+            },
+            "objectives": {
+                "kill": {
+                    "goblin king": 1
+                }
+            },
+            "rewards": {
+                "skills": [
+                    "restoration"
+                ]
+            },
+            "repeatable": 0,
+            "accept_text": "Hey, Adventurer. Heard of the Goblin king? I heard that they are able to cast healing spells, which isn't exactly common for monsters... \nIf you ever encounter them, can you please give them a tough fight? I'd love to hear about these healing abilities from somebody who has actually witnessed them. If you succeed, I'll teach you a new skill.",
+            "report_text": "Wow, so they really are able to heal?! If enemies learn to use healing magic, that brings no good to us... In any way, this brings us another reason to become stronger and prepare for battles. \nHere's your new skill, as I promised. This is a special healing magic: it provide strong immediate healing, but will rather give you a continuous recovery effect. Make a good use of it!"
         }
     }
 }

@@ -4,31 +4,51 @@
         "name": "Kissu",
         "level": 14,
         "equipment": {
-            "weapon": "rusty_sword",
+            "weapon": "bone_sword",
             "armor": "cloth_armor",
             "special": "copper_ring"
         },
         "job": "adventurer",
-        "exp": 274,
+        "exp": 1414,
         "inventory": {
-            "cloth_piece": 111,
-            "goblin_ear": 41,
+            "cloth_piece": 117,
+            "goblin_ear": 42,
             "small_healing_potion": 23,
-            "gold_coin": 188,
+            "gold_coin": 213,
             "rusty_sword_piece": 5,
-            "cracked_bone": 9
+            "cracked_bone": 29,
+            "rusty_sword": 1
         },
         "skills": [
             "defend",
             "heal",
-            "stun attack"
+            "stun attack",
+            "restoration"
         ],
         "hp": 400,
-        "mp": 230,
-        "quests": {},
+        "mp": 210,
+        "quests": {
+            "skeleton hunter": {
+                "objectives": {
+                    "kill": {
+                        "skeleton": 50
+                    },
+                    "collect": {
+                        "cracked_bone": 20
+                    }
+                },
+                "progress": {
+                    "kill": {
+                        "skeleton": 5
+                    }
+                }
+            }
+        },
         "completed_quests": [
             "goblin hunter",
-            "ogre hunter"
+            "ogre hunter",
+            "skeleton hunter",
+            "The Goblin King"
         ]
     }
 }

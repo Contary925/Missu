@@ -44,7 +44,15 @@ class Entity:
                 expired.append(debuff)
         for debuff in expired:
             del self.debuffs[debuff]
+        if self.hp <= 0:
+            pass
         self.stats = self.set_stats()
+        hp_restored = math.ceil(self.stats["maxhp"] * self.stats.get("regeneration", 0) / 100)
+        old_hp = self.hp
+        self.hp = min(self.hp+hp_restored, self.stats["maxhp"])
+        if self.hp > old_hp:
+            text += f"\n{self.name.capitalize()} has restored {self.hp-old_hp} HP!"
+        
         return text
     def set_stats(self) -> dict:
         if not self.kind in base_stats:
@@ -60,6 +68,7 @@ class Entity:
             "maxhp": base_stats[self.kind]["maxhp"] + (self.level-1) * level_scaling[etype]["maxhp"],
             "atk": base_stats[self.kind]["atk"] + (self.level-1) * level_scaling[etype]["atk"],
             "def": base_stats[self.kind]["def"] + (self.level-1) * level_scaling[etype]["def"],
+            "regeneration": base_stats[self.kind].get("regeneration", 0),
             "resistances": base_stats[self.kind]["resistances"].copy()
         }
         for buff_name in self.buffs:
@@ -97,7 +106,7 @@ class Entity:
                     duration = skill["effects"]["duration"]
                     for stat in skill["effects"]["stat_buffs"]:
                         effect = skill["effects"]["stat_buffs"][stat]
-                        text += self.buff(name, duration, stat, effect)
+                        text += self.buff(name, duration, stat, effect, flat=skill["effects"].get("flat", False))
                 if "healing" in skill["effects"]:
                     old_hp = self.hp
                     self.hp = min(self.stats["maxhp"], self.hp + math.ceil(self.stats["maxhp"] * skill["effects"]["healing"]/100))
@@ -115,7 +124,7 @@ class Entity:
                         chance = math.ceil(skill["effects"]["debuffs"][debuff]["chance"] * (100 - debuff_res)/100)
                         text += target.debuff(debuff, duration, chance)
         return text
-    def buff(self, name: str, duration: int, stat: str = None, effect: int = None, resistance_enhance: tuple = None) -> str:
+    def buff(self, name: str, duration: int, stat: str = None, effect: int = None, resistance_enhance: tuple = None, flat: bool = False) -> str:
         text = ""
         if stat is not None:
             text += f'\nApplied effect "{name.capitalize()}" on {self.name}! {stat} will increase for {duration} turns!'
@@ -135,7 +144,11 @@ class Entity:
         }
         if stat:
             self.buffs[name]["stat"] = stat
-            self.buffs[name]["effect"] = math.ceil(self.stats[stat]*effect/100) #flat amount that will be added
+            self.buffs[name]["flat"] = flat
+            if flat:
+                self.buffs[name]["effect"] = effect
+            else:
+                self.buffs[name]["effect"] = math.ceil(self.stats[stat] * effect / 100)
         if resistance_enhance is not None:
             self.buffs[name]["resistance"] = {}
             self.buffs[name]["resistance"][debuff] = value
@@ -155,6 +168,12 @@ class Entity:
             }
             self.buff(f'{debuff} resistance', 1, None, None, (f'{debuff}', 100))
         return text
+
+    def clear_effects(self):
+        self.buffs = {}
+        self.debuffs = {}
+        self.stats = self.set_stats()
+        return
 
 class Player(Entity):
     def __init__(self, player_data: dict = {}):

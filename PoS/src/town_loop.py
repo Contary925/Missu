@@ -5,6 +5,7 @@ from PoS.src.crafting_menu import crafting_menu
 from PoS.src.show_character_sheet import show_character_sheet
 from PoS.src.merchant_menu import merchant_menu
 from PoS.src.quest_menu import quest_menu
+from PoS.src.church_menu import church_menu
 from PoS.src.construct_options import construct_options
 from PoS.src.choose_option import choose_option
 from PoS.src.embed import construct_embed
@@ -16,7 +17,7 @@ async def town_loop(client, message, player, game_msg):
         title = "TOWN"
         text += f"Hero: {player.name} | Level: {player.level} | HP: {player.hp}/{player.stats['maxhp']} | MP: {player.mp}/{player.maxmp()}\n"
         options = construct_options(["Hunt Monsters (Enter Dungeon)", "Inventory & Equipment",
-            "Blacksmith (Crafting Forge)", "Rest at the Inn (Restore HP & MP)", "Visit merchant", 
+            "Blacksmith (Crafting Forge)", "Church (Restore HP and MP)", "Visit merchant", 
             "View quests", "Character Sheet (View Full Stats)"], zero="Quit Game")
         text += options + "\n\n"
         text += "What would you like to do?"
@@ -30,9 +31,7 @@ async def town_loop(client, message, player, game_msg):
             case 3:
                 await crafting_menu(game_msg, message, player)
             case 4:
-                player.hp = player.stats["maxhp"]
-                player.mp = player.maxmp()
-                await message.channel.send("You rest at the inn. HP and MP are fully restored!", delete_after=10.0)
+                await church_menu(game_msg, message, player, 'robert the cleric')
             case 5:
                 await merchant_menu(game_msg, message, player, 'frank the merchant')
             case 6:
